@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Core;
+using TestTaskLibrary.Infrastructure.Data;
 
 namespace TestTaskLibrary.Models
 {
     public class IdentityInitializer
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, LibraryContext context)
         {
+            context.Database.Migrate();
+
             if (await roleManager.FindByNameAsync("Admin") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("Admin"));

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TestTaskLibrary.Domain.Core;
+using TestTaskLibrary.Infrastructure.Data;
 using TestTaskLibrary.Models;
 
 namespace TestTaskLibrary
@@ -26,7 +27,8 @@ namespace TestTaskLibrary
                 {
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await IdentityInitializer.InitializeAsync(userManager, rolesManager);
+                    var context = services.GetRequiredService<LibraryContext>();
+                    await IdentityInitializer.InitializeAsync(userManager, rolesManager, context);
                 }
                 catch (Exception ex)
                 {
