@@ -1,0 +1,69 @@
+﻿@model List<TestTaskLibrary.Models.Books.BookListItemViewModel>
+@{
+    ViewData["Title"] = "List";
+}
+
+<div class="mt-1 mb-1">
+    <a class="btn btn-link" asp-action="Add">Добавить</a>
+</div>
+@if (Model.Count != 0)
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Жанр</th>
+                    <th>Статус</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td>
+                            @book.Title
+                        </td>
+                        <td>
+                            @book.Author
+                        </td>
+                        <td>
+                            @book.Genre
+                        </td>
+                        <td>
+                            @book.Status
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                @if (book.Status != "Забронированна")
+                                {
+                                    <form class="mr-1" asp-action="Issue" method="post">
+                                        <input type="hidden" name="id" value="@book.Id" />
+                                        <input class="btn btn-primary" type="submit" value="Выдать" />
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form class="mr-1" asp-action="Take" method="post">
+                                        <input type="hidden" name="id" value="@book.Id" />
+                                        <input class="btn btn-primary" type="submit" value="Вернуть" />
+                                    </form>
+                                }
+                                <form asp-action="Delete" method="post">
+                                    <input type="hidden" name="id" value="@book.Id" />
+                                    <input class="btn btn-danger" type="submit" value="Удалить" />
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>Список пользователей пуст</p>
+}

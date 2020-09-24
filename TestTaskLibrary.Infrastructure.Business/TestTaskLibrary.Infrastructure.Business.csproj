@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestTaskLibrary.Domain.Core\TestTaskLibrary.Domain.Core.csproj" />
+    <ProjectReference Include="..\TestTaskLibrary.Domain.Interfaces\TestTaskLibrary.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\TestTaskLibrary.Infrastructure.Data\TestTaskLibrary.Infrastructure.Data.csproj" />
+  </ItemGroup>
+
+</Project>
