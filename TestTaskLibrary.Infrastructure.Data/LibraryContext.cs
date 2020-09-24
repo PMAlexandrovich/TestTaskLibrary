@@ -16,5 +16,12 @@ namespace TestTaskLibrary.Infrastructure.Data
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<BookStatus>().Property(s => s.Status).HasConversion(v => v.ToString(), v => (Status)Enum.Parse(typeof(Status), v));
+        }
+
     }
 }

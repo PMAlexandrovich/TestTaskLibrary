@@ -12,8 +12,7 @@ namespace TestTaskLibrary.Domain.Core
 
         public User User { get; set; }
 
-        public bool IsBooked { get; set; }
-
-        public bool IsIssued { get; set; }
+        [Required]
+        public Status Status { get; set; }
     }
 }
