@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using TestTaskLibrary.Domain.Core;
+using TestTaskLibrary.Models.Users;
 
 namespace TestTaskLibrary.Models
 {
@@ -20,5 +22,9 @@ namespace TestTaskLibrary.Models
         [Required]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
+
+        [Required]
+        [Display(Name = "Роль")]
+        public Role Role { get; set; }
     }
 }

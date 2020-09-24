@@ -28,7 +28,7 @@ namespace TestTaskLibrary.Controllers
 
         public IActionResult List()
         {
-            return View(userManager.Users.Select(u=>new UserViewModel() { Email = u.Email, FullName = u.FullName, Id = u.Id, Password = u.Password}).ToList());
+            return View(userManager.Users.Where(u => u.Email != "Admin").Select(u=>new UserViewModel() { Email = u.Email, FullName = u.FullName, Id = u.Id}).ToList());
         }
 
         [HttpGet]
@@ -42,11 +42,11 @@ namespace TestTaskLibrary.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User() { Email = model.Email, UserName = model.Email, Password = model.Password, FullName = model.FullName };
+                User user = new User() { Email = model.Email, UserName = model.Email, FullName = model.FullName };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user, "Customer");
+                    await userManager.AddToRoleAsync(user, model.Role.ToString());
                     return RedirectToAction("List");
                 }
                 else
@@ -65,7 +65,7 @@ namespace TestTaskLibrary.Controllers
             var user = await userManager.FindByIdAsync(id);
             if(user != null)
             {
-                return View(new ChangePasswordViewModel() { Id = user.Id, Password = user.Password});
+                return View(new ChangePasswordViewModel() { Id = user.Id});
             }
             return RedirectToAction("List");
         }
@@ -84,7 +84,6 @@ namespace TestTaskLibrary.Controllers
                         result = await userManager.AddPasswordAsync(user, model.Password);
                         if (result.Succeeded)
                         {
-                            user.Password = model.Password;
                             await userManager.UpdateAsync(user);
                             return RedirectToAction("List");
                         }

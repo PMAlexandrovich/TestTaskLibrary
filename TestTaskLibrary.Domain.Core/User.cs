@@ -10,8 +10,5 @@ namespace TestTaskLibrary.Domain.Core
     {
         [Required]
         public string FullName { get; set; }
-
-        [Required]
-        public string Password { get; set; }
     }
 }
