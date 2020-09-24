@@ -1,4 +1,4 @@
-﻿@model List<TestTaskLibrary.Models.Books.BookListItemViewModel>
+﻿@model List<Book>
 @{
     ViewData["Title"] = "List";
 }
@@ -33,11 +33,11 @@
                             @book.Genre
                         </td>
                         <td>
-                            @book.Status
+                            @Html.DisplayFor(modelItem => book.BookStatus.Status)
                         </td>
                         <td>
                             <div class="input-group">
-                                @if (book.Status != "Забронированна")
+                                @if (book.BookStatus.Status != Status.Issued)
                                 {
                                     <form class="mr-1" asp-action="Issue" method="post">
                                         <input type="hidden" name="id" value="@book.Id" />

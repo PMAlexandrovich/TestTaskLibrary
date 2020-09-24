@@ -1,0 +1,61 @@
+﻿@model IEnumerable<TestTaskLibrary.Domain.Core.Book>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookStatus.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var book in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => book.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => book.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => book.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => book.BookStatus.Status)
+            </td>
+            <td>
+                <div class="input-group">
+                    @if (book.BookStatus.Status == Status.Free)
+                    {
+                        <form asp-action="Book">
+                            <input type="hidden" name="id" asp-for="@book.Id" />
+                            <input type="submit" value="Забронировать" />
+                        </form>
+                    }
+                    else if (book.BookStatus.Status == Status.Booked && book.BookStatus.User == ViewBag.User)
+                    {
+                        <form asp-action="Unbook">
+                            <input type="hidden" name="id" asp-for="@book.Id" />
+                            <input type="submit" value="Отменить бронь" />
+                        </form>
+                    }
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -9,6 +9,7 @@ namespace TestTaskLibrary.Domain.Core
     public class User:IdentityUser
     {
         [Required]
+        [Display(Name = "ФИО")]
         public string FullName { get; set; }
     }
 }

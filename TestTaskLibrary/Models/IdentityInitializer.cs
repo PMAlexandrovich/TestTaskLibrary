@@ -33,7 +33,7 @@ namespace TestTaskLibrary.Models
 
             if (await userManager.FindByNameAsync(login) == null)
             {
-                User admin = new User { UserName = login, Email = login, FullName = login, Password = password };
+                User admin = new User { UserName = login, Email = login, FullName = login};
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {
@@ -46,7 +46,7 @@ namespace TestTaskLibrary.Models
 
             if (await userManager.FindByNameAsync(loginl) == null)
             {
-                User librarian = new User { UserName = loginl, Email = loginl, FullName = "Василий АП", Password = passwordl };
+                User librarian = new User { UserName = loginl, Email = loginl, FullName = "Василий АП" };
                 IdentityResult result = await userManager.CreateAsync(librarian, passwordl);
                 if (result.Succeeded)
                 {

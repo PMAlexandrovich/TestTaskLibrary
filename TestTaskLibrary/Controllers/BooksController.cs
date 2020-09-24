@@ -37,7 +37,6 @@ namespace TestTaskLibrary.Controllers
         {
             return View(booksRepository.Books
                 .Include(b=> b.BookStatus)
-                .Select(b => new BookListItemViewModel() { Id = b.Id, Author = b.Author, Genre = b.Genre, Title = b.Title, Status = b.BookStatus == null ? "Свободна" : b.BookStatus.IsIssued ? "Выдана" : "Забронированна"})
                 .ToList());
         }
 

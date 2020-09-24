@@ -22,23 +22,27 @@ namespace TestTaskLibrary.Infrastructure.Business
             Book book = booksRepository.Books.Include(b => b.BookStatus).ThenInclude(s => s.User).FirstOrDefault(b => b.Id == bookId);
             if(book != null)
             {
-                if(book.BookStatus == null)
+                switch (book.BookStatus.Status)
                 {
-                    book.BookStatus = new BookStatus() { User = user, IsBooked = false, IsIssued = true };
-                    booksRepository.Update(book);
-                    return true;
-                }
-                else
-                {
-                    if(book.BookStatus.IsBooked && book.BookStatus.User == user)
-                    {
-                        book.BookStatus.IsBooked = false;
-                        book.BookStatus.IsIssued = true;
+                    case Status.Free:
+                        book.BookStatus.Status = Status.Issued;
+                        book.BookStatus.User = user;
                         statusesRepository.Update(book.BookStatus);
-                        return true;
-                    }
+                        break;
+                    case Status.Booked:
+                        if(book.BookStatus.User == user)
+                        {
+                            book.BookStatus.Status = Status.Issued;
+                            book.BookStatus.User = user;
+                            statusesRepository.Update(book.BookStatus);
+                            return true;
+                        }
+                        return false;
+                    case Status.Issued:
+                        return false;
+                    default:
+                        return false;
                 }
-                
             }
             return false;
         }
@@ -46,9 +50,11 @@ namespace TestTaskLibrary.Infrastructure.Business
         public bool Take(int bookId)
         {
             Book book = booksRepository.Books.Include(b => b.BookStatus).FirstOrDefault(b => b.Id == bookId);
-            if (book != null && book.BookStatus != null)
+            if (book != null)
             {
-                statusesRepository.Delete(book.BookStatus.Id);
+                book.BookStatus.Status = Status.Free;
+                book.BookStatus.User = null;
+                statusesRepository.Update(book.BookStatus);
                 return true;
             }
             return false;
@@ -59,11 +65,15 @@ namespace TestTaskLibrary.Infrastructure.Business
             Book book = booksRepository.Books.Include(b => b.BookStatus).ThenInclude(s => s.User).FirstOrDefault(b => b.Id == bookId);
             if (book != null)
             {
-                if (book.BookStatus == null)
+                switch (book.BookStatus.Status)
                 {
-                    book.BookStatus = new BookStatus() { User = user, IsBooked = true, IsIssued = false };
-                    booksRepository.Update(book);
-                    return true;
+                    case Status.Free:
+                        book.BookStatus.Status = Status.Booked;
+                        book.BookStatus.User = user;
+                        statusesRepository.Update(book.BookStatus);
+                        break;
+                    default:
+                        return false;
                 }
             }
             return false;
@@ -72,9 +82,11 @@ namespace TestTaskLibrary.Infrastructure.Business
         public bool Unbook(int bookId)
         {
             Book book = booksRepository.Books.Include(b => b.BookStatus).FirstOrDefault(b => b.Id == bookId);
-            if (book != null && book.BookStatus != null)
+            if (book != null && book.BookStatus.Status == Status.Booked)
             {
-                statusesRepository.Delete(book.BookStatus.Id);
+                book.BookStatus.Status = Status.Free;
+                book.BookStatus.User = null;
+                statusesRepository.Update(book.BookStatus);
                 return true;
             }
             return false;
