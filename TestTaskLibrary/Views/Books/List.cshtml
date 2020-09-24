@@ -39,10 +39,7 @@
                             <div class="input-group">
                                 @if (book.BookStatus.Status != Status.Issued)
                                 {
-                                    <form class="mr-1" asp-action="Issue" method="post">
-                                        <input type="hidden" name="id" value="@book.Id" />
-                                        <input class="btn btn-primary" type="submit" value="Выдать" />
-                                    </form>
+                                    <a asp-action="Issue" asp-route-id="@book.Id" class="btn btn-primary">Выдать</a>
                                 }
                                 else
                                 {
