@@ -10,20 +10,20 @@ namespace TestTaskLibrary.Models
 {
     public class AddUserViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Поле Email является обязательным")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле ФИО является обязательным")]
         [Display(Name = "ФИО")]
         public string FullName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле Пароль является обязательным")]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле Роль является обязательным")]
         [Display(Name = "Роль")]
         public Role Role { get; set; }
     }

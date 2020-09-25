@@ -8,11 +8,11 @@ namespace TestTaskLibrary.Models
 {
     public class LogInViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Поле Логин является обязательным")]
         [Display(Name = "Логин")]
         public string Login { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле Пароль является обязательным")]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }

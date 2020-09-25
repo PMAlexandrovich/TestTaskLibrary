@@ -12,6 +12,7 @@ namespace TestTaskLibrary.Models
         [HiddenInput]
         public string Id { get; set; }
 
+        [Required(ErrorMessage = "Поле Новый пароль является обязательным")]
         [Display(Name = "Новый пароль")]
         public string Password { get; set; }
     }

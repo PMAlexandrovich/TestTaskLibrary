@@ -14,7 +14,8 @@ namespace TestTaskLibrary.Models.Books
         [HiddenInput]
         public int BookId { get; set; }
 
-        [Required]
+        [Display(Name = "Email клиента")]
+        [Required(ErrorMessage = "Поле Email является обязательным")]
         public string UserEmail { get; set; }
     }
 }
