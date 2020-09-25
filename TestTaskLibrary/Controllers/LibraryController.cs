@@ -64,21 +64,21 @@ namespace TestTaskLibrary.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Book(int id)
+        public async Task<IActionResult> Book(int id, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
             var user = await userManager.GetUserAsync(User);
             if(user != null)
             {
                 libraryManager.Book(user, id);
             }
-            return RedirectToAction("List");
+            return RedirectToAction("List", new { search, fieldSearch });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Unbook(int id)
+        public async Task<IActionResult> Unbook(int id, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
             libraryManager.Unbook(id);
-            return RedirectToAction("List");
+            return RedirectToAction("List", new { search, fieldSearch });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

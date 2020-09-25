@@ -71,7 +71,7 @@ namespace TestTaskLibrary.Controllers
             Book book = booksRepository.Books.Include(b=>b.BookStatus).ThenInclude(s=> s.User).FirstOrDefault(b=>b.Id == id);
             if (book != null)
             {
-                return View(new IssueViewModel() { BookId = book.Id, UserEmail = book.BookStatus.User.Email});
+                return View(new IssueViewModel() { BookId = book.Id, UserEmail = book.BookStatus.User?.Email});
             }
             return RedirectToAction("List");
         }

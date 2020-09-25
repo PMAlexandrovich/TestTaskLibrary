@@ -48,7 +48,6 @@ namespace TestTaskLibrary.Infrastructure.Data
 
         public void Update(BookStatus item)
         {
-            db.BookStatuses.Update(item);
             db.SaveChanges();
         }
     }

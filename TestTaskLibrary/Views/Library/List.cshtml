@@ -33,42 +33,47 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var book in Model.Books) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => book.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => book.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => book.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => book.Status)
-            </td>
-            <td>
-                <div class="input-group">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @if (book.Status == Status.Free)
+        @foreach (var book in Model.Books)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => book.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => book.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => book.Status)
+                </td>
+                <td>
+                    <div class="input-group">
+                        @if (User.Identity.IsAuthenticated)
                         {
-                            <form asp-action="Book">
-                                <input type="hidden" name="id" asp-for="@book.Id" />
-                                <input class="btn btn-outline-primary" type="submit" value="Забронировать" />
-                            </form>
+                            @if (book.Status == Status.Free)
+                            {
+                                <form asp-action="Book">
+                                    <input asp-for="@Model.Search" type="hidden" name="search" />
+                                    <input asp-for="@Model.SearchType" type="hidden" name="fieldSearch" />
+                                    <input type="hidden" name="id" asp-for="@book.Id" />
+                                    <input class="btn btn-outline-primary" type="submit" value="Забронировать" />
+                                </form>
+                            }
+                            else if (book.Status == Status.Booked && book.User == ViewBag.User)
+                            {
+                                <form asp-action="Unbook">
+                                    <input asp-for="@Model.Search" type="hidden" name="search" />
+                                    <input asp-for="@Model.SearchType" type="hidden" name="fieldSearch" />
+                                    <input type="hidden" name="id" asp-for="@book.Id" />
+                                    <input class="btn btn-outline-danger" type="submit" value="Отменить бронь" />
+                                </form>
+                            }
                         }
-                        else if (book.Status == Status.Booked && book.User == ViewBag.User)
-                        {
-                            <form asp-action="Unbook">
-                                <input type="hidden" name="id" asp-for="@book.Id" />
-                                <input class="btn btn-outline-danger" type="submit" value="Отменить бронь" />
-                            </form>
-                        }
-                    }
-                </div>
-            </td>
-        </tr>
-}
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
