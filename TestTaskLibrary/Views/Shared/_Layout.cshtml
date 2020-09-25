@@ -32,13 +32,12 @@
                             }
 
                             <form class="form-inline" method="post" asp-action="LogOut" asp-controller="Account">
-                                <input class="btn btn-danger" type="submit" value="Выход" />
+                                <input class="btn btn-outline-danger" type="submit" value="Выход" />
                             </form>
                         }
                         else
                         {
                             <a class="nav-link" asp-action="LogIn" asp-controller="Account">Вход</a>
-                            @*<a class="nav-link" asp-action="Registration" asp-controller="Account">Регистрация</a>*@
                         }
                     </div>
                 </div>

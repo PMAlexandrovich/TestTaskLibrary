@@ -49,19 +49,22 @@
             </td>
             <td>
                 <div class="input-group">
-                    @if (book.BookStatus.Status == Status.Free)
+                    @if (User.Identity.IsAuthenticated)
                     {
-                        <form asp-action="Book">
-                            <input type="hidden" name="id" asp-for="@book.Id" />
-                            <input type="submit" value="Забронировать" />
-                        </form>
-                    }
-                    else if (book.BookStatus.Status == Status.Booked && book.BookStatus.User == ViewBag.User)
-                    {
-                        <form asp-action="Unbook">
-                            <input type="hidden" name="id" asp-for="@book.Id" />
-                            <input type="submit" value="Отменить бронь" />
-                        </form>
+                        @if (book.BookStatus.Status == Status.Free)
+                        {
+                            <form asp-action="Book">
+                                <input type="hidden" name="id" asp-for="@book.Id" />
+                                <input class="btn btn-outline-primary" type="submit" value="Забронировать" />
+                            </form>
+                        }
+                        else if (book.BookStatus.Status == Status.Booked && book.BookStatus.User == ViewBag.User)
+                        {
+                            <form asp-action="Unbook">
+                                <input type="hidden" name="id" asp-for="@book.Id" />
+                                <input class="btn btn-outline-danger" type="submit" value="Отменить бронь" />
+                            </form>
+                        }
                     }
                 </div>
             </td>
