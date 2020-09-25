@@ -33,34 +33,34 @@ namespace TestTaskLibrary.Controllers
             return RedirectToAction("List");
         }
         
-        public async Task<IActionResult> List(string search = "", FieldSearchType fieldSearch = FieldSearchType.Title)
+        public async Task<IActionResult> List(string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
-            List<Book> books;
+            IEnumerable<Book> books;
             var booksRequest = booksRepository.Books.Include(b => b.BookStatus).ThenInclude(b => b.User);
-            if (search == "")
-                books = booksRequest.ToList();
+            if (search == null)
+                books = booksRequest.AsEnumerable();
             else
             {
                 switch (fieldSearch)
                 {
                     case FieldSearchType.Author:
-                        books = booksRequest.Where(b => b.Author.Contains(search)).ToList();
+                        books = booksRequest.Where(b => b.Author.Contains(search)).AsEnumerable();
                         break;
                     case FieldSearchType.Title:
-                        books = booksRequest.Where(b => b.Title.Contains(search)).ToList();
+                        books = booksRequest.Where(b => b.Title.Contains(search)).AsEnumerable();
                         break;
                     case FieldSearchType.Genre:
-                        books = booksRequest.Where(b => b.Genre.Contains(search)).ToList();
+                        books = booksRequest.Where(b => b.Genre.Contains(search)).AsEnumerable();
                         break;
                     default:
-                        books = booksRequest.Where(b => b.Title.Contains(search)).ToList();
+                        books = booksRequest.Where(b => b.Title.Contains(search)).AsEnumerable();
                         break;
                 }
             }
-            ViewBag.search = search;
-            ViewBag.fieldSearch = fieldSearch;
+            var viewBooks = books.Select(b => new BookItemViewModel() { Author = b.Author, Genre = b.Genre, Id = b.Id, Status = b.BookStatus.Status, Title = b.Title, User = b.BookStatus.User }).AsEnumerable();
+            var viewModel = new LibraryListViewModel() { Books = viewBooks, Search = search, SearchType = fieldSearch};
             ViewBag.User = await userManager.GetUserAsync(User);
-            return View(books);
+            return View(viewModel);
         }
 
         [HttpPost]

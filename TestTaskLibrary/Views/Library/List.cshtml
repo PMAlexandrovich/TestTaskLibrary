@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TestTaskLibrary.Domain.Core.Book>
+﻿@model LibraryListViewModel
 @using TestTaskLibrary.Models.Library
 @{
     ViewData["Title"] = "List";
@@ -6,9 +6,9 @@
 <form class="mt-3 mb-3" asp-action="List">
     <div class="input-group">
         <div class="input-group-prepend">
-            <select class="custom-select" name="fieldSearch" asp-items="Html.GetEnumSelectList<FieldSearchType>()"></select>
+            <select class="custom-select" asp-for="@Model.SearchType" name="fieldSearch" asp-items="Html.GetEnumSelectList<FieldSearchType>()"></select>
         </div>
-        <input class="form-control" type="text" name="search" placeholder="Искать" value="@ViewBag.search" />
+        <input class="form-control" asp-for="@Model.Search" type="text" name="search" placeholder="Искать" />
         <div class="input-group-append">
             <input class="btn btn-outline-secondary" type="submit" value="Найти" />
         </div>
@@ -18,22 +18,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Название
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Author)
+                Автор
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                Жанр
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BookStatus.Status)
+                Статус
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var book in Model) {
+@foreach (var book in Model.Books) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => book.Title)
@@ -45,20 +45,20 @@
                 @Html.DisplayFor(modelItem => book.Genre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => book.BookStatus.Status)
+                @Html.DisplayFor(modelItem => book.Status)
             </td>
             <td>
                 <div class="input-group">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @if (book.BookStatus.Status == Status.Free)
+                        @if (book.Status == Status.Free)
                         {
                             <form asp-action="Book">
                                 <input type="hidden" name="id" asp-for="@book.Id" />
                                 <input class="btn btn-outline-primary" type="submit" value="Забронировать" />
                             </form>
                         }
-                        else if (book.BookStatus.Status == Status.Booked && book.BookStatus.User == ViewBag.User)
+                        else if (book.Status == Status.Booked && book.User == ViewBag.User)
                         {
                             <form asp-action="Unbook">
                                 <input type="hidden" name="id" asp-for="@book.Id" />
