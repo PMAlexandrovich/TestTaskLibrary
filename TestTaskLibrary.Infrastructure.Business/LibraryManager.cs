@@ -87,7 +87,7 @@ namespace TestTaskLibrary.Infrastructure.Business
             if (book != null && book.BookStatus.Status == Status.Booked)
             {
                 book.BookStatus.Status = Status.Free;
-                book.BookStatus.User = null;
+                book.BookStatus.UserId = null;
                 book.BookStatus.TimeOfEndBook = DateTime.MinValue;
                 book.BookStatus.TimeOfStartBook = DateTime.MinValue;
                 statusesRepository.Update(book.BookStatus);

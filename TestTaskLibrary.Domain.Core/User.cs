@@ -11,5 +11,7 @@ namespace TestTaskLibrary.Domain.Core
         [Required]
         [Display(Name = "ФИО")]
         public string FullName { get; set; }
+
+        public List<BookStatus> BookStatuses { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using TestTaskLibrary.Domain.Core;
 using System;
 using Microsoft.EntityFrameworkCore;
+using TestTaskLibrary.Infrastructure.Data.Configurations;
 
 namespace TestTaskLibrary.Infrastructure.Data
 {
@@ -20,7 +21,8 @@ namespace TestTaskLibrary.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<BookStatus>().Property(s => s.Status).HasConversion(v => v.ToString(), v => (Status)Enum.Parse(typeof(Status), v));
+            modelBuilder.ApplyConfiguration(new BookConfiguration());
+            modelBuilder.ApplyConfiguration(new BookStatusConfiguration());
         }
 
     }
