@@ -25,38 +25,41 @@ namespace TestTaskLibrary.Models
 
         private static void CreateBooks(IBooksRepository booksRepository)
         {
-            Book book = new Book() { Author = "Лев Николаевич Толстой", Genre = "Роман", Title = "Война и мир" };
-            booksRepository.Create(book);
+            if(booksRepository.GetBookList().ToList().Count == 0)
+            {
+                Book book = new Book() { Author = "Лев Николаевич Толстой", Genre = "Роман", Title = "Война и мир" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Лев Николаевич Толстой", Genre = "Роман", Title = "Анна Каренина" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Лев Николаевич Толстой", Genre = "Роман", Title = "Анна Каренина" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Роман в стихах", Title = "Евгений Онегин" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Роман в стихах", Title = "Евгений Онегин" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Поэма", Title = "Медный всадник" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Поэма", Title = "Медный всадник" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Сказка", Title = "Сказка о рыбаке и рыбке" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Сказка", Title = "Сказка о рыбаке и рыбке" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Роман", Title = "Дубровский" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Роман", Title = "Дубровский" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Рихтер Джеффри", Genre = "Языки программирования", Title = "CLR via C#. Программирование на платформе Microsoft .NET Framework 4.5 на языке C#" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Рихтер Джеффри", Genre = "Языки программирования", Title = "CLR via C#. Программирование на платформе Microsoft .NET Framework 4.5 на языке C#" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Фримен Адам", Genre = "Языки программирования", Title = "ASP.NET Core MVC 2 с примерами на C# для профессионалов" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Фримен Адам", Genre = "Языки программирования", Title = "ASP.NET Core MVC 2 с примерами на C# для профессионалов" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Клири Стивен", Genre = "Языки программирования", Title = "Конкурентность в C#. Асинхронное, параллельное и многопоточное программирование" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Клири Стивен", Genre = "Языки программирования", Title = "Конкурентность в C#. Асинхронное, параллельное и многопоточное программирование" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Фёдор Михайлович Достоевский", Genre = "Роман", Title = "Преступление и наказание" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Фёдор Михайлович Достоевский", Genre = "Роман", Title = "Преступление и наказание" };
+                booksRepository.Create(book);
 
-            book = new Book() { Author = "Николай Васильевич Гоголь", Genre = "Поэма", Title = "Мёртвые души" };
-            booksRepository.Create(book);
+                book = new Book() { Author = "Николай Васильевич Гоголь", Genre = "Поэма", Title = "Мёртвые души" };
+                booksRepository.Create(book);
+            }
         }
 
         private static async Task CreateRoles(RoleManager<IdentityRole> roleManager)

@@ -48,12 +48,13 @@ namespace TestTaskLibrary
                 options.Password.RequireLowercase = false;
                 options.Stores.ProtectPersonalData = false;
             })
-            .AddEntityFrameworkStores<LibraryContext>();
+            .AddEntityFrameworkStores<LibraryContext>()
+            .AddErrorDescriber<RussianIdentityErrorDescriber>();
 
             services.AddQuartz(q =>
             {
                 q.SchedulerId = "Scheduler-Core";
-                q.SchedulerName = "Quartz ASP.NET Core Sample Scheduler";
+                q.SchedulerName = "Quartz Scheduler";
 
                 q.UseMicrosoftDependencyInjectionScopedJobFactory();
 
@@ -63,7 +64,6 @@ namespace TestTaskLibrary
                 {
                     tp.MaxConcurrency = 10;
                 });
-
 
                 var jobKey = new JobKey("bookJob", "group 1");
 
@@ -80,8 +80,6 @@ namespace TestTaskLibrary
                     t.StartNow();
                     t.WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromSeconds(30)).RepeatForever());
                 });
-
-
             });
 
             // ASP.NET Core hosting
