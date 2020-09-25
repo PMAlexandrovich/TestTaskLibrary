@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Quartz" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TestTaskLibrary.Domain.Core\TestTaskLibrary.Domain.Core.csproj" />
     <ProjectReference Include="..\TestTaskLibrary.Domain.Interfaces\TestTaskLibrary.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\TestTaskLibrary.Infrastructure.Data\TestTaskLibrary.Infrastructure.Data.csproj" />

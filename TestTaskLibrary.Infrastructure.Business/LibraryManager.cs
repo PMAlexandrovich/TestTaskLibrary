@@ -70,6 +70,8 @@ namespace TestTaskLibrary.Infrastructure.Business
                     case Status.Free:
                         book.BookStatus.Status = Status.Booked;
                         book.BookStatus.User = user;
+                        book.BookStatus.TimeOfStartBook = DateTime.Now;
+                        book.BookStatus.TimeOfEndBook = DateTime.Now + TimeSpan.FromMinutes(2);
                         statusesRepository.Update(book.BookStatus);
                         break;
                     default:
@@ -86,6 +88,8 @@ namespace TestTaskLibrary.Infrastructure.Business
             {
                 book.BookStatus.Status = Status.Free;
                 book.BookStatus.User = null;
+                book.BookStatus.TimeOfEndBook = DateTime.MinValue;
+                book.BookStatus.TimeOfStartBook = DateTime.MinValue;
                 statusesRepository.Update(book.BookStatus);
                 return true;
             }

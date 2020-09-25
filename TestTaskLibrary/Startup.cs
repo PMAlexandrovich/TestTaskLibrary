@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Quartz;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
@@ -48,6 +49,47 @@ namespace TestTaskLibrary
                 options.Stores.ProtectPersonalData = false;
             })
             .AddEntityFrameworkStores<LibraryContext>();
+
+            services.AddQuartz(q =>
+            {
+                q.SchedulerId = "Scheduler-Core";
+                q.SchedulerName = "Quartz ASP.NET Core Sample Scheduler";
+
+                q.UseMicrosoftDependencyInjectionScopedJobFactory();
+
+                q.UseSimpleTypeLoader();
+                q.UseInMemoryStore();
+                q.UseDefaultThreadPool(tp =>
+                {
+                    tp.MaxConcurrency = 10;
+                });
+
+
+                var jobKey = new JobKey("bookJob", "group 1");
+
+                q.AddJob<BookJob>(j => 
+                {
+                    j.WithIdentity(jobKey);
+                    j.StoreDurably();
+                });
+
+                q.AddTrigger(t =>
+                {
+                    t.WithIdentity("Simple Trigger");
+                    t.ForJob(jobKey);
+                    t.StartNow();
+                    t.WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromSeconds(30)).RepeatForever());
+                });
+
+
+            });
+
+            // ASP.NET Core hosting
+            services.AddQuartzServer(options =>
+            {
+                // when shutting down we want jobs to complete gracefully
+                options.WaitForJobsToComplete = true;
+            });
 
             services.AddControllersWithViews();
         }
