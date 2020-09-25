@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - InternetShop</title>
+    <title>@ViewData["Title"] - Library</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -20,8 +20,6 @@
                     <div class="navbar-nav ml-auto">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <p>@User.Identity.Name </p>
-                            <p>@User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType).Value</p>
                             if (User.IsInRole("Admin"))
                             {
                                 <a class="nav-link" asp-action="List" asp-controller="Users">Управление пользователями</a>
