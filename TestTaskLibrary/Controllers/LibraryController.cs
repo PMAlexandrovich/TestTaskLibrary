@@ -11,6 +11,7 @@ using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Models;
+using TestTaskLibrary.Models.Library;
 
 namespace TestTaskLibrary.Controllers
 {
@@ -32,10 +33,34 @@ namespace TestTaskLibrary.Controllers
             return RedirectToAction("List");
         }
         
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string search = "", FieldSearchType fieldSearch = FieldSearchType.Title)
         {
+            List<Book> books;
+            var booksRequest = booksRepository.Books.Include(b => b.BookStatus).ThenInclude(b => b.User);
+            if (search == "")
+                books = booksRequest.ToList();
+            else
+            {
+                switch (fieldSearch)
+                {
+                    case FieldSearchType.Author:
+                        books = booksRequest.Where(b => b.Author.Contains(search)).ToList();
+                        break;
+                    case FieldSearchType.Title:
+                        books = booksRequest.Where(b => b.Title.Contains(search)).ToList();
+                        break;
+                    case FieldSearchType.Genre:
+                        books = booksRequest.Where(b => b.Genre.Contains(search)).ToList();
+                        break;
+                    default:
+                        books = booksRequest.Where(b => b.Title.Contains(search)).ToList();
+                        break;
+                }
+            }
+            ViewBag.search = search;
+            ViewBag.fieldSearch = fieldSearch;
             ViewBag.User = await userManager.GetUserAsync(User);
-            return View(booksRepository.Books.Include(b => b.BookStatus).ThenInclude(b => b.User).ToList());
+            return View(books);
         }
 
         [HttpPost]

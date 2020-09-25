@@ -1,9 +1,19 @@
 ﻿@model IEnumerable<TestTaskLibrary.Domain.Core.Book>
-
+@using TestTaskLibrary.Models.Library
 @{
     ViewData["Title"] = "List";
 }
-
+<form class="mt-3 mb-3" asp-action="List">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <select class="custom-select" name="fieldSearch" asp-items="Html.GetEnumSelectList<FieldSearchType>()"></select>
+        </div>
+        <input class="form-control" type="text" name="search" placeholder="Искать" value="@ViewBag.search" />
+        <div class="input-group-append">
+            <input class="btn btn-outline-secondary" type="submit" value="Найти" />
+        </div>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
