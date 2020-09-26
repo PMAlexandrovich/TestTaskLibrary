@@ -53,7 +53,7 @@ namespace TestTaskLibrary.Infrastructure.Business
             if (book != null)
             {
                 book.BookStatus.Status = Status.Free;
-                book.BookStatus.User = null;
+                book.BookStatus.UserId = null;
                 statusesRepository.Update(book.BookStatus);
                 return true;
             }
