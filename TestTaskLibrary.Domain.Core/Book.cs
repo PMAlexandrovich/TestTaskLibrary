@@ -22,5 +22,7 @@ namespace TestTaskLibrary.Domain.Core
 
         [Required]
         public BookStatus BookStatus { get; set; }
+
+        public BookAdditionalInfo BookAdditionalInfo { get; set; }
     }
 }

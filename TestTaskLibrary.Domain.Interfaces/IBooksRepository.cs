@@ -5,13 +5,9 @@ using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Interfaces
 {
-    public interface IBooksRepository
+    public interface IBooksRepository : ICommonRepository<Book>
     {
         IQueryable<Book> Books { get; set; }
-        IEnumerable<Book> GetBookList();
-        Book GetBook(int id);
-        void Create(Book item);
-        void Update(Book item);
-        void Delete(int id);
+        
     }
 }

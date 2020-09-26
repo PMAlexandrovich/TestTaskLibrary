@@ -12,5 +12,7 @@ namespace TestTaskLibrary.Domain.Core
         public string FullName { get; set; }
 
         public List<BookStatus> BookStatuses { get; set; }
+
+        public List<BookRatingComment> BookRaitingComments { get; set; }
     }
 }

@@ -6,8 +6,8 @@ using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Interfaces
 {
-    public interface IBookStatusesRepository : ICommonRepository<BookStatus>
+    interface IBookRatingCommentsRepository : ICommonRepository<BookRatingComment>
     {
-        IQueryable<BookStatus> Statuses { get; set; }
+        public IQueryable<BookRatingComment> BookAdditionalInfos { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 
-namespace TestTaskLibrary.Infrastructure.Data
+namespace TestTaskLibrary.Infrastructure.Data.Repositories
 {
     public class BooksRepository : IBooksRepository
     {
@@ -20,12 +20,12 @@ namespace TestTaskLibrary.Infrastructure.Data
 
         public IQueryable<Book> Books { get; set; }
 
-        public Book GetBook(int id)
+        public Book Get(int id)
         {
             return db.Books.Find(id);
         }
 
-        public IEnumerable<Book> GetBookList()
+        public IEnumerable<Book> GetList()
         {
             return db.Books.ToList();
         }

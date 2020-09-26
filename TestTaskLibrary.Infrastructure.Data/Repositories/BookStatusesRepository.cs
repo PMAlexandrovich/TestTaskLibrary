@@ -5,7 +5,7 @@ using System.Text;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 
-namespace TestTaskLibrary.Infrastructure.Data
+namespace TestTaskLibrary.Infrastructure.Data.Repositories
 {
     public class BookStatusesRepository: IBookStatusesRepository
     {
@@ -19,12 +19,12 @@ namespace TestTaskLibrary.Infrastructure.Data
 
         public IQueryable<BookStatus> Statuses { get; set; }
 
-        public BookStatus GetBookStatus(int id)
+        public BookStatus Get(int id)
         {
             return db.BookStatuses.Find(id);
         }
 
-        public IEnumerable<BookStatus> GetBookStatusList()
+        public IEnumerable<BookStatus> GetList()
         {
             return db.BookStatuses.ToList();
         }

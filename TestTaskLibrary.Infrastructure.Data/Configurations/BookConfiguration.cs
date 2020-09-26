@@ -12,6 +12,8 @@ namespace TestTaskLibrary.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.HasOne(b => b.BookStatus).WithOne(s => s.Book).HasForeignKey<BookStatus>(b => b.BookId);
+
+            builder.HasOne(b => b.BookAdditionalInfo).WithOne(s => s.Book).HasForeignKey<BookAdditionalInfo>(b => b.BookId);
         }
     }
 }
