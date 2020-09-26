@@ -87,6 +87,7 @@ namespace TestTaskLibrary.Controllers
                     libraryManager.IssueBook(user, model.BookId);
                     return RedirectToAction("List");
                 }
+                ModelState.AddModelError("", "Пользователя с таким Email не существует.");
             }
             return View(model);
         }
