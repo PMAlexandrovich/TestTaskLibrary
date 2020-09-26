@@ -25,7 +25,7 @@ namespace TestTaskLibrary.Models
 
         private static void CreateBooks(IBooksRepository booksRepository)
         {
-            if(booksRepository.GetBookList().ToList().Count == 0)
+            if(booksRepository.GetList().ToList().Count == 0)
             {
                 Book book = new Book() { Author = "Лев Николаевич Толстой", Genre = "Роман", Title = "Война и мир" };
                 booksRepository.Create(book);

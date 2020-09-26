@@ -1,0 +1,60 @@
+﻿@model List<BookRatingComment>
+@{
+    ViewData["Title"] = "Default";
+}
+
+
+@if (User.Identity.IsAuthenticated && ViewBag.CanWrite)
+{
+    <form class="mb-2" asp-action="SendReview" asp-controller="Library" method="post">
+        <input type="hidden" name="userId" value="@ViewBag.User.Id" />
+        <input type="hidden" name="bookId" value="@ViewBag.BookId" />
+        <div class="mb-2">
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline1" name="rating" value="1" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline1">1</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline2" name="rating" value="2" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline2">2</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline3" name="rating" value="3" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline3">3</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline4" name="rating" value="4" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline4">4</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline5" name="rating" checked value="5" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline5">5</label>
+            </div>
+        </div>
+        <textarea class="form-control mb-2" rows="3" name="content"></textarea>
+        <input class="btn btn-outline-primary" type="submit" value="Оценить" />
+    </form>
+}
+@if (Model.Count > 0)
+{
+    <ul class="list-group">
+        @foreach (var review in Model)
+        {
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <h5 class="mb-1">@review.User.FullName</h5>
+                    <small>Оценка: @review.Rating</small>
+                </div>
+                <p class="mb-1 text-break">@review.Content</p>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <div>
+        Пока нет отзывов.
+    </div>
+}
+
+

@@ -16,6 +16,7 @@ using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Infrastructure.Data;
+using TestTaskLibrary.Infrastructure.Data.Repositories;
 
 namespace TestTaskLibrary
 {
@@ -40,6 +41,10 @@ namespace TestTaskLibrary
 
             services.AddTransient<IBooksRepository, BooksRepository>();
             services.AddTransient<IBookStatusesRepository, BookStatusesRepository>();
+            services.AddTransient<IBookAdditionalInfosRepository, BookAdditionalInfosRepository>();
+            services.AddTransient<IBookRatingCommentsRepository, BookRatingCommentsRepository>();
+
+            services.AddTransient<BookCommentManager>();
             services.AddTransient<LibraryManager>();
 
             services.AddIdentity<User, IdentityRole>(options => {

@@ -11,7 +11,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<BookRatingComment> builder)
         {
-            builder.HasKey(c => c.BookAdditionalInfoId);
+            builder.HasKey(c => c.Id);
 
             builder.HasOne(c => c.User).WithMany(u => u.BookRaitingComments).HasForeignKey(c => c.UserId);
 

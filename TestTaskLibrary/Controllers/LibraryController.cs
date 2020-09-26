@@ -20,12 +20,14 @@ namespace TestTaskLibrary.Controllers
         IBooksRepository booksRepository;
         LibraryManager libraryManager;
         UserManager<User> userManager;
+        BookCommentManager commentManager;
 
-        public LibraryController(IBooksRepository booksRepository, LibraryManager libraryManager, UserManager<User> userManager)
+        public LibraryController(IBooksRepository booksRepository, LibraryManager libraryManager, UserManager<User> userManager, BookCommentManager commentManager)
         {
             this.booksRepository = booksRepository;
             this.libraryManager = libraryManager;
             this.userManager = userManager;
+            this.commentManager = commentManager;
         }
 
         public IActionResult Index()
@@ -85,6 +87,24 @@ namespace TestTaskLibrary.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult BookDatails(int id)
+        {
+            var book = booksRepository.Get(id);
+            if(book != null)
+            {
+                return View(new BookDatailsViewModel() { Id = book.Id, Author = book.Author, Genre = book.Genre, Title = book.Title});
+            }
+
+            return NotFound();
+        }
+
+        public IActionResult SendReview(string userId, int bookId, int rating, string content)
+        {
+            commentManager.AddReview(userId, bookId, rating, content);
+            return RedirectToAction("BookDatails", new { id = bookId });
         }
     }
 }

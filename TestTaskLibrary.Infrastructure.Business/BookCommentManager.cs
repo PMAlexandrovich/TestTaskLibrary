@@ -7,7 +7,7 @@ using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Infrastructure.Business
 {
-    class BookCommentManager
+    public class BookCommentManager
     {
         IBooksRepository booksRepository;
         IBookAdditionalInfosRepository addInfoRepository;
@@ -20,16 +20,10 @@ namespace TestTaskLibrary.Infrastructure.Business
             this.commentsRepository = commentsRepository;
         }
 
-        public bool AddReview(User user, int bookId, int raiting, string comment)
+        public bool AddReview(string userId, int bookId, int raiting, string comment)
         {
-            if(user != null)
-            {
-                var info = addInfoRepository.BookAdditionalInfos.FirstOrDefault(a => a.BookId == bookId);
-                info.RatingComments.Add(new BookRatingComment() { User = user, Rating = raiting, Content = comment, });
-                addInfoRepository.Update(info);
-                return true;
-            }
-            return false;
+            commentsRepository.Create(new BookRatingComment() { UserId = userId, Rating = raiting, Content = comment, BookAdditionalInfoId = bookId});
+            return true;
         }
     }
 }

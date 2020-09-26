@@ -36,8 +36,11 @@
         @foreach (var book in Model.Books)
         {
             <tr>
+            
                 <td>
-                    @Html.DisplayFor(modelItem => book.Title)
+                    <a asp-action="BookDatails" asp-route-id="@book.Id">
+                        @Html.DisplayFor(modelItem => book.Title)
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => book.Author)
@@ -73,7 +76,9 @@
                         }
                     </div>
                 </td>
-            </tr>
+            
+        </tr>
+        
         }
     </tbody>
 </table>

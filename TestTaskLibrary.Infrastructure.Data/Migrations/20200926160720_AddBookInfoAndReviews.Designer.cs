@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TestTaskLibrary.Infrastructure.Data;
@@ -9,9 +10,10 @@ using TestTaskLibrary.Infrastructure.Data;
 namespace TestTaskLibrary.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20200926160720_AddBookInfoAndReviews")]
+    partial class AddBookInfoAndReviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,11 +187,6 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("TestTaskLibrary.Domain.Core.BookRatingComment", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
                     b.Property<int>("BookAdditionalInfoId")
                         .HasColumnType("integer");
 
@@ -202,9 +199,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookAdditionalInfoId");
+                    b.HasKey("BookAdditionalInfoId");
 
                     b.HasIndex("UserId");
 

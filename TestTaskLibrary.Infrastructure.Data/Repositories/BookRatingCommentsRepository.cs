@@ -7,7 +7,7 @@ using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Infrastructure.Data.Repositories
 {
-    class BookRatingCommentsRepository : IBookRatingCommentsRepository
+    public class BookRatingCommentsRepository : IBookRatingCommentsRepository
     {
         LibraryContext db;
 

@@ -33,6 +33,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
         public void Create(Book item)
         {
             item.BookStatus = new BookStatus();
+            item.BookAdditionalInfo = new BookAdditionalInfo();
             db.Books.Add(item);
             db.SaveChanges();
         }
