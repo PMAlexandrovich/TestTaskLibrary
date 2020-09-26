@@ -12,6 +12,10 @@ namespace TestTaskLibrary.Infrastructure.Data
 
         public DbSet<BookStatus> BookStatuses { get; set; }
 
+        public DbSet<BookAdditionalInfo> BookAdditionalInfos { get; set; }
+
+        public DbSet<BookRatingComment> BookRatingComments { get; set; }
+
         public LibraryContext(DbContextOptions<LibraryContext> options) : base(options)
         {
 
