@@ -27,6 +27,8 @@ namespace TestTaskLibrary.Infrastructure.Data
 
             modelBuilder.ApplyConfiguration(new BookConfiguration());
             modelBuilder.ApplyConfiguration(new BookStatusConfiguration());
+            modelBuilder.ApplyConfiguration(new BookAdditionalInfoConfiguration());
+            modelBuilder.ApplyConfiguration(new BookRatingCommentConfiguration());
         }
 
     }
