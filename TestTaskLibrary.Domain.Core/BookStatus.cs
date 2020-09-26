@@ -19,7 +19,6 @@ namespace TestTaskLibrary.Domain.Core
         public User User { get; set; }
 
         [Required]
-        [Display(Name = "Статус")]
         public Status Status { get; set; }
 
         public DateTime TimeOfEndBook { get; set; }

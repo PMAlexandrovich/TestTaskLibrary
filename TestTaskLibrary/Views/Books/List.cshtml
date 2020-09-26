@@ -39,7 +39,7 @@
                             <div class="input-group">
                                 @if (book.BookStatus.Status != Status.Issued)
                                 {
-                                    <a asp-action="Issue" asp-route-id="@book.Id" class="btn btn-primary">Выдать</a>
+                                    <a asp-action="Issue" asp-route-id="@book.Id" class="btn btn-outline-primary">Выдать</a>
                                 }
                                 else
                                 {
@@ -50,7 +50,7 @@
                                 }
                                 <form asp-action="Delete" method="post">
                                     <input type="hidden" name="id" value="@book.Id" />
-                                    <input class="btn btn-danger" type="submit" value="Удалить" />
+                                    <input class="btn btn-outline-danger" type="submit" value="Удалить" />
                                 </form>
                             </div>
                         </td>

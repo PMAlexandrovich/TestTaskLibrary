@@ -9,7 +9,6 @@ namespace TestTaskLibrary.Domain.Core
     public class User:IdentityUser
     {
         [Required]
-        [Display(Name = "ФИО")]
         public string FullName { get; set; }
 
         public List<BookStatus> BookStatuses { get; set; }
