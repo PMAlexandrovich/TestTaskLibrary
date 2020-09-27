@@ -7,15 +7,15 @@ using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Infrastructure.Data.Configurations
 {
-    class BookRatingCommentConfiguration : IEntityTypeConfiguration<BookRatingComment>
+    class BookReviewConfiguration : IEntityTypeConfiguration<BookReview>
     {
-        public void Configure(EntityTypeBuilder<BookRatingComment> builder)
+        public void Configure(EntityTypeBuilder<BookReview> builder)
         {
             builder.HasKey(c => c.Id);
 
             builder.HasOne(c => c.User).WithMany(u => u.BookRaitingComments).HasForeignKey(c => c.UserId);
 
-            builder.HasOne(c => c.BookAdditionalInfo).WithMany(i => i.RatingComments).HasForeignKey(c => c.BookAdditionalInfoId);
+            builder.HasOne(c => c.BookAdditionalInfo).WithMany(i => i.Reviews).HasForeignKey(c => c.BookAdditionalInfoId);
         }
     }
 }

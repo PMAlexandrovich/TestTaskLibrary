@@ -10,6 +10,6 @@ namespace TestTaskLibrary.Domain.Core
 
         public Book Book { get; set; }
 
-        public List<BookRatingComment> RatingComments { get; set; }
+        public List<BookReview> Reviews { get; set; }
     }
 }

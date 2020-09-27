@@ -14,7 +14,7 @@ namespace TestTaskLibrary.Infrastructure.Data
 
         public DbSet<BookAdditionalInfo> BookAdditionalInfos { get; set; }
 
-        public DbSet<BookRatingComment> BookRatingComments { get; set; }
+        public DbSet<BookReview> BookReview { get; set; }
 
         public LibraryContext(DbContextOptions<LibraryContext> options) : base(options)
         {
@@ -28,7 +28,7 @@ namespace TestTaskLibrary.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new BookConfiguration());
             modelBuilder.ApplyConfiguration(new BookStatusConfiguration());
             modelBuilder.ApplyConfiguration(new BookAdditionalInfoConfiguration());
-            modelBuilder.ApplyConfiguration(new BookRatingCommentConfiguration());
+            modelBuilder.ApplyConfiguration(new BookReviewConfiguration());
         }
 
     }

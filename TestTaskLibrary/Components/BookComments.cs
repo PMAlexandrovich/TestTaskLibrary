@@ -13,10 +13,10 @@ namespace TestTaskLibrary.Components
     public class BookComments:ViewComponent
     {
         //IBookAdditionalInfosRepository repository;
-        IBookRatingCommentsRepository repository;
+        IBookReviewsRepository repository;
         UserManager<User> userManager;
 
-        public BookComments(IBookRatingCommentsRepository repository, UserManager<User> userManager)
+        public BookComments(IBookReviewsRepository repository, UserManager<User> userManager)
         {
             this.repository = repository;
             this.userManager = userManager;
@@ -27,7 +27,7 @@ namespace TestTaskLibrary.Components
             var user = await userManager.GetUserAsync(UserClaimsPrincipal);
             ViewBag.User = user;
             ViewBag.BookId = id;
-            var comments = repository.BookRatingComments.Where(c => c.BookAdditionalInfoId == id).Include(c => c.User).ToList();
+            var comments = repository.BookReviews.Where(c => c.BookAdditionalInfoId == id).Include(c => c.User).ToList();
             ViewBag.CanWrite = comments.Find(c => c.User == user) == null ? true : false;
             return View(comments);
         }

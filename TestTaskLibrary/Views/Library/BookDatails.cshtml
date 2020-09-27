@@ -6,16 +6,21 @@
     <div class="d-flex flex-column">
         <h2>@Model.Title</h2>
         <div class="align-self-end">
-            <span>@Model.Author</span>
+            <div>
+                <span>@await Component.InvokeAsync(nameof(AverageRating), new { bookId = Model.Id })</span>
+            </div>
+            <div>
+                <span>@Model.Author</span>
+            </div>
         </div>
         
     </div>
 </div>
 <div>
-    <h4>Отзовы</h4>
+    <h4>Отзывы</h4>
     <div class="row">
         <div class="col-4">
-            @await Component.InvokeAsync(nameof(TestTaskLibrary.Components.BookComments), new { id = Model.Id })
+            @await Component.InvokeAsync(nameof(BookComments), new { id = Model.Id })
         </div>
     </div>
 </div>

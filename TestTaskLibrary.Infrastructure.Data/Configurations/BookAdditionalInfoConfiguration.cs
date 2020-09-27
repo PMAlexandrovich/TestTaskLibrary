@@ -12,7 +12,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<BookAdditionalInfo> builder)
         {
             builder.HasKey(i => i.BookId);
-            builder.HasMany(i => i.RatingComments).WithOne(c => c.BookAdditionalInfo).HasForeignKey(c => c.BookAdditionalInfoId);
+            builder.HasMany(i => i.Reviews).WithOne(c => c.BookAdditionalInfo).HasForeignKey(c => c.BookAdditionalInfoId);
 
         }
     }

@@ -42,9 +42,9 @@ namespace TestTaskLibrary
             services.AddTransient<IBooksRepository, BooksRepository>();
             services.AddTransient<IBookStatusesRepository, BookStatusesRepository>();
             services.AddTransient<IBookAdditionalInfosRepository, BookAdditionalInfosRepository>();
-            services.AddTransient<IBookRatingCommentsRepository, BookRatingCommentsRepository>();
+            services.AddTransient<IBookReviewsRepository, BookReviewRepository>();
 
-            services.AddTransient<BookCommentManager>();
+            services.AddTransient<BookReviewsManager>();
             services.AddTransient<LibraryManager>();
 
             services.AddIdentity<User, IdentityRole>(options => {

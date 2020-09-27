@@ -7,22 +7,22 @@ using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Infrastructure.Business
 {
-    public class BookCommentManager
+    public class BookReviewsManager
     {
         IBooksRepository booksRepository;
         IBookAdditionalInfosRepository addInfoRepository;
-        IBookRatingCommentsRepository commentsRepository;
+        IBookReviewsRepository reviewsRepository;
 
-        public BookCommentManager(IBooksRepository booksRepository, IBookAdditionalInfosRepository addInfoRepository, IBookRatingCommentsRepository commentsRepository)
+        public BookReviewsManager(IBooksRepository booksRepository, IBookAdditionalInfosRepository addInfoRepository, IBookReviewsRepository commentsRepository)
         {
             this.booksRepository = booksRepository;
             this.addInfoRepository = addInfoRepository;
-            this.commentsRepository = commentsRepository;
+            this.reviewsRepository = commentsRepository;
         }
 
         public bool AddReview(string userId, int bookId, int raiting, string comment)
         {
-            commentsRepository.Create(new BookRatingComment() { UserId = userId, Rating = raiting, Content = comment, BookAdditionalInfoId = bookId});
+            reviewsRepository.Create(new BookReview() { UserId = userId, Rating = raiting, Content = comment, BookAdditionalInfoId = bookId});
             return true;
         }
     }

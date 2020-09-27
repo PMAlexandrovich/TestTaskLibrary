@@ -20,9 +20,9 @@ namespace TestTaskLibrary.Controllers
         IBooksRepository booksRepository;
         LibraryManager libraryManager;
         UserManager<User> userManager;
-        BookCommentManager commentManager;
+        BookReviewsManager commentManager;
 
-        public LibraryController(IBooksRepository booksRepository, LibraryManager libraryManager, UserManager<User> userManager, BookCommentManager commentManager)
+        public LibraryController(IBooksRepository booksRepository, LibraryManager libraryManager, UserManager<User> userManager, BookReviewsManager commentManager)
         {
             this.booksRepository = booksRepository;
             this.libraryManager = libraryManager;

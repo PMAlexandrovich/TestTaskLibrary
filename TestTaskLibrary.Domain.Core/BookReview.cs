@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TestTaskLibrary.Domain.Core
 {
-    public class BookRatingComment
+    public class BookReview
     {
         public int Id { get; set; }
 
