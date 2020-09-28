@@ -8,6 +8,7 @@ namespace TestTaskLibrary.Domain.Core
 {
     public class User:IdentityUser
     {
+
         [Required]
         public string FullName { get; set; }
 

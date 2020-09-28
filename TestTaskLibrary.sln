@@ -9,13 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{64BD9D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTaskLibrary.Domain.Core", "TestTaskLibrary.Domain.Core\TestTaskLibrary.Domain.Core.csproj", "{5829A2A5-80CA-4E5C-92E6-A0401A627C2D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTaskLibrary.Domain.Interfaces", "TestTaskLibrary.Domain.Interfaces\TestTaskLibrary.Domain.Interfaces.csproj", "{A70D45B8-25C6-4F7F-B412-89CE5AC0C9C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTaskLibrary.Domain.Application", "TestTaskLibrary.Domain.Interfaces\TestTaskLibrary.Domain.Application.csproj", "{A70D45B8-25C6-4F7F-B412-89CE5AC0C9C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{49B2E111-1015-4CB2-AA9F-9F8CFDFFBD4D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTaskLibrary.Infrastructure.Data", "TestTaskLibrary.Infrastructure.Data\TestTaskLibrary.Infrastructure.Data.csproj", "{C1D2A181-8AB2-4F38-90A0-370D7C329C96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTaskLibrary.Infrastructure.Business", "TestTaskLibrary.Infrastructure.Business\TestTaskLibrary.Infrastructure.Business.csproj", "{F8D1D27C-DB3A-465A-83F0-B4B060A994BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestTaskLibrary.Infrastructure.Business", "TestTaskLibrary.Infrastructure.Business\TestTaskLibrary.Infrastructure.Business.csproj", "{F8D1D27C-DB3A-465A-83F0-B4B060A994BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

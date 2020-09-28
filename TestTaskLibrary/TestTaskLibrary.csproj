@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TestTaskLibrary.Domain.Core\TestTaskLibrary.Domain.Core.csproj" />
-    <ProjectReference Include="..\TestTaskLibrary.Domain.Interfaces\TestTaskLibrary.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\TestTaskLibrary.Domain.Interfaces\TestTaskLibrary.Domain.Application.csproj" />
     <ProjectReference Include="..\TestTaskLibrary.Infrastructure.Business\TestTaskLibrary.Infrastructure.Business.csproj" />
     <ProjectReference Include="..\TestTaskLibrary.Infrastructure.Data\TestTaskLibrary.Infrastructure.Data.csproj" />
   </ItemGroup>

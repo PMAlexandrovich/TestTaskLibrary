@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Quartz;
+using TestTaskLibrary.Domain.Application;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
@@ -46,6 +47,8 @@ namespace TestTaskLibrary
 
             services.AddTransient<BookReviewsManager>();
             services.AddTransient<LibraryManager>();
+
+            services.AddApplication();
 
             services.AddIdentity<User, IdentityRole>(options => {
                 options.Password.RequireNonAlphanumeric = false;

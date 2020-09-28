@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
@@ -17,12 +19,14 @@ namespace TestTaskLibrary.Controllers
     [Authorize(Roles = "Librarian")]
     public class BooksController : Controller
     {
+        private readonly IMediator mediator;
         IBooksRepository booksRepository;
         UserManager<User> userManager;
         LibraryManager libraryManager;
 
-        public BooksController(IBooksRepository booksRepository, UserManager<User> userManager, LibraryManager libraryManager)
+        public BooksController(IMediator mediator, IBooksRepository booksRepository, UserManager<User> userManager, LibraryManager libraryManager)
         {
+            this.mediator = mediator;
             this.booksRepository = booksRepository;
             this.userManager = userManager;
             this.libraryManager = libraryManager;
@@ -43,25 +47,24 @@ namespace TestTaskLibrary.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            return View(new AddBookViewModel());
+            return View(new CreateBookCommand());
         }
 
         [HttpPost]
-        public IActionResult Add(AddBookViewModel model)
+        public async Task<IActionResult> Add(CreateBookCommand command)
         {
             if (ModelState.IsValid)
             {
-                Book book = new Book() { Author = model.Author, Genre = model.Genre, Title = model.Title };
-                booksRepository.Create(book);
+                int id = await mediator.Send(command);
                 return RedirectToAction("List");
             }
-            return View(model);
+            return View(command);
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(DeleteBookCommand command)
         {
-            booksRepository.Delete(id);
+            int id = await mediator.Send(command);
             return RedirectToAction("List");
         }
 
