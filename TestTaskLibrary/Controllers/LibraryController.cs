@@ -46,16 +46,16 @@ namespace TestTaskLibrary.Controllers
                 switch (fieldSearch)
                 {
                     case FieldSearchType.Author:
-                        books = booksRequest.Where(b => b.Author.Contains(search)).AsEnumerable();
+                        books = booksRequest.Where(b => b.Author.ToLower().Contains(search.ToLower())).AsEnumerable();
                         break;
                     case FieldSearchType.Title:
-                        books = booksRequest.Where(b => b.Title.Contains(search)).AsEnumerable();
+                        books = booksRequest.Where(b => b.Title.ToLower().Contains(search.ToLower())).AsEnumerable();
                         break;
                     case FieldSearchType.Genre:
-                        books = booksRequest.Where(b => b.Genre.Contains(search)).AsEnumerable();
+                        books = booksRequest.Where(b => b.Genre.ToLower().Contains(search.ToLower())).AsEnumerable();
                         break;
                     default:
-                        books = booksRequest.Where(b => b.Title.Contains(search)).AsEnumerable();
+                        books = booksRequest.Where(b => b.Title.ToLower().Contains(search.ToLower())).AsEnumerable();
                         break;
                 }
             }
