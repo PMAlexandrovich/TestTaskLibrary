@@ -87,6 +87,13 @@ namespace TestTaskLibrary.Controllers
                             await userManager.UpdateAsync(user);
                             return RedirectToAction("List");
                         }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("password", error.Description);
+                            }
+                        }
                     }
                 }
             }
