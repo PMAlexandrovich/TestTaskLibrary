@@ -10,6 +10,7 @@ namespace TestTaskLibrary.Domain.Core
         public int Id { get; set; }
 
         public int BookAdditionalInfoId { get; set; }
+
         public BookAdditionalInfo BookAdditionalInfo { get; set; }
 
         public int? UserId { get; set; }

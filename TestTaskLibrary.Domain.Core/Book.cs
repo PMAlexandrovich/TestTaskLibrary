@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TestTaskLibrary.Domain.Core
@@ -8,20 +9,23 @@ namespace TestTaskLibrary.Domain.Core
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        [Display(Name = "Автор")]
-        public string Author { get; set; }
+        public int AuthorId { get; set; }
 
         [Required]
-        [Display(Name = "Название")]
+        public Author Author { get; set; }
+
+        [Required]
         public string Title { get; set; }
 
-        [Required]
-        [Display(Name = "Жанр")]
-        public string Genre { get; set; }
+        public int GenreId { get; set; }
 
         [Required]
-        public BookStatus BookStatus { get; set; }
+        public Genre Genre { get; set; }
+
+        [Required]
+        public BookStatus CurrentBookStatus { get; set; }
+
+        public List<BookStatus> BookStatuses { get; set; }
 
         public BookAdditionalInfo BookAdditionalInfo { get; set; }
     }
