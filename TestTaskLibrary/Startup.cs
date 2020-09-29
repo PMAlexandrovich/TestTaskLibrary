@@ -50,7 +50,8 @@ namespace TestTaskLibrary
 
             services.AddApplication();
 
-            services.AddIdentity<User, IdentityRole>(options => {
+            services.AddIdentity<User, CustomRole>(options =>
+            {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
@@ -58,7 +59,6 @@ namespace TestTaskLibrary
             })
             .AddEntityFrameworkStores<LibraryContext>()
             .AddErrorDescriber<RussianIdentityErrorDescriber>();
-
             services.AddQuartz(q =>
             {
                 q.SchedulerId = "Scheduler-Core";

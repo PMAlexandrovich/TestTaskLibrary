@@ -14,15 +14,15 @@ namespace TestTaskLibrary.Domain.Core
 
         public Book Book { get; set; }
 
-        public string UserId { get; set; }
+        public int? UserId { get; set; }
 
         public User User { get; set; }
 
         [Required]
         public Status Status { get; set; }
 
-        public DateTime TimeOfEndBook { get; set; }
+        public DateTime? TimeOfEndBook { get; set; }
 
-        public DateTime TimeOfStartBook { get; set; }
+        public DateTime? TimeOfStartBook { get; set; }
     }
 }

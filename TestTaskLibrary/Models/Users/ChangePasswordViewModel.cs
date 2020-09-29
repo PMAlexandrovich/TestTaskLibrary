@@ -10,7 +10,7 @@ namespace TestTaskLibrary.Models
     public class ChangePasswordViewModel
     {
         [HiddenInput]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Поле Новый пароль является обязательным")]
         [Display(Name = "Новый пароль")]

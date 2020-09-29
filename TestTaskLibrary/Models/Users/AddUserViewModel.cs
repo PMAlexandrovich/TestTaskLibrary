@@ -25,6 +25,6 @@ namespace TestTaskLibrary.Models
 
         [Required(ErrorMessage = "Поле Роль является обязательным")]
         [Display(Name = "Роль")]
-        public Role Role { get; set; }
+        public Users.Role Role { get; set; }
     }
 }

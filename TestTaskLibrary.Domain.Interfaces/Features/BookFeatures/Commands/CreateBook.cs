@@ -9,7 +9,7 @@ using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 {
-    public class CreateBookCommand:IRequest<int>
+    public class CreateBookCommand : IRequest<int>
     {
         public string Title { get; set; }
 

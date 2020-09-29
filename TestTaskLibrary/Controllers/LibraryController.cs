@@ -101,7 +101,7 @@ namespace TestTaskLibrary.Controllers
             return NotFound();
         }
 
-        public IActionResult SendReview(string userId, int bookId, int rating, string content)
+        public IActionResult SendReview(int userId, int bookId, int rating, string content)
         {
             commentManager.AddReview(userId, bookId, rating, content);
             return RedirectToAction("BookDatails", new { id = bookId });

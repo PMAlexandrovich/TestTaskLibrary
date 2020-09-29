@@ -12,7 +12,7 @@ namespace TestTaskLibrary.Models
 {
     public class IdentityInitializer
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, LibraryContext context, IBooksRepository booksRepository)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<CustomRole> roleManager, LibraryContext context, IBooksRepository booksRepository)
         {
             context.Database.Migrate();
 
@@ -62,19 +62,19 @@ namespace TestTaskLibrary.Models
             }
         }
 
-        private static async Task CreateRoles(RoleManager<IdentityRole> roleManager)
+        private static async Task CreateRoles(RoleManager<CustomRole> roleManager)
         {
             if (await roleManager.FindByNameAsync("Admin") == null)
             {
-                await roleManager.CreateAsync(new IdentityRole("Admin"));
+                await roleManager.CreateAsync(new CustomRole("Admin"));
             }
             if (await roleManager.FindByNameAsync("Librarian") == null)
             {
-                await roleManager.CreateAsync(new IdentityRole("Librarian"));
+                await roleManager.CreateAsync(new CustomRole("Librarian"));
             }
             if (await roleManager.FindByNameAsync("Customer") == null)
             {
-                await roleManager.CreateAsync(new IdentityRole("Customer"));
+                await roleManager.CreateAsync(new CustomRole("Customer"));
             }
         }
 

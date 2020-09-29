@@ -3,10 +3,12 @@ using TestTaskLibrary.Domain.Core;
 using System;
 using Microsoft.EntityFrameworkCore;
 using TestTaskLibrary.Infrastructure.Data.Configurations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace TestTaskLibrary.Infrastructure.Data
 {
-    public class LibraryContext:IdentityDbContext<User>
+    public class LibraryContext:IdentityDbContext<User, CustomRole, int>
     {
         public DbSet<Book> Books { get; set; }
 

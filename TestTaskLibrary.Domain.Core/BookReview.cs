@@ -12,7 +12,7 @@ namespace TestTaskLibrary.Domain.Core
         public int BookAdditionalInfoId { get; set; }
         public BookAdditionalInfo BookAdditionalInfo { get; set; }
 
-        public string UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
 
         public string Content { get; set; }

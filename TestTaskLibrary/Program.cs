@@ -27,7 +27,7 @@ namespace TestTaskLibrary
                 try
                 {
                     var userManager = services.GetRequiredService<UserManager<User>>();
-                    var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    var rolesManager = services.GetRequiredService<RoleManager<CustomRole>>();
                     var context = services.GetRequiredService<LibraryContext>();
                     var booksRepository = services.GetRequiredService<IBooksRepository>();
                     await IdentityInitializer.InitializeAsync(userManager, rolesManager, context, booksRepository);

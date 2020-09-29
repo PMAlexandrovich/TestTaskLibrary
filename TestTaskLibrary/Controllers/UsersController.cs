@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Models;
 using TestTaskLibrary.Models.Users;
@@ -14,7 +15,7 @@ namespace TestTaskLibrary.Controllers
     [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
-        readonly UserManager<User> userManager;
+        private readonly UserManager<User> userManager;
 
         public UsersController(UserManager<User> userManager)
         {
@@ -75,7 +76,7 @@ namespace TestTaskLibrary.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByIdAsync(model.Id);
+                var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
                 if(user != null)
                 {
                     var result = await userManager.RemovePasswordAsync(user);

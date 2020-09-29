@@ -20,7 +20,7 @@ namespace TestTaskLibrary.Infrastructure.Business
             this.reviewsRepository = commentsRepository;
         }
 
-        public bool AddReview(string userId, int bookId, int raiting, string comment)
+        public bool AddReview(int userId, int bookId, int raiting, string comment)
         {
             reviewsRepository.Create(new BookReview() { UserId = userId, Rating = raiting, Content = comment, BookAdditionalInfoId = bookId});
             return true;

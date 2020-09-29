@@ -8,7 +8,7 @@ using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 {
-    public class DeleteBookCommand:IRequest<int>
+    public class DeleteBookCommand : IRequest<int>
     {
         public int Id { get; set; }
 
