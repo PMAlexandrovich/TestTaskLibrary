@@ -39,8 +39,8 @@ namespace TestTaskLibrary.Controllers
 
         public IActionResult List()
         {
-            return View(booksRepository.Books
-                .Include(b=> b.BookStatus)
+            return View(booksRepository.GetAll
+                .Include(b=> b.CurrentBookStatus)
                 .ToList());
         }
 
@@ -71,10 +71,10 @@ namespace TestTaskLibrary.Controllers
         [HttpGet]
         public IActionResult Issue(int id)
         {
-            Book book = booksRepository.Books.Include(b=>b.BookStatus).ThenInclude(s=> s.User).FirstOrDefault(b=>b.Id == id);
+            Book book = booksRepository.GetAll.Include(b=>b.CurrentBookStatus).ThenInclude(s=> s.User).FirstOrDefault(b=>b.Id == id);
             if (book != null)
             {
-                return View(new IssueViewModel() { BookId = book.Id, UserEmail = book.BookStatus.User?.Email});
+                return View(new IssueViewModel() { BookId = book.Id, UserEmail = book.CurrentBookStatus.User?.Email});
             }
             return RedirectToAction("List");
         }

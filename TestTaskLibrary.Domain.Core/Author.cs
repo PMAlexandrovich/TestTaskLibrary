@@ -11,5 +11,10 @@ namespace TestTaskLibrary.Domain.Core
         public string FullName { get; set; }
 
         public List<Book> Books { get; set; }
+
+        public Author(string fullName)
+        {
+            FullName = fullName;
+        }
     }
 }

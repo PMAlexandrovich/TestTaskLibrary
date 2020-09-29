@@ -8,8 +8,13 @@ namespace TestTaskLibrary.Domain.Core
     {
         public int Id { get; set; }
 
-        public string FullName { get; set; }
+        public string Name { get; set; }
 
         public List<Book> Books { get; set; }
+
+        public Genre(string name)
+        {
+            Name = name;
+        }
     }
 }

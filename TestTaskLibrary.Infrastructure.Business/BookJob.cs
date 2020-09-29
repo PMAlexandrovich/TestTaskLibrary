@@ -23,7 +23,7 @@ namespace TestTaskLibrary.Infrastructure.Business
 
         public Task Execute(IJobExecutionContext context)
         {
-            booksRepository.Books.Where(b => b.BookStatus.Status == Status.Booked && b.BookStatus.TimeOfEndBook < DateTime.Now).ToList().ForEach(b => libraryManager.Unbook(b.Id));
+            booksRepository.GetAll.Where(b => b.CurrentBookStatus.Status == Status.Booked && b.CurrentBookStatus.TimeOfEndBook < DateTime.Now).ToList().ForEach(b => libraryManager.Unbook(b.Id));
             return Task.CompletedTask;
         }
     }

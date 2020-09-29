@@ -14,10 +14,10 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
         public BookReviewRepository(LibraryContext db)
         {
             this.db = db;
-            BookReviews = db.BookReview;
+            GetAll = db.BookReview;
         }
 
-        public IQueryable<BookReview> BookReviews { get; set; }
+        public IQueryable<BookReview> GetAll { get; }
 
         public BookReview Get(int id)
         {

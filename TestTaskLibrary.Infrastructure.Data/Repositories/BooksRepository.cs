@@ -15,10 +15,10 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
         public BooksRepository(LibraryContext context)
         {
             db = context;
-            Books = db.Books;
+            GetAll = db.Books;
         }
 
-        public IQueryable<Book> Books { get; set; }
+        public IQueryable<Book> GetAll { get; }
 
         public Book Get(int id)
         {
@@ -32,7 +32,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 
         public void Create(Book item)
         {
-            item.BookStatus = new BookStatus();
+            item.CurrentBookStatus = new BookStatus();
             item.BookAdditionalInfo = new BookAdditionalInfo();
             db.Books.Add(item);
             db.SaveChanges();

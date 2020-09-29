@@ -8,6 +8,5 @@ namespace TestTaskLibrary.Domain.Interfaces
 {
     public interface IBookStatusesRepository : ICommonRepository<BookStatus>
     {
-        IQueryable<BookStatus> Statuses { get; set; }
     }
 }

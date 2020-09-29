@@ -14,10 +14,10 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
         public BookStatusesRepository(LibraryContext context)
         {
             db = context;
-            Statuses = db.BookStatuses;
+            GetAll = db.BookStatuses;
         }
 
-        public IQueryable<BookStatus> Statuses { get; set; }
+        public IQueryable<BookStatus> GetAll { get; }
 
         public BookStatus Get(int id)
         {

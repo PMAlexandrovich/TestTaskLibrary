@@ -8,6 +8,5 @@ namespace TestTaskLibrary.Domain.Interfaces
 {
     public interface IBookAdditionalInfosRepository : ICommonRepository<BookAdditionalInfo>
     {
-        public IQueryable<BookAdditionalInfo> BookAdditionalInfos { get; set; }
     }
 }

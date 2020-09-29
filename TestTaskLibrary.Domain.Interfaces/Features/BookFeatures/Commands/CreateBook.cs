@@ -28,13 +28,14 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 
             public async Task<int> Handle(CreateBookCommand request, CancellationToken cancellationToken)
             {
+
                 Book book = new Book()
                 {
                     Author = request.Author,
                     Title = request.Title,
                     Genre = request.Genre,
                     BookAdditionalInfo = new BookAdditionalInfo(),
-                    BookStatus = new BookStatus()
+                    CurrentBookStatus = new BookStatus()
                 };
                 repository.Create(book);
 

@@ -38,7 +38,7 @@ namespace TestTaskLibrary.Controllers
         public async Task<IActionResult> List(string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
             IEnumerable<Book> books;
-            var booksRequest = booksRepository.Books.Include(b => b.BookStatus).ThenInclude(b => b.User);
+            var booksRequest = booksRepository.GetAll.Include(b => b.CurrentBookStatus).ThenInclude(b => b.User);
             if (search == null)
                 books = booksRequest.AsEnumerable();
             else
@@ -59,7 +59,7 @@ namespace TestTaskLibrary.Controllers
                         break;
                 }
             }
-            var viewBooks = books.Select(b => new BookItemViewModel() { Author = b.Author, Genre = b.Genre, Id = b.Id, Status = b.BookStatus.Status, Title = b.Title, User = b.BookStatus.User }).AsEnumerable();
+            var viewBooks = books.Select(b => new BookItemViewModel() { Author = b.Author, Genre = b.Genre, Id = b.Id, Status = b.CurrentBookStatus.Status, Title = b.Title, User = b.CurrentBookStatus.User }).AsEnumerable();
             var viewModel = new LibraryListViewModel() { Books = viewBooks, Search = search, SearchType = fieldSearch};
             ViewBag.User = await userManager.GetUserAsync(User);
             return View(viewModel);

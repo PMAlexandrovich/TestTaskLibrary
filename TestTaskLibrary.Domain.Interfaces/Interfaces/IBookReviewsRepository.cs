@@ -8,6 +8,5 @@ namespace TestTaskLibrary.Domain.Interfaces
 {
     public interface IBookReviewsRepository : ICommonRepository<BookReview>
     {
-        public IQueryable<BookReview> BookReviews { get; set; }
     }
 }

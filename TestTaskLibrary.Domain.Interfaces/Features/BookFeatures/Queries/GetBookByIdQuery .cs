@@ -25,11 +25,11 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
 
             public async Task<Book> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
             {
-                var book = await repository.Books
+                var book = await repository.GetAll
                     .Include(b => b.BookAdditionalInfo)
                         .ThenInclude(i => i.Reviews)
                             .ThenInclude(r => r.User)
-                    .Include(b => b.BookStatus).FirstOrDefaultAsync(b => b.Id == request.Id, cancellationToken);
+                    .Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == request.Id, cancellationToken);
 
                 return book;
             }
