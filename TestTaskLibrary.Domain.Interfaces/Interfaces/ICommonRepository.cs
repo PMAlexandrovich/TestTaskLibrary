@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TestTaskLibrary.Domain.Interfaces
 {
@@ -9,14 +10,14 @@ namespace TestTaskLibrary.Domain.Interfaces
     {
         IQueryable<T> GetAll { get; }
 
-        IEnumerable<T> GetList();
+        Task<IEnumerable<T>> GetList();
 
-        T Get(int id);
+        Task<T> Get(int id);
 
-        void Create(T item);
+        Task Create(T item);
 
-        void Update(T item);
+        Task Update(T item);
 
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

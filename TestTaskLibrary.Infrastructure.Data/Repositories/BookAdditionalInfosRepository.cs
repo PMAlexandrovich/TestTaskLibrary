@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 
@@ -19,36 +21,36 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 
         public IQueryable<BookAdditionalInfo> GetAll { get; }
 
-        public BookAdditionalInfo Get(int id)
+        public async Task<BookAdditionalInfo> Get(int id)
         {
-            return db.BookAdditionalInfos.Find(id);
+            return await db.BookAdditionalInfos.FindAsync(id);
         }
 
-        public IEnumerable<BookAdditionalInfo> GetList()
+        public async Task<IEnumerable<BookAdditionalInfo>> GetList()
         {
-            return db.BookAdditionalInfos.ToList();
+            return await db.BookAdditionalInfos.ToListAsync();
         }
 
-        public void Create(BookAdditionalInfo item)
+        public async Task Create(BookAdditionalInfo item)
         {
             db.BookAdditionalInfos.Add(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            BookAdditionalInfo book = db.BookAdditionalInfos.Find(id);
+            BookAdditionalInfo book = await db.BookAdditionalInfos.FindAsync(id);
             if (book != null)
             {
                 db.BookAdditionalInfos.Remove(book);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
-        public void Update(BookAdditionalInfo item)
+        public async Task Update(BookAdditionalInfo item)
         {
             db.BookAdditionalInfos.Update(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }

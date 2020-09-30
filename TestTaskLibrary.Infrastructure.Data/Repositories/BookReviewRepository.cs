@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 
@@ -19,36 +21,36 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 
         public IQueryable<BookReview> GetAll { get; }
 
-        public BookReview Get(int id)
+        public async Task<BookReview> Get(int id)
         {
-            return db.BookReview.Find(id);
+            return await db.BookReview.FindAsync(id);
         }
 
-        public IEnumerable<BookReview> GetList()
+        public async Task<IEnumerable<BookReview>> GetList()
         {
-            return db.BookReview.ToList();
+            return await db.BookReview.ToListAsync();
         }
 
-        public void Create(BookReview item)
+        public async Task Create(BookReview item)
         {
             db.BookReview.Add(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            BookReview book = db.BookReview.Find(id);
+            BookReview book = await db.BookReview.FindAsync(id);
             if (book != null)
             {
                 db.BookReview.Remove(book);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
-        public void Update(BookReview item)
+        public async Task Update(BookReview item)
         {
             db.BookReview.Update(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }

@@ -13,14 +13,14 @@ namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands
 
         public int ReviewId { get; set; }
 
-        public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, int>
-        {
-            IR
+        //public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, int>
+        //{
+        //    IR
 
-            public Task<int> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //    public Task<int> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
     }
 }

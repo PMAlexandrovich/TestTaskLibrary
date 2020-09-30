@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Interfaces;
 using TestTaskLibrary.Domain.Core;
 
@@ -19,36 +21,36 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 
         public IQueryable<Genre> GetAll { get; }
 
-        public Genre Get(int id)
+        public async Task<Genre> Get(int id)
         {
-            return db.Genres.Find(id);
+            return await db.Genres.FindAsync(id);
         }
 
-        public IEnumerable<Genre> GetList()
+        public async Task<IEnumerable<Genre>> GetList()
         {
-            return db.Genres.ToList();
+            return await db.Genres.ToListAsync();
         }
 
-        public void Create(Genre item)
+        public async Task Create(Genre item)
         {
             db.Genres.Add(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            Genre book = db.Genres.Find(id);
+            Genre book = await db.Genres.FindAsync(id);
             if (book != null)
             {
                 db.Genres.Remove(book);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
-        public void Update(Genre item)
+        public async Task Update(Genre item)
         {
             db.Genres.Update(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }

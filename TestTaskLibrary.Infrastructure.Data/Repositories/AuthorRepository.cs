@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Interfaces;
 using TestTaskLibrary.Domain.Core;
 
@@ -19,36 +21,36 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 
         public IQueryable<Author> GetAll { get; }
 
-        public Author Get(int id)
+        public async Task<Author> Get(int id)
         {
-            return db.Authors.Find(id);
+            return await db.Authors.FindAsync(id);
         }
 
-        public IEnumerable<Author> GetList()
+        public async Task<IEnumerable<Author>> GetList()
         {
-            return db.Authors.ToList();
+            return await db.Authors.ToListAsync();
         }
 
-        public void Create(Author item)
+        public async Task Create(Author item)
         {
             db.Authors.Add(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            Author book = db.Authors.Find(id);
+            Author book = await db.Authors.FindAsync(id);
             if (book != null)
             {
                 db.Authors.Remove(book);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
-        public void Update(Author item)
+        public async Task Update(Author item)
         {
             db.Authors.Update(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }

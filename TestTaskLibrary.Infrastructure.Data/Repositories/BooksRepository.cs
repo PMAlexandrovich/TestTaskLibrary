@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 
@@ -20,39 +21,39 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 
         public IQueryable<Book> GetAll { get; }
 
-        public Book Get(int id)
+        public async Task<Book> Get(int id)
         {
-            return db.Books.Find(id);
+            return await db.Books.FindAsync(id);
         }
 
-        public IEnumerable<Book> GetList()
+        public async Task<IEnumerable<Book>> GetList()
         {
-            return db.Books.ToList();
+            return await db.Books.ToListAsync();
         }
 
-        public void Create(Book item)
+        public async Task Create(Book item)
         {
             item.CurrentBookStatus = new BookStatus();
             item.BookAdditionalInfo = new BookAdditionalInfo();
             db.Books.Add(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            Book book = db.Books.Find(id);
+            Book book = await db.Books.FindAsync(id);
             if(book != null)
             {
                 db.Books.Remove(book);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
 
-        public void Update(Book item)
+        public async Task Update(Book item)
         {
             db.Books.Update(item);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }
