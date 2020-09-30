@@ -11,7 +11,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 {
     public class AuthorRepository : IAuthorRepository
     {
-        LibraryContext db;
+        private readonly LibraryContext db;
 
         public AuthorRepository(LibraryContext db)
         {

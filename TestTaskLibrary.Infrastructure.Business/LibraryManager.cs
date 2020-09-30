@@ -10,8 +10,8 @@ namespace TestTaskLibrary.Infrastructure.Business
 {
     public class LibraryManager : ILibraryManager
     {
-        IBooksRepository booksRepository;
-        IBookStatusesRepository statusesRepository;
+        private readonly IBooksRepository booksRepository;
+        private readonly IBookStatusesRepository statusesRepository;
 
         public LibraryManager(IBooksRepository booksRepository, IBookStatusesRepository statusesRepository)
         {

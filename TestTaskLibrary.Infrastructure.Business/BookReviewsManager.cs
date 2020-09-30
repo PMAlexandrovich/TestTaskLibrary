@@ -14,7 +14,7 @@ namespace TestTaskLibrary.Infrastructure.Business
     {
         IBooksRepository booksRepository;
         IBookAdditionalInfosRepository addInfoRepository;
-        IBookReviewsRepository reviewsRepository;
+        private readonly IBookReviewsRepository reviewsRepository;
 
         public BookReviewsManager(IBooksRepository booksRepository, IBookAdditionalInfosRepository addInfoRepository, IBookReviewsRepository reviewsRepository)
         {
@@ -29,12 +29,21 @@ namespace TestTaskLibrary.Infrastructure.Business
             if (existReview == null)
             {
                 var newReview = new BookReview() { UserId = userId, Rating = rating, Content = content, BookAdditionalInfoId = bookId };
-                reviewsRepository.Create(newReview);
+                await reviewsRepository.Create(newReview);
                 return newReview.Id;
             }
             return default;
         }
 
-
+        public async Task<int> DeleteReviewAsync(int userId, int reviewId)
+        {
+            var review = await reviewsRepository.GetAll.FirstOrDefaultAsync();
+            if(review.UserId == userId)
+            {
+                await reviewsRepository.Delete(reviewId);
+                return reviewId;
+            }
+            return default;
+        }
     }
 }

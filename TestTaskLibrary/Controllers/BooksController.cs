@@ -22,9 +22,9 @@ namespace TestTaskLibrary.Controllers
     public class BooksController : Controller
     {
         private readonly IMediator mediator;
-        IBooksRepository booksRepository;
-        UserManager<User> userManager;
-        ILibraryManager libraryManager;
+        private readonly IBooksRepository booksRepository;
+        private readonly UserManager<User> userManager;
+        private readonly ILibraryManager libraryManager;
 
         public BooksController(IMediator mediator, IBooksRepository booksRepository, UserManager<User> userManager, ILibraryManager libraryManager)
         {

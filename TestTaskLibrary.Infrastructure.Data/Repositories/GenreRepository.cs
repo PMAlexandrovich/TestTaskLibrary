@@ -11,7 +11,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 {
     public class GenreRepository : IGenreRepository
     {
-        LibraryContext db;
+        private readonly LibraryContext db;
 
         public GenreRepository(LibraryContext db)
         {

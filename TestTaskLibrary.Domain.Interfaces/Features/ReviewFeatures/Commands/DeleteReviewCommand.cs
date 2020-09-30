@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 
 namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands
 {
@@ -13,14 +14,19 @@ namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands
 
         public int ReviewId { get; set; }
 
-        //public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, int>
-        //{
-        //    IR
+        public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, int>
+        {
+            private readonly IBookReviewsManager reviewsManager;
 
-        //    public Task<int> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
+            public DeleteReviewCommandHandler(IBookReviewsManager reviewsManager)
+            {
+                this.reviewsManager = reviewsManager;
+            }
+
+            public async Task<int> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
+            {
+                return await reviewsManager.DeleteReviewAsync(request.UserId, request.ReviewId);
+            }
+        }
     }
 }

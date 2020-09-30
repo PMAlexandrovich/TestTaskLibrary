@@ -13,8 +13,8 @@ namespace TestTaskLibrary.Infrastructure.Business
 {
     public class BookJob : IJob
     {
-        ILibraryManager libraryManager;
-        IBooksRepository booksRepository;
+        private readonly ILibraryManager libraryManager;
+        readonly IBooksRepository booksRepository;
 
         public BookJob(ILibraryManager libraryManager, IBooksRepository booksRepository)
         {

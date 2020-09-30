@@ -11,7 +11,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 {
     public class BookReviewRepository : IBookReviewsRepository
     {
-        LibraryContext db;
+        private readonly LibraryContext db;
 
         public BookReviewRepository(LibraryContext db)
         {

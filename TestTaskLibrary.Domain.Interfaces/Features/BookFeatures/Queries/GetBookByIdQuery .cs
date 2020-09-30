@@ -24,8 +24,8 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
 
         public class GetBookByIdQueryHandler : IRequestHandler<GetBookByIdQuery, BookViewModel>
         {
-            private IBooksRepository repository;
-            private IMapper mapper;
+            private readonly IBooksRepository repository;
+            private readonly IMapper mapper;
 
             public GetBookByIdQueryHandler(IBooksRepository repository, IMapper mapper)
             {
