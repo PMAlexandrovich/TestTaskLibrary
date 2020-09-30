@@ -16,6 +16,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
     {
         public int Id { get; set; }
 
+        public GetBookByIdQuery() { }
         public GetBookByIdQuery(int id)
         {
             Id = id;

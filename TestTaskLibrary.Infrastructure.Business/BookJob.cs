@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 
@@ -12,19 +13,18 @@ namespace TestTaskLibrary.Infrastructure.Business
 {
     public class BookJob : IJob
     {
-        LibraryManager libraryManager;
+        ILibraryManager libraryManager;
         IBooksRepository booksRepository;
 
-        public BookJob(LibraryManager libraryManager, IBooksRepository booksRepository)
+        public BookJob(ILibraryManager libraryManager, IBooksRepository booksRepository)
         {
             this.libraryManager = libraryManager;
             this.booksRepository = booksRepository;
         }
 
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
-            booksRepository.GetAll.Where(b => b.CurrentBookStatus.Status == Status.Booked && b.CurrentBookStatus.TimeOfEndBook < DateTime.Now).ToList().ForEach(b => libraryManager.Unbook(b.Id));
-            return Task.CompletedTask;
+            booksRepository.GetAll.Where(b => b.CurrentBookStatus.Status == Status.Booked && b.CurrentBookStatus.TimeOfEndBook < DateTime.Now).ToList().ForEach(async b => await libraryManager.UnbookAsync(b.Id));
         }
     }
 }

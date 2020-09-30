@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Infrastructure.Business
 {
-    public class LibraryManager
+    public class LibraryManager : ILibraryManager
     {
         IBooksRepository booksRepository;
         IBookStatusesRepository statusesRepository;
@@ -17,9 +19,9 @@ namespace TestTaskLibrary.Infrastructure.Business
             this.statusesRepository = statusesRepository;
         }
 
-        public bool IssueBook(User user,int bookId)
+        public async Task<bool> IssueBookAsync(User user,int bookId)
         {
-            Book book = booksRepository.GetAll.Include(b => b.CurrentBookStatus).ThenInclude(s => s.User).FirstOrDefault(b => b.Id == bookId);
+            Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).ThenInclude(s => s.User).FirstOrDefaultAsync(b => b.Id == bookId);
             if(book != null)
             {
                 switch (book.CurrentBookStatus.Status)
@@ -47,9 +49,9 @@ namespace TestTaskLibrary.Infrastructure.Business
             return false;
         }
 
-        public bool Take(int bookId)
+        public async Task<bool> TakeAsync(int bookId)
         {
-            Book book = booksRepository.GetAll.Include(b => b.CurrentBookStatus).FirstOrDefault(b => b.Id == bookId);
+            Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == bookId);
             if (book != null)
             {
                 book.CurrentBookStatus.Status = Status.Free;
@@ -60,9 +62,9 @@ namespace TestTaskLibrary.Infrastructure.Business
             return false;
         }
 
-        public bool Book(User user,int bookId)
+        public async Task<bool> BookAsync(User user,int bookId)
         {
-            Book book = booksRepository.GetAll.Include(b => b.CurrentBookStatus).ThenInclude(s => s.User).FirstOrDefault(b => b.Id == bookId);
+            Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).ThenInclude(s => s.User).FirstOrDefaultAsync(b => b.Id == bookId);
             if (book != null)
             {
                 switch (book.CurrentBookStatus.Status)
@@ -81,9 +83,9 @@ namespace TestTaskLibrary.Infrastructure.Business
             return false;
         }
 
-        public bool Unbook(int bookId)
+        public async Task<bool> UnbookAsync(int bookId)
         {
-            Book book = booksRepository.GetAll.Include(b => b.CurrentBookStatus).FirstOrDefault(b => b.Id == bookId);
+            Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == bookId);
             if (book != null && book.CurrentBookStatus.Status == Status.Booked)
             {
                 book.CurrentBookStatus.Status = Status.Free;

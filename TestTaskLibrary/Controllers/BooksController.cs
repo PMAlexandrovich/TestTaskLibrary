@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
+using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
@@ -23,9 +24,9 @@ namespace TestTaskLibrary.Controllers
         private readonly IMediator mediator;
         IBooksRepository booksRepository;
         UserManager<User> userManager;
-        LibraryManager libraryManager;
+        ILibraryManager libraryManager;
 
-        public BooksController(IMediator mediator, IBooksRepository booksRepository, UserManager<User> userManager, LibraryManager libraryManager)
+        public BooksController(IMediator mediator, IBooksRepository booksRepository, UserManager<User> userManager, ILibraryManager libraryManager)
         {
             this.mediator = mediator;
             this.booksRepository = booksRepository;
@@ -87,7 +88,7 @@ namespace TestTaskLibrary.Controllers
                 User user = await userManager.FindByNameAsync(model.UserEmail);
                 if (user != null)
                 {
-                    libraryManager.IssueBook(user, model.BookId);
+                    await libraryManager.IssueBookAsync(user, model.BookId);
                     return RedirectToAction("List");
                 }
                 ModelState.AddModelError("", "Пользователя с таким Email не существует.");
@@ -95,9 +96,9 @@ namespace TestTaskLibrary.Controllers
             return View(model);
         }
 
-        public IActionResult Take(int id)
+        public async Task<IActionResult> Take(int id)
         {
-            libraryManager.Take(id);
+            await libraryManager.TakeAsync(id);
             return RedirectToAction("List");
         }
     }

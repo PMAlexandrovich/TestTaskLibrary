@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Quartz;
 using TestTaskLibrary.Domain.Application;
 using TestTaskLibrary.Domain.Application.Interfaces;
+using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
@@ -52,8 +53,8 @@ namespace TestTaskLibrary
             services.AddTransient<IAuthorRepository, AuthorRepository>();
             services.AddTransient<IGenreRepository, GenreRepository>();
 
-            services.AddTransient<BookReviewsManager>();
-            services.AddTransient<LibraryManager>();
+            services.AddTransient<IBookReviewsManager,BookReviewsManager>();
+            services.AddTransient<ILibraryManager, LibraryManager>();
 
             services.AddApplication();
 
