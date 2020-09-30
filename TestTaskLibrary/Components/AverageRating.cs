@@ -18,7 +18,7 @@ namespace TestTaskLibrary.Components
 
         public string Invoke(int bookId)
         {
-            var reviews = reviewsRepository.BookReviews.Where(r => r.BookAdditionalInfoId == bookId).ToList();
+            var reviews = reviewsRepository.GetAll.Where(r => r.BookAdditionalInfoId == bookId).ToList();
             if(reviews.Count != 0)
             {
                 var averageRating = reviews.Average(r => r.Rating);

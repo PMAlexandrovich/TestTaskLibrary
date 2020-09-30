@@ -1,4 +1,4 @@
-﻿@model List<Book>
+﻿@model List<BookViewModel>
 @{
     ViewData["Title"] = "List";
 }
@@ -33,11 +33,11 @@
                             @book.Genre
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => book.BookStatus.Status)
+                            @Html.DisplayFor(modelItem => book.CurrentStatus.Status)
                         </td>
                         <td>
                             <div class="input-group">
-                                @if (book.BookStatus.Status != Status.Issued)
+                                @if (book.CurrentStatus.Status != Status.Issued)
                                 {
                                     <a asp-action="Issue" asp-route-id="@book.Id" class="btn btn-outline-primary">Выдать</a>
                                 }

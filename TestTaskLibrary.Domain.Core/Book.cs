@@ -25,7 +25,7 @@ namespace TestTaskLibrary.Domain.Core
         [Required]
         public BookStatus CurrentBookStatus { get; set; }
 
-        public List<BookStatus> BookStatuses { get; set; }
+        //public List<BookStatus> BookStatuses { get; set; }
 
         public BookAdditionalInfo BookAdditionalInfo { get; set; }
     }

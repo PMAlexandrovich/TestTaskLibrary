@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Quartz;
 using TestTaskLibrary.Domain.Application;
+using TestTaskLibrary.Domain.Application.Interfaces;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
@@ -40,10 +43,14 @@ namespace TestTaskLibrary
                 options.UseNpgsql(connection)
             );
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddTransient<IBooksRepository, BooksRepository>();
             services.AddTransient<IBookStatusesRepository, BookStatusesRepository>();
             services.AddTransient<IBookAdditionalInfosRepository, BookAdditionalInfosRepository>();
             services.AddTransient<IBookReviewsRepository, BookReviewRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<IGenreRepository, GenreRepository>();
 
             services.AddTransient<BookReviewsManager>();
             services.AddTransient<LibraryManager>();
@@ -59,6 +66,7 @@ namespace TestTaskLibrary
             })
             .AddEntityFrameworkStores<LibraryContext>()
             .AddErrorDescriber<RussianIdentityErrorDescriber>();
+
             services.AddQuartz(q =>
             {
                 q.SchedulerId = "Scheduler-Core";

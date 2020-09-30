@@ -27,7 +27,7 @@ namespace TestTaskLibrary.Components
             var user = await userManager.GetUserAsync(UserClaimsPrincipal);
             ViewBag.User = user;
             ViewBag.BookId = id;
-            var comments = repository.BookReviews.Where(c => c.BookAdditionalInfoId == id).Include(c => c.User).ToList();
+            var comments = repository.GetAll.Where(c => c.BookAdditionalInfoId == id).Include(c => c.User).ToList();
             ViewBag.CanWrite = comments.Find(c => c.User == user) == null ? true : false;
             return View(comments);
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -29,8 +30,8 @@ namespace TestTaskLibrary
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var rolesManager = services.GetRequiredService<RoleManager<CustomRole>>();
                     var context = services.GetRequiredService<LibraryContext>();
-                    var booksRepository = services.GetRequiredService<IBooksRepository>();
-                    await IdentityInitializer.InitializeAsync(userManager, rolesManager, context, booksRepository);
+                    var mediator = services.GetRequiredService<IMediator>();
+                    await IdentityInitializer.InitializeAsync(userManager, rolesManager, context, mediator);
                 }
                 catch (Exception ex)
                 {

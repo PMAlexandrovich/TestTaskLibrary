@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Models;
 using TestTaskLibrary.Models.Users;
@@ -29,7 +30,7 @@ namespace TestTaskLibrary.Controllers
 
         public IActionResult List()
         {
-            return View(userManager.Users.Where(u => u.Email != "Admin").Select(u=>new UserViewModel() { Email = u.Email, FullName = u.FullName, Id = u.Id}).ToList());
+            return View(userManager.Users.Where(u => u.Email != "Admin").Select(u=>new UserViewModel() { UserName = u.Email, FullName = u.FullName, Id = u.Id}).ToList());
         }
 
         [HttpGet]

@@ -1,29 +1,38 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Infrastructure.Business
 {
-    public class BookReviewsManager
+    public class BookReviewsManager : IBookReviewsManager
     {
         IBooksRepository booksRepository;
         IBookAdditionalInfosRepository addInfoRepository;
         IBookReviewsRepository reviewsRepository;
 
-        public BookReviewsManager(IBooksRepository booksRepository, IBookAdditionalInfosRepository addInfoRepository, IBookReviewsRepository commentsRepository)
+        public BookReviewsManager(IBooksRepository booksRepository, IBookAdditionalInfosRepository addInfoRepository, IBookReviewsRepository reviewsRepository)
         {
             this.booksRepository = booksRepository;
             this.addInfoRepository = addInfoRepository;
-            this.reviewsRepository = commentsRepository;
+            this.reviewsRepository = reviewsRepository;
         }
 
-        public bool AddReview(int userId, int bookId, int raiting, string comment)
+        public async Task<int> AddReviewAsync(int userId, int bookId, int rating, string content)
         {
-            reviewsRepository.Create(new BookReview() { UserId = userId, Rating = raiting, Content = comment, BookAdditionalInfoId = bookId});
-            return true;
+            var existReview = await reviewsRepository.GetAll.FirstOrDefaultAsync(r => r.UserId == userId && r.BookAdditionalInfo.BookId == bookId);
+            if (existReview == null)
+            {
+                var newReview = new BookReview() { UserId = userId, Rating = rating, Content = content, BookAdditionalInfoId = bookId };
+                reviewsRepository.Create(newReview);
+                return newReview.Id;
+            }
+            return default;
         }
     }
 }

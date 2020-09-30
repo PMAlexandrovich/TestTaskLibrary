@@ -10,6 +10,10 @@ namespace TestTaskLibrary.Infrastructure.Data
 {
     public class LibraryContext:IdentityDbContext<User, CustomRole, int>
     {
+        public DbSet<Author> Authors { get; set; }
+
+        public DbSet<Genre> Genres { get; set; }
+
         public DbSet<Book> Books { get; set; }
 
         public DbSet<BookStatus> BookStatuses { get; set; }

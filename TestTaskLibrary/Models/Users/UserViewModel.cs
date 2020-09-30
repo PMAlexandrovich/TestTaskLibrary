@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace TestTaskLibrary.Models.Users
 {
-    public class UserViewModel
-    {
-        public int Id { get; set; }
+    //public class UserViewModel
+    //{
+    //    public int Id { get; set; }
 
-        public string Email { get; set; }
+    //    public string Email { get; set; }
 
-        public string FullName { get; set; }
-    }
+    //    public string FullName { get; set; }
+    //}
 }

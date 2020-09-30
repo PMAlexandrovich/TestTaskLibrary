@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
+using TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
@@ -17,52 +20,51 @@ namespace TestTaskLibrary.Controllers
 {
     public class LibraryController : Controller
     {
-        IBooksRepository booksRepository;
-        LibraryManager libraryManager;
-        UserManager<User> userManager;
-        BookReviewsManager commentManager;
+        private readonly IBooksRepository booksRepository;
+        private readonly LibraryManager libraryManager;
+        private readonly UserManager<User> userManager;
+        private readonly BookReviewsManager commentManager;
+        private readonly IMediator mediator;
 
-        public LibraryController(IBooksRepository booksRepository, LibraryManager libraryManager, UserManager<User> userManager, BookReviewsManager commentManager)
+        public LibraryController(IBooksRepository booksRepository, LibraryManager libraryManager, UserManager<User> userManager, BookReviewsManager commentManager, IMediator mediator)
         {
             this.booksRepository = booksRepository;
             this.libraryManager = libraryManager;
             this.userManager = userManager;
             this.commentManager = commentManager;
+            this.mediator = mediator;
         }
 
         public IActionResult Index()
         {
             return RedirectToAction("List");
         }
-        
+
         public async Task<IActionResult> List(string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
-            IEnumerable<Book> books;
-            var booksRequest = booksRepository.GetAll.Include(b => b.CurrentBookStatus).ThenInclude(b => b.User);
-            if (search == null)
-                books = booksRequest.AsEnumerable();
-            else
+            var books = await mediator.Send(new GetBooksQuery());
+
+            if (search != null)
             {
                 switch (fieldSearch)
                 {
                     case FieldSearchType.Author:
-                        books = booksRequest.Where(b => b.Author.ToLower().Contains(search.ToLower())).AsEnumerable();
+                        books = books.Where(b => b.Author.ToLower().Contains(search.ToLower())).ToList();
                         break;
                     case FieldSearchType.Title:
-                        books = booksRequest.Where(b => b.Title.ToLower().Contains(search.ToLower())).AsEnumerable();
+                        books = books.Where(b => b.Title.ToLower().Contains(search.ToLower())).ToList();
                         break;
                     case FieldSearchType.Genre:
-                        books = booksRequest.Where(b => b.Genre.ToLower().Contains(search.ToLower())).AsEnumerable();
+                        books = books.Where(b => b.Genre.ToLower().Contains(search.ToLower())).ToList();
                         break;
                     default:
-                        books = booksRequest.Where(b => b.Title.ToLower().Contains(search.ToLower())).AsEnumerable();
+                        books = books.Where(b => b.Title.ToLower().Contains(search.ToLower())).ToList();
                         break;
                 }
             }
-            var viewBooks = books.Select(b => new BookItemViewModel() { Author = b.Author, Genre = b.Genre, Id = b.Id, Status = b.CurrentBookStatus.Status, Title = b.Title, User = b.CurrentBookStatus.User }).AsEnumerable();
-            var viewModel = new LibraryListViewModel() { Books = viewBooks, Search = search, SearchType = fieldSearch};
+            var bookViewModel = new LibraryListViewModel() { Search = search, SearchType = fieldSearch, Books = books };
             ViewBag.User = await userManager.GetUserAsync(User);
-            return View(viewModel);
+            return View(books);
         }
 
         [HttpPost]
@@ -90,12 +92,13 @@ namespace TestTaskLibrary.Controllers
         }
 
         [HttpGet]
-        public IActionResult BookDatails(int id)
+        public async Task<IActionResult> BookDatails(GetBookByIdQuery query)
         {
-            var book = booksRepository.Get(id);
-            if(book != null)
+            var book = await mediator.Send(query);
+
+            if (book != null)
             {
-                return View(new BookDatailsViewModel() { Id = book.Id, Author = book.Author, Genre = book.Genre, Title = book.Title});
+                return View(book);
             }
 
             return NotFound();
@@ -103,7 +106,7 @@ namespace TestTaskLibrary.Controllers
 
         public IActionResult SendReview(int userId, int bookId, int rating, string content)
         {
-            commentManager.AddReview(userId, bookId, rating, content);
+            mediator.Send( new CreateReviewCommand(userId, bookId, rating, content));
             return RedirectToAction("BookDatails", new { id = bookId });
         }
     }

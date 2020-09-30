@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands;
+using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Data;
@@ -12,7 +15,7 @@ namespace TestTaskLibrary.Models
 {
     public class IdentityInitializer
     {
-        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<CustomRole> roleManager, LibraryContext context, IBooksRepository booksRepository)
+        public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<CustomRole> roleManager, LibraryContext context, IMediator mediator)
         {
             context.Database.Migrate();
 
@@ -20,45 +23,35 @@ namespace TestTaskLibrary.Models
 
             await CreateUsers(userManager);
 
-            CreateBooks(booksRepository);
+            await CreateBooks(mediator);
         }
 
-        private static void CreateBooks(IBooksRepository booksRepository)
+        private static async Task CreateBooks(IMediator mediator)
         {
-            if(booksRepository.GetList().ToList().Count == 0)
+            var books = await mediator.Send(new GetBooksQuery());
+            if(books.Count == 0)
             {
-                Book book = new Book() { Author = "Лев Николаевич Толстой", Genre = "Роман", Title = "Война и мир" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Лев Николаевич Толстой", Genre = "Роман", Title = "Война и мир" });
 
-                book = new Book() { Author = "Лев Николаевич Толстой", Genre = "Роман", Title = "Анна Каренина" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Лев Николаевич Толстой", Genre = "Роман", Title = "Анна Каренина" });
 
-                book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Роман в стихах", Title = "Евгений Онегин" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Александр Сергеевич Пушкин", Genre = "Роман в стихах", Title = "Евгений Онегин" });
 
-                book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Поэма", Title = "Медный всадник" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Александр Сергеевич Пушкин", Genre = "Поэма", Title = "Медный всадник" });
 
-                book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Сказка", Title = "Сказка о рыбаке и рыбке" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Александр Сергеевич Пушкин", Genre = "Сказка", Title = "Сказка о рыбаке и рыбке" });
 
-                book = new Book() { Author = "Александр Сергеевич Пушкин", Genre = "Роман", Title = "Дубровский" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Александр Сергеевич Пушкин", Genre = "Роман", Title = "Дубровский" });
 
-                book = new Book() { Author = "Рихтер Джеффри", Genre = "Языки программирования", Title = "CLR via C#. Программирование на платформе Microsoft .NET Framework 4.5 на языке C#" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Рихтер Джеффри", Genre = "Языки программирования", Title = "CLR via C#. Программирование на платформе Microsoft .NET Framework 4.5 на языке C#" });
 
-                book = new Book() { Author = "Фримен Адам", Genre = "Языки программирования", Title = "ASP.NET Core MVC 2 с примерами на C# для профессионалов" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Фримен Адам", Genre = "Языки программирования", Title = "ASP.NET Core MVC 2 с примерами на C# для профессионалов" });
 
-                book = new Book() { Author = "Клири Стивен", Genre = "Языки программирования", Title = "Конкурентность в C#. Асинхронное, параллельное и многопоточное программирование" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Клири Стивен", Genre = "Языки программирования", Title = "Конкурентность в C#. Асинхронное, параллельное и многопоточное программирование" });
 
-                book = new Book() { Author = "Фёдор Михайлович Достоевский", Genre = "Роман", Title = "Преступление и наказание" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Фёдор Михайлович Достоевский", Genre = "Роман", Title = "Преступление и наказание" });
 
-                book = new Book() { Author = "Николай Васильевич Гоголь", Genre = "Поэма", Title = "Мёртвые души" };
-                booksRepository.Create(book);
+                await mediator.Send( new CreateBookCommand() { Author = "Николай Васильевич Гоголь", Genre = "Поэма", Title = "Мёртвые души" });
             }
         }
 

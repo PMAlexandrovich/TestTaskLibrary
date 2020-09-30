@@ -10,7 +10,7 @@ using TestTaskLibrary.Infrastructure.Data;
 namespace TestTaskLibrary.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20200929091252_Init")]
+    [Migration("20200929195304_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,6 +122,21 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("TestTaskLibrary.Domain.Core.Author", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Authors");
+                });
+
             modelBuilder.Entity("TestTaskLibrary.Domain.Core.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -129,19 +144,21 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("GenreId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("GenreId");
 
                     b.ToTable("Books");
                 });
@@ -243,6 +260,21 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("TestTaskLibrary.Domain.Core.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("TestTaskLibrary.Domain.Core.User", b =>
@@ -366,6 +398,21 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TestTaskLibrary.Domain.Core.Book", b =>
+                {
+                    b.HasOne("TestTaskLibrary.Domain.Core.Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TestTaskLibrary.Domain.Core.Genre", "Genre")
+                        .WithMany("Books")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TestTaskLibrary.Domain.Core.BookAdditionalInfo", b =>
                 {
                     b.HasOne("TestTaskLibrary.Domain.Core.Book", "Book")
@@ -391,7 +438,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
             modelBuilder.Entity("TestTaskLibrary.Domain.Core.BookStatus", b =>
                 {
                     b.HasOne("TestTaskLibrary.Domain.Core.Book", "Book")
-                        .WithOne("BookStatus")
+                        .WithOne("CurrentBookStatus")
                         .HasForeignKey("TestTaskLibrary.Domain.Core.BookStatus", "BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

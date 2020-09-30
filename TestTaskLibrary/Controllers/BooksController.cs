@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands;
+using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
@@ -37,11 +38,10 @@ namespace TestTaskLibrary.Controllers
             return RedirectToAction("List");
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            return View(booksRepository.GetAll
-                .Include(b=> b.CurrentBookStatus)
-                .ToList());
+            var result = await mediator.Send(new GetBooksQuery());
+            return View(result);
         }
 
         [HttpGet]
