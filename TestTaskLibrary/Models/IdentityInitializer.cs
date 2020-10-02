@@ -57,17 +57,17 @@ namespace TestTaskLibrary.Models
 
         private static async Task CreateRoles(RoleManager<CustomRole> roleManager)
         {
-            if (await roleManager.FindByNameAsync("Admin") == null)
+            if (await roleManager.FindByNameAsync(RoleTypes.Admin) == null)
             {
-                await roleManager.CreateAsync(new CustomRole("Admin"));
+                await roleManager.CreateAsync(new CustomRole(RoleTypes.Admin));
             }
-            if (await roleManager.FindByNameAsync("Librarian") == null)
+            if (await roleManager.FindByNameAsync(RoleTypes.Librarian) == null)
             {
-                await roleManager.CreateAsync(new CustomRole("Librarian"));
+                await roleManager.CreateAsync(new CustomRole(RoleTypes.Librarian));
             }
-            if (await roleManager.FindByNameAsync("Customer") == null)
+            if (await roleManager.FindByNameAsync(RoleTypes.Customer) == null)
             {
-                await roleManager.CreateAsync(new CustomRole("Customer"));
+                await roleManager.CreateAsync(new CustomRole(RoleTypes.Customer));
             }
         }
 
@@ -85,7 +85,7 @@ namespace TestTaskLibrary.Models
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, "Admin");
+                    await userManager.AddToRoleAsync(admin, RoleTypes.Admin);
                 }
             }
 
@@ -98,7 +98,7 @@ namespace TestTaskLibrary.Models
                 IdentityResult result = await userManager.CreateAsync(librarian, password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(librarian, "Librarian");
+                    await userManager.AddToRoleAsync(librarian, RoleTypes.Librarian);
                 }
             }
 
@@ -111,7 +111,7 @@ namespace TestTaskLibrary.Models
                 IdentityResult result = await userManager.CreateAsync(librarian, password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(librarian, "Customer");
+                    await userManager.AddToRoleAsync(librarian, RoleTypes.Customer);
                 }
             }
 
@@ -124,7 +124,7 @@ namespace TestTaskLibrary.Models
                 IdentityResult result = await userManager.CreateAsync(librarian, password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(librarian, "Customer");
+                    await userManager.AddToRoleAsync(librarian, RoleTypes.Customer);
                 }
             }
         }

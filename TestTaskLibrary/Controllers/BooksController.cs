@@ -19,7 +19,7 @@ using TestTaskLibrary.Models.Books;
 
 namespace TestTaskLibrary.Controllers
 {
-    [Authorize(Roles = RoleTypes.Admin)]
+    [Authorize(Roles = RoleTypes.Librarian)]
     public class BooksController : Controller
     {
         private readonly IMediator mediator;

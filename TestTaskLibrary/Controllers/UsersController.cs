@@ -13,7 +13,7 @@ using TestTaskLibrary.Models.Users;
 
 namespace TestTaskLibrary.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = RoleTypes.Admin)]
     public class UsersController : Controller
     {
         private readonly UserManager<User> userManager;
