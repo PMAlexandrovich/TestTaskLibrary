@@ -30,7 +30,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                         book.CurrentBookStatus.Status = Status.Issued;
                         book.CurrentBookStatus.User = user;
                         await statusesRepository.Update(book.CurrentBookStatus);
-                        break;
+                        return true;
                     case Status.Booked:
                         if(book.CurrentBookStatus.User == user)
                         {
@@ -75,7 +75,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                         book.CurrentBookStatus.TimeOfStartBook = DateTime.Now;
                         book.CurrentBookStatus.TimeOfEndBook = DateTime.Now + TimeSpan.FromMinutes(2);
                         await statusesRepository.Update(book.CurrentBookStatus);
-                        break;
+                        return true;
                     default:
                         return false;
                 }

@@ -39,7 +39,9 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
                     .Include(b => b.BookAdditionalInfo)
                         .ThenInclude(i => i.Reviews)
                             .ThenInclude(r => r.User)
-                    .Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == request.Id, cancellationToken);
+                    .Include(b => b.CurrentBookStatus)
+                        .ThenInclude(s => s.User)
+                    .FirstOrDefaultAsync(b => b.Id == request.Id, cancellationToken);
 
                 return mapper.Map<BookViewModel>(book);
             }

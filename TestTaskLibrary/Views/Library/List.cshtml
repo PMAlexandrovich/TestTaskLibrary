@@ -64,12 +64,12 @@
                                     <input class="btn btn-outline-primary" type="submit" value="Забронировать" />
                                 </form>
                             }
-                            else if (book.CurrentStatus.Status == Status.Booked && book.CurrentStatus.User == ViewBag.User)
+                            else if (book.CurrentStatus.Status == Status.Booked && book.CurrentStatus.User.Id == ViewBag.User.Id)
                             {
                                 <form asp-action="Unbook">
                                     <input asp-for="@Model.Search" type="hidden" name="search" />
                                     <input asp-for="@Model.SearchType" type="hidden" name="fieldSearch" />
-                                    <input type="hidden" name="id" asp-for="@book.Id" />
+                                    <input type="hidden" name="BookId" asp-for="@book.Id" />
                                     <input class="btn btn-outline-danger" type="submit" value="Отменить бронь" />
                                 </form>
                             }

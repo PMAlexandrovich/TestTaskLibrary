@@ -24,7 +24,7 @@ namespace TestTaskLibrary.Infrastructure.Business
 
         public async Task Execute(IJobExecutionContext context)
         {
-            booksRepository.GetAll.Where(b => b.CurrentBookStatus.Status == Status.Booked && b.CurrentBookStatus.TimeOfEndBook < DateTime.Now).ToList().ForEach(async b => await libraryManager.UnbookAsync(b.Id));
+            //booksRepository.GetAll.Where(b => b.CurrentBookStatus.Status == Status.Booked && b.CurrentBookStatus.TimeOfEndBook < DateTime.Now).ToList().ForEach(async b => await libraryManager.UnbookAsync(b.Id));
         }
     }
 }

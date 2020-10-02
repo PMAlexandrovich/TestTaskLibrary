@@ -50,6 +50,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 
         public async Task Update(BookStatus item)
         {
+            db.Update(item);
             await db.SaveChangesAsync();
         }
     }

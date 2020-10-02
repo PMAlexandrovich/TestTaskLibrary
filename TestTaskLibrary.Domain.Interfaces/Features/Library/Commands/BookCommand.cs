@@ -20,6 +20,7 @@ namespace TestTaskLibrary.Domain.Application.Features.Library.Commands
             private readonly UserManager<User> userManager;
             private readonly IHttpContextAccessor accessor;
             private readonly ILibraryManager libraryManager;
+            
 
             public BookCommandHandler(UserManager<User> userManager, IHttpContextAccessor accessor, ILibraryManager libraryManager)
             {

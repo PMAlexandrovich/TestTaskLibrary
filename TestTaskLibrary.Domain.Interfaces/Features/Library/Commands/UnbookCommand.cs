@@ -21,6 +21,13 @@ namespace TestTaskLibrary.Domain.Application.Features.Library.Commands
             private readonly IHttpContextAccessor accessor;
             private readonly ILibraryManager libraryManager;
 
+            public UnbookCommandHandler(UserManager<User> userManager, IHttpContextAccessor accessor, ILibraryManager libraryManager)
+            {
+                this.userManager = userManager;
+                this.accessor = accessor;
+                this.libraryManager = libraryManager;
+            }
+
             public async Task<bool> Handle(UnbookCommand request, CancellationToken cancellationToken)
             {
                 var user = await userManager.GetUserAsync(accessor.HttpContext.User);

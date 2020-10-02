@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
+using TestTaskLibrary.Domain.Application.Features.Library.Commands;
 using TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands;
 using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Core;
@@ -78,22 +79,59 @@ namespace TestTaskLibrary.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Book(int id, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
+        public async Task<IActionResult> Book(BookCommand command, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
-            var user = await userManager.GetUserAsync(User);
-            if(user != null)
-            {
-                await libraryManager.BookAsync(user, id);
-            }
+            await mediator.Send(command);
             return RedirectToAction("List", new { search, fieldSearch });
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Unbook(int id, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
+        public async Task<IActionResult> Unbook(UnbookCommand command, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
-            await libraryManager.UnbookAsync(id);
+            await mediator.Send(command);
             return RedirectToAction("List", new { search, fieldSearch });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Issue(GetBookByIdQuery query)
+        {
+            var book = await mediator.Send(query);
+            if (book != null)
+            {
+                return View(new IssueBookCommand() { BookId = book.Id, UserEmail = book.CurrentStatus.User?.UserName });
+            }
+            return RedirectToAction("List", "Books");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = RoleTypes.Librarian)]
+        public async Task<IActionResult> Issue(IssueBookCommand command)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(command.UserEmail);
+                if (user != null)
+                {
+                    if (await mediator.Send(command))
+                    {
+                        return RedirectToAction("List", "Books");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("UserEmail", "Пользователь с таким Email не найден");
+                }
+            }
+            return View(command);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = RoleTypes.Librarian)]
+        public async Task<IActionResult> Take(TakeBookCommand command)
+        {
+            await mediator.Send(command);
+            return RedirectToAction("List","Books");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

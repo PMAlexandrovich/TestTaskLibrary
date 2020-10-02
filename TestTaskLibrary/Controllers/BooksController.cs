@@ -83,38 +83,5 @@ namespace TestTaskLibrary.Controllers
             int id = await mediator.Send(command);
             return RedirectToAction("List");
         }
-
-        [HttpGet]
-        public IActionResult Issue(int id)
-        {
-            Book book = booksRepository.GetAll.Include(b=>b.CurrentBookStatus).ThenInclude(s=> s.User).FirstOrDefault(b=>b.Id == id);
-            if (book != null)
-            {
-                return View(new IssueViewModel() { BookId = book.Id, UserEmail = book.CurrentBookStatus.User?.Email});
-            }
-            return RedirectToAction("List");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Issue(IssueViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                User user = await userManager.FindByNameAsync(model.UserEmail);
-                if (user != null)
-                {
-                    await libraryManager.IssueBookAsync(user, model.BookId);
-                    return RedirectToAction("List");
-                }
-                ModelState.AddModelError("", "Пользователя с таким Email не существует.");
-            }
-            return View(model);
-        }
-
-        public async Task<IActionResult> Take(int id)
-        {
-            await libraryManager.TakeAsync(id);
-            return RedirectToAction("List");
-        }
     }
 }

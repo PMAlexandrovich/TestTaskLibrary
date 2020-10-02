@@ -39,17 +39,17 @@
                             <div class="input-group">
                                 @if (book.CurrentStatus.Status != Status.Issued)
                                 {
-                                    <a asp-action="Issue" asp-route-id="@book.Id" class="btn btn-outline-primary">Выдать</a>
+                                    <a asp-action="Issue" asp-controller="Library" asp-route-id="@book.Id" class="btn btn-outline-primary">Выдать</a>
                                 }
                                 else
                                 {
-                                    <form class="mr-1" asp-action="Take" method="post">
-                                        <input type="hidden" name="id" value="@book.Id" />
+                                    <form class="mr-1" asp-action="Take" asp-controller="Library" method="post">
+                                        <input type="hidden" name="BookId" value="@book.Id" />
                                         <input class="btn btn-primary" type="submit" value="Вернуть" />
                                     </form>
                                 }
                                 <form asp-action="Delete" method="post">
-                                    <input type="hidden" name="id" value="@book.Id" />
+                                    <input type="hidden" name="BookId" value="@book.Id" />
                                     <input class="btn btn-outline-danger" type="submit" value="Удалить" />
                                 </form>
                             </div>

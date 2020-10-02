@@ -1,5 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +18,7 @@ namespace TestTaskLibrary.Domain.Application.Features.Library.Commands
     {
         public int BookId { get; set; }
 
-        public string Email { get; set; }
+        public string UserEmail { get; set; }
 
         public class IssueBookCommandHandler : IRequestHandler<IssueBookCommand, bool>
         {
@@ -29,7 +33,7 @@ namespace TestTaskLibrary.Domain.Application.Features.Library.Commands
 
             public async Task<bool> Handle(IssueBookCommand request, CancellationToken cancellationToken)
             {
-                var user = await userManager.FindByEmailAsync(request.Email);
+                var user = await userManager.FindByEmailAsync(request.UserEmail);
                 if(user != null)
                 {
                     return await libraryManager.IssueBookAsync(user, request.BookId);
