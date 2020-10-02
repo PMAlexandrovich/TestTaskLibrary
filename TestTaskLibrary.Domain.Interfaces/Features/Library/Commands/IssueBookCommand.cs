@@ -14,7 +14,7 @@ namespace TestTaskLibrary.Domain.Application.Features.Library.Commands
     {
         public int BookId { get; set; }
 
-        public int UserId { get; set; }
+        public string Email { get; set; }
 
         public class IssueBookCommandHandler : IRequestHandler<IssueBookCommand, bool>
         {
@@ -29,7 +29,7 @@ namespace TestTaskLibrary.Domain.Application.Features.Library.Commands
 
             public async Task<bool> Handle(IssueBookCommand request, CancellationToken cancellationToken)
             {
-                var user = await userManager.FindByIdAsync(request.BookId.ToString());
+                var user = await userManager.FindByEmailAsync(request.Email);
                 if(user != null)
                 {
                     return await libraryManager.IssueBookAsync(user, request.BookId);
