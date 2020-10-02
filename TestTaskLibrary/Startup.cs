@@ -44,6 +44,8 @@ namespace TestTaskLibrary
                 options.UseNpgsql(connection)
             );
 
+            services.AddHttpContextAccessor();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddTransient<IBooksRepository, BooksRepository>();

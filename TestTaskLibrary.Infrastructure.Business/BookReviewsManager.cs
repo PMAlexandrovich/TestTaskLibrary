@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +14,8 @@ namespace TestTaskLibrary.Infrastructure.Business
 {
     public class BookReviewsManager : IBookReviewsManager
     {
-        IBooksRepository booksRepository;
-        IBookAdditionalInfosRepository addInfoRepository;
+        private readonly IBooksRepository booksRepository;
+        private readonly IBookAdditionalInfosRepository addInfoRepository;
         private readonly IBookReviewsRepository reviewsRepository;
 
         public BookReviewsManager(IBooksRepository booksRepository, IBookAdditionalInfosRepository addInfoRepository, IBookReviewsRepository reviewsRepository)
@@ -37,10 +39,23 @@ namespace TestTaskLibrary.Infrastructure.Business
 
         public async Task<int> DeleteReviewAsync(int userId, int reviewId)
         {
-            var review = await reviewsRepository.GetAll.FirstOrDefaultAsync();
+            var review = await reviewsRepository.GetAll.FirstOrDefaultAsync(r => r.Id == reviewId);
             if(review.UserId == userId)
             {
                 await reviewsRepository.Delete(reviewId);
+                return reviewId;
+            }
+            return default;
+        }
+
+        public async Task<int> EditReviewAsync(int userId, int reviewId, int newRating, string newContent)
+        {
+            var review = await reviewsRepository.GetAll.FirstOrDefaultAsync(r => r.Id == reviewId);
+            if (review.UserId == userId)
+            {
+                review.Rating = newRating;
+                review.Content = newContent;
+                await reviewsRepository.Update(review);
                 return reviewId;
             }
             return default;

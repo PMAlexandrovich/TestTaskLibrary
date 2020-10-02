@@ -11,29 +11,33 @@ using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands
 {
-    public class DeleteReviewCommand : IRequest<int>
+    public class EditReviewCommand : IRequest<int>
     {
         public int ReviewId { get; set; }
 
-        public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, int>
+        public int Rating { get; set; }
+
+        public string Content { get; set; }
+
+        public class EditReviewCommandHandler : IRequestHandler<EditReviewCommand, int>
         {
             private readonly IHttpContextAccessor contextAccessor;
             private readonly UserManager<User> userManager;
-            private readonly IBookReviewsManager reviewsManager;
+            IBookReviewsManager reviewsManager;
 
-            public DeleteReviewCommandHandler(IHttpContextAccessor contextAccessor, IBookReviewsManager reviewsManager, UserManager<User> userManager)
+            public EditReviewCommandHandler(IHttpContextAccessor contextAccessor, UserManager<User> userManager, IBookReviewsManager reviewsManager)
             {
                 this.contextAccessor = contextAccessor;
-                this.reviewsManager = reviewsManager;
                 this.userManager = userManager;
+                this.reviewsManager = reviewsManager;
             }
 
-            public async Task<int> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
+            public async Task<int> Handle(EditReviewCommand request, CancellationToken cancellationToken)
             {
                 var user = await userManager.GetUserAsync(contextAccessor.HttpContext.User);
                 if(user != null)
                 {
-                    return await reviewsManager.DeleteReviewAsync(user.Id, request.ReviewId);
+                    return await reviewsManager.EditReviewAsync(user.Id, request.ReviewId, request.Rating, request.Content);
                 }
                 return default;
             }

@@ -1,0 +1,32 @@
+﻿@model TestTaskLibrary.Models.Reviews.CreateReviewViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+    <form class="mb-2" asp-action="Create" asp-controller="Reviews" method="post">
+        <input type="hidden" name="BookId" value="@Model.BookId" />
+        <div class="mb-2">
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline1" name="Rating" value="1" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline1">1</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline2" name="Rating" value="2" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline2">2</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline3" name="Rating" value="3" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline3">3</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline4" name="Rating" value="4" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline4">4</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline5" name="Rating" checked value="5" class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline5">5</label>
+            </div>
+        </div>
+        <textarea class="form-control mb-2" rows="3" name="Content"></textarea>
+        <input class="btn btn-outline-primary" type="submit" value="Оценить" />
+    </form>

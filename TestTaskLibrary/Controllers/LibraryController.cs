@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Models;
 using TestTaskLibrary.Models.Library;
+using TestTaskLibrary.Models.Reviews;
 
 namespace TestTaskLibrary.Controllers
 {
@@ -38,6 +40,12 @@ namespace TestTaskLibrary.Controllers
 
         public IActionResult Index()
         {
+            if (User.IsInRole(RoleTypes.Admin)){
+                return RedirectToAction("List", "Users");
+            }
+            if(User.IsInRole(RoleTypes.Librarian)){
+                return RedirectToAction("List", "Books");
+            }
             return RedirectToAction("List");
         }
 
@@ -69,6 +77,7 @@ namespace TestTaskLibrary.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Book(int id, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
             var user = await userManager.GetUserAsync(User);
@@ -80,6 +89,7 @@ namespace TestTaskLibrary.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Unbook(int id, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
             await libraryManager.UnbookAsync(id);
@@ -90,25 +100,6 @@ namespace TestTaskLibrary.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> BookDatails(GetBookByIdQuery query)
-        {
-            var book = await mediator.Send(query);
-
-            if (book != null)
-            {
-                return View(book);
-            }
-
-            return NotFound();
-        }
-
-        public IActionResult SendReview(int userId, int bookId, int rating, string content)
-        {
-            mediator.Send( new CreateReviewCommand(userId, bookId, rating, content));
-            return RedirectToAction("BookDatails", new { id = bookId });
         }
     }
 }

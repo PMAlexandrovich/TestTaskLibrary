@@ -26,4 +26,8 @@
     <ProjectReference Include="..\TestTaskLibrary.Infrastructure.Data\TestTaskLibrary.Infrastructure.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Reviews\Components\" />
+  </ItemGroup>
+
 </Project>

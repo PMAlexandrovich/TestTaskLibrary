@@ -1,0 +1,51 @@
+﻿@model TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands.EditReviewCommand
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-route-bookId="@ViewBag.bookId">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="ReviewId" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline1" name="Rating" value="1" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline1">1</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline2" name="Rating" value="2" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline2">2</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline3" name="Rating" value="3" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline3">3</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline4" name="Rating" value="4" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline4">4</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline5" name="Rating" checked value="5" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadioInline5">5</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label">Отзыв</label>
+                <textarea asp-for="Content" class="form-control" ></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Изменить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="BookDatails" asp-controller="Books" asp-route-id="@ViewBag.bookId">Вернуться</a>
+</div>
+

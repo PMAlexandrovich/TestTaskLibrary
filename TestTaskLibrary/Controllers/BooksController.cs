@@ -14,11 +14,12 @@ using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Infrastructure.Data;
+using TestTaskLibrary.Models;
 using TestTaskLibrary.Models.Books;
 
 namespace TestTaskLibrary.Controllers
 {
-    [Authorize(Roles = "Librarian")]
+    [Authorize(Roles = RoleTypes.Admin)]
     public class BooksController : Controller
     {
         private readonly IMediator mediator;
@@ -43,6 +44,20 @@ namespace TestTaskLibrary.Controllers
         {
             var result = await mediator.Send(new GetBooksQuery());
             return View(result);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> BookDatails(GetBookByIdQuery query)
+        {
+            var book = await mediator.Send(query);
+
+            if (book != null)
+            {
+                return View(book);
+            }
+
+            return NotFound();
         }
 
         [HttpGet]

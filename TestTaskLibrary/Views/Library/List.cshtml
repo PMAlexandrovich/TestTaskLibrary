@@ -38,7 +38,7 @@
             <tr>
             
                 <td>
-                    <a asp-action="BookDatails" asp-route-id="@book.Id">
+                    <a asp-action="BookDatails" asp-controller="Books" asp-route-id="@book.Id">
                         @Html.DisplayFor(modelItem => book.Title)
                     </a>
                 </td>

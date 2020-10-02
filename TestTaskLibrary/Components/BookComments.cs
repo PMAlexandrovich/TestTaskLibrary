@@ -12,7 +12,7 @@ using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Components
 {
-    public class BookComments:ViewComponent
+    public class BookComments : ViewComponent
     {
         //IBookAdditionalInfosRepository repository;
         private readonly IBookReviewsRepository repository;
@@ -29,12 +29,13 @@ namespace TestTaskLibrary.Components
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
             var user = await userManager.GetUserAsync(UserClaimsPrincipal);
-            ViewBag.User = user;
-            ViewBag.BookId = id;
-
             var reviews = await mediator.Send(new GetReviewsQuery() { BookId = id });
+            if (user != null)
+            {
+                reviews = reviews.Where(r => r.User.Id != user.Id).ToList();
+            }
+            
 
-            ViewBag.CanWrite = reviews.Find(c => c.User.Id == user.Id) == null ? true : false;
             return View(reviews);
         }
     }

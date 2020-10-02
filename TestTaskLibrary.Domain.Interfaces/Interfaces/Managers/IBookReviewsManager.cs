@@ -10,5 +10,7 @@ namespace TestTaskLibrary.Domain.Application.Interfaces.Managers
         Task<int> AddReviewAsync(int userId, int bookId, int rating, string content);
 
         Task<int> DeleteReviewAsync(int userId, int reviewId);
+
+        Task<int> EditReviewAsync(int userId, int reviewId, int newRating, string newContent);
     }
 }
