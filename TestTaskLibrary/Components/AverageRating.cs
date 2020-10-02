@@ -9,7 +9,7 @@ namespace TestTaskLibrary.Components
 {
     public class AverageRating : ViewComponent
     {
-        IBookReviewsRepository reviewsRepository;
+        private readonly IBookReviewsRepository reviewsRepository;
 
         public AverageRating(IBookReviewsRepository reviewsRepository)
         {

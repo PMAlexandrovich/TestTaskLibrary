@@ -2,8 +2,6 @@
 @{
     ViewData["Title"] = "Default";
 }
-
-
 @*@if (User.Identity.IsAuthenticated && ViewBag.CanWrite)
 {
     <form class="mb-2" asp-action="SendReview" asp-controller="Library" method="post">
@@ -49,12 +47,6 @@
             </li>
         }
     </ul>
-}
-else
-{
-    <div>
-        Пока нет отзывов.
-    </div>
 }
 
 

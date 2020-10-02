@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace TestTaskLibrary.Infrastructure.Data
 {
-    public class LibraryContext:IdentityDbContext<User, CustomRole, int>
+    public class LibraryContext : IdentityDbContext<User, CustomRole, int>
     {
         public DbSet<Author> Authors { get; set; }
 

@@ -14,14 +14,10 @@ namespace TestTaskLibrary.Infrastructure.Business
 {
     public class BookReviewsManager : IBookReviewsManager
     {
-        private readonly IBooksRepository booksRepository;
-        private readonly IBookAdditionalInfosRepository addInfoRepository;
         private readonly IBookReviewsRepository reviewsRepository;
 
-        public BookReviewsManager(IBooksRepository booksRepository, IBookAdditionalInfosRepository addInfoRepository, IBookReviewsRepository reviewsRepository)
+        public BookReviewsManager(IBookReviewsRepository reviewsRepository)
         {
-            this.booksRepository = booksRepository;
-            this.addInfoRepository = addInfoRepository;
             this.reviewsRepository = reviewsRepository;
         }
 

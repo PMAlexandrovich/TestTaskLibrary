@@ -15,14 +15,11 @@ namespace TestTaskLibrary.Components
 {
     public class BookComments : ViewComponent
     {
-        //IBookAdditionalInfosRepository repository;
-        private readonly IBookReviewsRepository repository;
         private readonly UserManager<User> userManager;
         private readonly IMediator mediator;
 
-        public BookComments(IBookReviewsRepository repository, UserManager<User> userManager, IMediator mediator)
+        public BookComments(UserManager<User> userManager, IMediator mediator)
         {
-            this.repository = repository;
             this.userManager = userManager;
             this.mediator = mediator;
         }

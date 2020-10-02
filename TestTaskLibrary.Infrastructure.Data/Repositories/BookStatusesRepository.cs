@@ -9,7 +9,7 @@ using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Infrastructure.Data.Repositories
 {
-    public class BookStatusesRepository: IBookStatusesRepository
+    public class BookStatusesRepository : IBookStatusesRepository
     {
         private readonly LibraryContext db;
 

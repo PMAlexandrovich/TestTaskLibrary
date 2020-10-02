@@ -22,6 +22,7 @@ using TestTaskLibrary.Models.Reviews;
 
 namespace TestTaskLibrary.Controllers
 {
+    [Authorize]
     public class LibraryController : Controller
     {
         private readonly IBooksRepository booksRepository;
@@ -39,6 +40,7 @@ namespace TestTaskLibrary.Controllers
             this.mediator = mediator;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             if (User.IsInRole(RoleTypes.Admin)){
@@ -50,6 +52,7 @@ namespace TestTaskLibrary.Controllers
             return RedirectToAction("List");
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> List(string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
             var books = await mediator.Send(new GetBooksQuery());
@@ -78,7 +81,6 @@ namespace TestTaskLibrary.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Book(BookCommand command, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
             await mediator.Send(command);
@@ -86,7 +88,6 @@ namespace TestTaskLibrary.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Unbook(UnbookCommand command, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
         {
             await mediator.Send(command);
