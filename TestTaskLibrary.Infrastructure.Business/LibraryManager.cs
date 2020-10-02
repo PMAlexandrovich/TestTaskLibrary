@@ -29,14 +29,14 @@ namespace TestTaskLibrary.Infrastructure.Business
                     case Status.Free:
                         book.CurrentBookStatus.Status = Status.Issued;
                         book.CurrentBookStatus.User = user;
-                        statusesRepository.Update(book.CurrentBookStatus);
+                        await statusesRepository.Update(book.CurrentBookStatus);
                         break;
                     case Status.Booked:
                         if(book.CurrentBookStatus.User == user)
                         {
                             book.CurrentBookStatus.Status = Status.Issued;
                             book.CurrentBookStatus.User = user;
-                            statusesRepository.Update(book.CurrentBookStatus);
+                            await statusesRepository.Update(book.CurrentBookStatus);
                             return true;
                         }
                         return false;
@@ -56,7 +56,7 @@ namespace TestTaskLibrary.Infrastructure.Business
             {
                 book.CurrentBookStatus.Status = Status.Free;
                 book.CurrentBookStatus.UserId = null;
-                statusesRepository.Update(book.CurrentBookStatus);
+                await statusesRepository.Update(book.CurrentBookStatus);
                 return true;
             }
             return false;
@@ -74,7 +74,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                         book.CurrentBookStatus.User = user;
                         book.CurrentBookStatus.TimeOfStartBook = DateTime.Now;
                         book.CurrentBookStatus.TimeOfEndBook = DateTime.Now + TimeSpan.FromMinutes(2);
-                        statusesRepository.Update(book.CurrentBookStatus);
+                        await statusesRepository.Update(book.CurrentBookStatus);
                         break;
                     default:
                         return false;
@@ -83,16 +83,16 @@ namespace TestTaskLibrary.Infrastructure.Business
             return false;
         }
 
-        public async Task<bool> UnbookAsync(int bookId)
+        public async Task<bool> UnbookAsync(User user, int bookId)
         {
             Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == bookId);
-            if (book != null && book.CurrentBookStatus.Status == Status.Booked)
+            if (book != null && book.CurrentBookStatus.Status == Status.Booked && book.CurrentBookStatus.User == user)
             {
                 book.CurrentBookStatus.Status = Status.Free;
                 book.CurrentBookStatus.UserId = null;
                 book.CurrentBookStatus.TimeOfEndBook = DateTime.MinValue;
                 book.CurrentBookStatus.TimeOfStartBook = DateTime.MinValue;
-                statusesRepository.Update(book.CurrentBookStatus);
+                await statusesRepository.Update(book.CurrentBookStatus);
                 return true;
             }
             return false;

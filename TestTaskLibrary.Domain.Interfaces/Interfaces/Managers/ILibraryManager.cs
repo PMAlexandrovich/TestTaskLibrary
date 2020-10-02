@@ -14,6 +14,6 @@ namespace TestTaskLibrary.Domain.Application.Interfaces.Managers
 
         Task<bool> BookAsync(User user, int bookId);
 
-        Task<bool> UnbookAsync(int bookId);
+        Task<bool> UnbookAsync(User user, int bookId);
     }
 }
