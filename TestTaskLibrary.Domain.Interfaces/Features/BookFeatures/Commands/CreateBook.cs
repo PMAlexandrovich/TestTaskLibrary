@@ -56,7 +56,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
                     BookAdditionalInfo = new BookAdditionalInfo(),
                     CurrentBookStatus = new BookStatus()
                 };
-                booksRepository.Create(book);
+                await booksRepository.Create(book);
 
                 return book.Id;
             }

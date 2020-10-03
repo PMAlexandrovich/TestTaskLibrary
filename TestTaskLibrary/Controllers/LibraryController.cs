@@ -97,10 +97,13 @@ namespace TestTaskLibrary.Controllers
         [HttpGet]
         public async Task<IActionResult> Issue(GetBookByIdQuery query)
         {
-            var book = await mediator.Send(query);
-            if (book != null)
+            if (ModelState.IsValid)
             {
-                return View(new IssueBookCommand() { BookId = book.Id, UserEmail = book.CurrentStatus.User?.UserName });
+                var book = await mediator.Send(query);
+                if (book != null)
+                {
+                    return View(new IssueBookCommand() { BookId = book.Id, UserEmail = book.CurrentStatus.User?.UserName });
+                }
             }
             return RedirectToAction("List", "Books");
         }
