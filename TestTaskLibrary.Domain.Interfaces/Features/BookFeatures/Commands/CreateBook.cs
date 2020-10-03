@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,10 +14,16 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 {
     public class CreateBookCommand : IRequest<int>
     {
-        public string Title { get; set; }
-
+        [Required(ErrorMessage = "Поле Автор является обязательным")]
+        [Display(Name = "Автор")]
         public string Author { get; set; }
 
+        [Required(ErrorMessage = "Поле Название является обязательным")]
+        [Display(Name = "Название")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "Поле Жанр является обязательным")]
+        [Display(Name = "Жанр")]
         public string Genre { get; set; }
 
         public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
