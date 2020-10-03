@@ -13,7 +13,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Configurations
         {
             builder.HasOne(s => s.User).WithMany(u => u.BookStatuses).HasForeignKey(s => s.UserId);
 
-            builder.Property(s => s.Status).HasConversion(v => v.ToString(), v => (Status)Enum.Parse(typeof(Status), v));
+            builder.HasOne(s => s.Book).WithMany(b => b.BookStatuses).HasForeignKey(s => s.BookId);
         }
     }
 }

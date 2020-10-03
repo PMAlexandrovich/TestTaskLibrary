@@ -183,6 +183,51 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BookReview",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BookAdditionalInfoId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
+                    Rating = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookReview", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookReview_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BookId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    TimeOfEndBook = table.Column<DateTime>(nullable: true),
+                    TimeOfStartBook = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookStatuses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookStatuses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -190,7 +235,8 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AuthorId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: false),
-                    GenreId = table.Column<int>(nullable: false)
+                    GenreId = table.Column<int>(nullable: false),
+                    CurrentBookStatusId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -199,6 +245,12 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                         name: "FK_Books_Authors_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Authors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Books_BookStatuses_CurrentBookStatusId",
+                        column: x => x.CurrentBookStatusId,
+                        principalTable: "BookStatuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -224,63 +276,6 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BookStatuses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    BookId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true),
-                    Status = table.Column<string>(nullable: false),
-                    TimeOfEndBook = table.Column<DateTime>(nullable: true),
-                    TimeOfStartBook = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookStatuses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BookStatuses_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BookStatuses_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BookReview",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    BookAdditionalInfoId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true),
-                    Content = table.Column<string>(nullable: true),
-                    Rating = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookReview", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BookReview_BookAdditionalInfos_BookAdditionalInfoId",
-                        column: x => x.BookAdditionalInfoId,
-                        principalTable: "BookAdditionalInfos",
-                        principalColumn: "BookId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BookReview_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -336,6 +331,12 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Books_CurrentBookStatusId",
+                table: "Books",
+                column: "CurrentBookStatusId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Books_GenreId",
                 table: "Books",
                 column: "GenreId");
@@ -343,17 +344,40 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BookStatuses_BookId",
                 table: "BookStatuses",
-                column: "BookId",
-                unique: true);
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookStatuses_UserId",
                 table: "BookStatuses",
                 column: "UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_BookReview_BookAdditionalInfos_BookAdditionalInfoId",
+                table: "BookReview",
+                column: "BookAdditionalInfoId",
+                principalTable: "BookAdditionalInfos",
+                principalColumn: "BookId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_BookStatuses_Books_BookId",
+                table: "BookStatuses",
+                column: "BookId",
+                principalTable: "Books",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_BookStatuses_AspNetUsers_UserId",
+                table: "BookStatuses");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_BookStatuses_Books_BookId",
+                table: "BookStatuses");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -373,9 +397,6 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                 name: "BookReview");
 
             migrationBuilder.DropTable(
-                name: "BookStatuses");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -389,6 +410,9 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Authors");
+
+            migrationBuilder.DropTable(
+                name: "BookStatuses");
 
             migrationBuilder.DropTable(
                 name: "Genres");

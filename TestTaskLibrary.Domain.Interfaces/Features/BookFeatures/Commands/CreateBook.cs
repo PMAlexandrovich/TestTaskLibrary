@@ -29,16 +29,16 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
         public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
         {
             private readonly IBooksRepository booksRepository;
-
             private readonly IAuthorRepository authorsRepository;
-
             private readonly IGenreRepository genresRepository;
+            private readonly IBookStatusesRepository statusesRepository;
 
-            public CreateBookCommandHandler(IBooksRepository booksRepository, IAuthorRepository authorsRepository, IGenreRepository genresRepository)
+            public CreateBookCommandHandler(IBooksRepository booksRepository, IAuthorRepository authorsRepository, IGenreRepository genresRepository, IBookStatusesRepository statusesRepository)
             {
                 this.booksRepository = booksRepository;
                 this.authorsRepository = authorsRepository;
                 this.genresRepository = genresRepository;
+                this.statusesRepository = statusesRepository;
             }
 
             public async Task<int> Handle(CreateBookCommand request, CancellationToken cancellationToken)
@@ -61,9 +61,12 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
                     Title = request.Title,
                     Genre = genre,
                     BookAdditionalInfo = new BookAdditionalInfo(),
-                    CurrentBookStatus = new BookStatus()
                 };
                 await booksRepository.Create(book);
+                var status = new BookStatus() { Book = book, Status = Status.Free };
+                await statusesRepository.Create(status);
+                book.CurrentBookStatus = status;
+                await booksRepository.Update(book);
 
                 return book.Id;
             }

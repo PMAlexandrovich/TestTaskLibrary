@@ -10,7 +10,7 @@ using TestTaskLibrary.Infrastructure.Data;
 namespace TestTaskLibrary.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20200929195304_Init")]
+    [Migration("20201003122327_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,6 +147,9 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("CurrentBookStatusId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("GenreId")
                         .HasColumnType("integer");
 
@@ -157,6 +160,9 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("CurrentBookStatusId")
+                        .IsUnique();
 
                     b.HasIndex("GenreId");
 
@@ -208,12 +214,11 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("BookId")
+                    b.Property<int?>("BookId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("TimeOfEndBook")
                         .HasColumnType("timestamp without time zone");
@@ -226,8 +231,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId")
-                        .IsUnique();
+                    b.HasIndex("BookId");
 
                     b.HasIndex("UserId");
 
@@ -406,6 +410,12 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TestTaskLibrary.Domain.Core.BookStatus", "CurrentBookStatus")
+                        .WithOne()
+                        .HasForeignKey("TestTaskLibrary.Domain.Core.Book", "CurrentBookStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TestTaskLibrary.Domain.Core.Genre", "Genre")
                         .WithMany("Books")
                         .HasForeignKey("GenreId")
@@ -438,10 +448,8 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
             modelBuilder.Entity("TestTaskLibrary.Domain.Core.BookStatus", b =>
                 {
                     b.HasOne("TestTaskLibrary.Domain.Core.Book", "Book")
-                        .WithOne("CurrentBookStatus")
-                        .HasForeignKey("TestTaskLibrary.Domain.Core.BookStatus", "BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("BookStatuses")
+                        .HasForeignKey("BookId");
 
                     b.HasOne("TestTaskLibrary.Domain.Core.User", "User")
                         .WithMany("BookStatuses")

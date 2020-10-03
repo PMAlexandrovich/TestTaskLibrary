@@ -27,16 +27,24 @@ namespace TestTaskLibrary.Infrastructure.Business
                 switch (book.CurrentBookStatus.Status)
                 {
                     case Status.Free:
-                        book.CurrentBookStatus.Status = Status.Issued;
-                        book.CurrentBookStatus.User = user;
-                        await statusesRepository.Update(book.CurrentBookStatus);
+                        book.CurrentBookStatus = new BookStatus()
+                        {
+                            Book = book,
+                            Status = Status.Issued,
+                            User = user
+                        };
+                        await booksRepository.Update(book);
                         return true;
                     case Status.Booked:
                         if(book.CurrentBookStatus.User == user)
                         {
-                            book.CurrentBookStatus.Status = Status.Issued;
-                            book.CurrentBookStatus.User = user;
-                            await statusesRepository.Update(book.CurrentBookStatus);
+                            book.CurrentBookStatus = new BookStatus()
+                            {
+                                Book = book,
+                                Status = Status.Issued,
+                                User = user
+                            };
+                            await booksRepository.Update(book);
                             return true;
                         }
                         return false;
@@ -54,9 +62,13 @@ namespace TestTaskLibrary.Infrastructure.Business
             Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == bookId);
             if (book != null)
             {
-                book.CurrentBookStatus.Status = Status.Free;
-                book.CurrentBookStatus.UserId = null;
-                await statusesRepository.Update(book.CurrentBookStatus);
+                book.CurrentBookStatus = new BookStatus()
+                {
+                    Book = book,
+                    Status = Status.Free,
+                    UserId = null
+                };
+                await booksRepository.Update(book);
                 return true;
             }
             return false;
@@ -70,11 +82,15 @@ namespace TestTaskLibrary.Infrastructure.Business
                 switch (book.CurrentBookStatus.Status)
                 {
                     case Status.Free:
-                        book.CurrentBookStatus.Status = Status.Booked;
-                        book.CurrentBookStatus.User = user;
-                        book.CurrentBookStatus.TimeOfStartBook = DateTime.Now;
-                        book.CurrentBookStatus.TimeOfEndBook = DateTime.Now + TimeSpan.FromMinutes(2);
-                        await statusesRepository.Update(book.CurrentBookStatus);
+                        book.CurrentBookStatus = new BookStatus()
+                        {
+                            Book = book,
+                            Status = Status.Booked,
+                            User = user,
+                            TimeOfStartBook = DateTime.Now,
+                            TimeOfEndBook = DateTime.Now + TimeSpan.FromMinutes(2)
+                        };
+                        await booksRepository.Update(book);
                         return true;
                     default:
                         return false;
@@ -88,10 +104,12 @@ namespace TestTaskLibrary.Infrastructure.Business
             Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == bookId);
             if (book != null && book.CurrentBookStatus.Status == Status.Booked && book.CurrentBookStatus.User == user)
             {
-                book.CurrentBookStatus.Status = Status.Free;
-                book.CurrentBookStatus.UserId = null;
-                book.CurrentBookStatus.TimeOfEndBook = DateTime.MinValue;
-                book.CurrentBookStatus.TimeOfStartBook = DateTime.MinValue;
+                book.CurrentBookStatus = new BookStatus()
+                {
+                    Book = book,
+                    Status = Status.Free,
+                    User = null,
+                };
                 await statusesRepository.Update(book.CurrentBookStatus);
                 return true;
             }

@@ -11,9 +11,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Book> builder)
         {
-            builder.HasOne(b => b.CurrentBookStatus).WithOne(s => s.Book).HasForeignKey<BookStatus>(b => b.BookId);
-
-            //builder.HasMany(b => b.BookStatuses).WithOne(s => s.Book).HasForeignKey(b => b.BookId);
+            builder.HasOne(b => b.CurrentBookStatus).WithOne().HasForeignKey<Book>(b => b.CurrentBookStatusId);
 
             builder.HasOne(b => b.BookAdditionalInfo).WithOne(s => s.Book).HasForeignKey<BookAdditionalInfo>(b => b.BookId);
 

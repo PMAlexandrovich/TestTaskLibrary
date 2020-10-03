@@ -24,7 +24,15 @@ namespace TestTaskLibrary.Infrastructure.Business
 
         public async Task Execute(IJobExecutionContext context)
         {
-            booksRepository.GetAll.Where(b => b.CurrentBookStatus.Status == Status.Booked && b.CurrentBookStatus.TimeOfEndBook < DateTime.Now).ToList().ForEach(async b => await libraryManager.UnbookAsync(b.CurrentBookStatus.User, b.Id));
+            var booksForUnbook = booksRepository.GetAll
+                .Include(b => b.CurrentBookStatus)
+                    .ThenInclude(s => s.User)
+                .Where(b => b.CurrentBookStatus.Status == Status.Booked && b.CurrentBookStatus.TimeOfEndBook < DateTime.Now).ToList();
+
+            foreach (var book in booksForUnbook)
+            {
+                await libraryManager.UnbookAsync(book.CurrentBookStatus.User, book.Id);
+            }
         }
     }
 }
