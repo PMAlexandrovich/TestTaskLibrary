@@ -1,4 +1,4 @@
-﻿@model TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands.CreateBookCommand
+﻿@model TestTaskLibrary.Models.Books.AddBookViewModel
 
 @{
     ViewData["Title"] = "Add";
@@ -31,6 +31,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Вернуться</a>
+    <a asp-action="List" asp-controller="Books">Вернуться</a>
 </div>
 

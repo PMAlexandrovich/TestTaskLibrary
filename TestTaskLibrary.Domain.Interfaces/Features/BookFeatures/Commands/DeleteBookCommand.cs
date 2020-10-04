@@ -14,7 +14,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 
         public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand, int>
         {
-            IBooksRepository repository;
+            private readonly IBooksRepository repository;
 
             public DeleteBookCommandHandler(IBooksRepository repository)
             {
@@ -23,7 +23,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 
             public async Task<int> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
             {
-                repository.Delete(request.Id);
+                await repository.Delete(request.Id);
                 return request.Id;
             }
         }

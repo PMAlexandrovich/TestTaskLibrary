@@ -11,7 +11,7 @@ namespace TestTaskLibrary.Domain.Application
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
         }
     }
 }

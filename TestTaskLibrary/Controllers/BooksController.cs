@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -23,10 +24,12 @@ namespace TestTaskLibrary.Controllers
     public class BooksController : Controller
     {
         private readonly IMediator mediator;
+        private readonly IMapper mapper;
 
-        public BooksController(IMediator mediator)
+        public BooksController(IMediator mediator, IMapper mapper)
         {
             this.mediator = mediator;
+            this.mapper = mapper;
         }
 
         public IActionResult Index()
@@ -57,18 +60,19 @@ namespace TestTaskLibrary.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            return View(new CreateBookCommand());
+            return View(new AddBookViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(CreateBookCommand command)
+        public async Task<IActionResult> Add(AddBookViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var command = mapper.Map<CreateBookCommand>(model);
                 int id = await mediator.Send(command);
                 return RedirectToAction("List");
             }
-            return View(command);
+            return View(model);
         }
 
         [HttpPost]
