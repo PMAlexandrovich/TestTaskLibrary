@@ -10,7 +10,7 @@ using TestTaskLibrary.Infrastructure.Data;
 namespace TestTaskLibrary.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20201003122327_Init")]
+    [Migration("20201004095306_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -449,7 +449,8 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                 {
                     b.HasOne("TestTaskLibrary.Domain.Core.Book", "Book")
                         .WithMany("BookStatuses")
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TestTaskLibrary.Domain.Core.User", "User")
                         .WithMany("BookStatuses")
