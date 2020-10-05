@@ -27,7 +27,7 @@ namespace TestTaskLibrary.Infrastructure.Business
             var booksForUnbook = booksRepository.GetAll
                 .Include(b => b.CurrentBookStatus)
                     .ThenInclude(s => s.User)
-                .Where(b => b.CurrentBookStatus.Status == Status.Booked && b.CurrentBookStatus.TimeOfEndBook < DateTime.Now).ToList();
+                .Where(b => b.CurrentBookStatus.Status == Status.Booked && b.CurrentBookStatus.StatusSetAt + TimeSpan.FromMinutes(2) < DateTime.Now).ToList();
 
             foreach (var book in booksForUnbook)
             {

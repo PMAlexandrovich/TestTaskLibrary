@@ -31,7 +31,8 @@ namespace TestTaskLibrary.Infrastructure.Business
                         {
                             Book = book,
                             Status = Status.Issued,
-                            User = user
+                            User = user,
+                            StatusSetAt = DateTime.Now
                         };
                         await booksRepository.Update(book);
                         return true;
@@ -42,7 +43,8 @@ namespace TestTaskLibrary.Infrastructure.Business
                             {
                                 Book = book,
                                 Status = Status.Issued,
-                                User = user
+                                User = user,
+                                StatusSetAt = DateTime.Now
                             };
                             await booksRepository.Update(book);
                             return true;
@@ -66,7 +68,8 @@ namespace TestTaskLibrary.Infrastructure.Business
                 {
                     Book = book,
                     Status = Status.Free,
-                    UserId = null
+                    UserId = null,
+                    StatusSetAt = DateTime.Now
                 };
                 await booksRepository.Update(book);
                 return true;
@@ -87,8 +90,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                             Book = book,
                             Status = Status.Booked,
                             User = user,
-                            TimeOfStartBook = DateTime.Now,
-                            TimeOfEndBook = DateTime.Now + TimeSpan.FromMinutes(2)
+                            StatusSetAt = DateTime.Now
                         };
                         await booksRepository.Update(book);
                         return true;
@@ -109,6 +111,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                     Book = book,
                     Status = Status.Free,
                     User = null,
+                    StatusSetAt = DateTime.Now
                 };
                 await statusesRepository.Update(book.CurrentBookStatus);
                 return true;

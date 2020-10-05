@@ -21,8 +21,6 @@ namespace TestTaskLibrary.Domain.Core
         [Required]
         public Status Status { get; set; }
 
-        public DateTime? TimeOfEndBook { get; set; }
-
-        public DateTime? TimeOfStartBook { get; set; }
+        public DateTime? StatusSetAt { get; set; }
     }
 }

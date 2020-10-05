@@ -33,6 +33,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
 
         public async Task Create(BookStatus item)
         {
+            item.StatusSetAt = DateTime.Now;
             db.BookStatuses.Add(item);
             await db.SaveChangesAsync();
         }

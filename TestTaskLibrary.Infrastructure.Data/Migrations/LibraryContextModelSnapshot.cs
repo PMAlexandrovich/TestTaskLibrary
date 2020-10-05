@@ -218,10 +218,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("TimeOfEndBook")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("TimeOfStartBook")
+                    b.Property<DateTime?>("StatusSetAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int?>("UserId")

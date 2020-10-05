@@ -213,8 +213,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                     BookId = table.Column<int>(nullable: true),
                     UserId = table.Column<int>(nullable: true),
                     Status = table.Column<int>(nullable: false),
-                    TimeOfEndBook = table.Column<DateTime>(nullable: true),
-                    TimeOfStartBook = table.Column<DateTime>(nullable: true)
+                    StatusSetAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

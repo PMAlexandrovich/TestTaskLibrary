@@ -11,8 +11,6 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels
 
         public UserViewModel User { get; set; }
 
-        public DateTime? TimeOfEndBook { get; set; }
-
-        public DateTime? TimeOfStartBook { get; set; }
+        public DateTime? StatusSetAt { get; set; }
     }
 }

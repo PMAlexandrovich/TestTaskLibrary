@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
@@ -9,9 +10,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
 using TestTaskLibrary.Domain.Application.Features.Library.Commands;
 using TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands;
+using TestTaskLibrary.Domain.Application.Features.StatusFeatures.Queries;
 using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Interfaces;
@@ -136,6 +140,20 @@ namespace TestTaskLibrary.Controllers
         {
             await mediator.Send(command);
             return RedirectToAction("List","Books");
+        }
+
+        public async Task<IActionResult> Report(int id)
+        {
+            var book = await mediator.Send(new GetBookByIdQuery() { Id = id });
+            var statuses = (await mediator.Send(new GetStatusesByBookId() { BookId = id })).OrderBy(s => s.StatusSetAt);
+            if(book != null)
+            {
+                var reportBuilder = new ReportBuilder();
+                var stream = reportBuilder.BuildBookReport(book, statuses);
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "report.xlsx");
+            }
+            return NotFound();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
