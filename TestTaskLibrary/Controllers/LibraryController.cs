@@ -62,16 +62,16 @@ namespace TestTaskLibrary.Controllers
                 switch (fieldSearch)
                 {
                     case FieldSearchType.Author:
-                        books = books.Where(b => b.Author.ToLower().Contains(search.ToLower())).ToList();
+                        books = books.Where(b => b.Author?.ToLower().Contains(search.ToLower()) ?? false).ToList();
                         break;
                     case FieldSearchType.Title:
-                        books = books.Where(b => b.Title.ToLower().Contains(search.ToLower())).ToList();
+                        books = books.Where(b => b.Title?.ToLower().Contains(search.ToLower()) ?? false).ToList();
                         break;
                     case FieldSearchType.Genre:
-                        books = books.Where(b => b.Genre.ToLower().Contains(search.ToLower())).ToList();
+                        books = books.Where(b => b.Genre?.ToLower().Contains(search.ToLower()) ?? false).ToList();
                         break;
                     default:
-                        books = books.Where(b => b.Title.ToLower().Contains(search.ToLower())).ToList();
+                        books = books.Where(b => b.Title?.ToLower().Contains(search.ToLower()) ?? false).ToList();
                         break;
                 }
             }

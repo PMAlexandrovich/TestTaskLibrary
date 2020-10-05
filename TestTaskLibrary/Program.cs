@@ -31,7 +31,8 @@ namespace TestTaskLibrary
                     var rolesManager = services.GetRequiredService<RoleManager<CustomRole>>();
                     var context = services.GetRequiredService<LibraryContext>();
                     var mediator = services.GetRequiredService<IMediator>();
-                    await IdentityInitializer.InitializeAsync(userManager, rolesManager, context, mediator);
+                    var environment = services.GetRequiredService<IWebHostEnvironment>();
+                    await IdentityInitializer.InitializeAsync(userManager, rolesManager, context, mediator, environment);
                 }
                 catch (Exception ex)
                 {
