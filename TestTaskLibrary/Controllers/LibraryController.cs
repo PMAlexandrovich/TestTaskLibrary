@@ -156,6 +156,19 @@ namespace TestTaskLibrary.Controllers
             return NotFound();
         }
 
+        public async Task<IActionResult> ReportAll()
+        {
+            var books = await mediator.Send(new GetBooksWithStatusesQuery());
+            if (books != null)
+            {
+                var reportBuilder = new ReportBuilder();
+                var stream = reportBuilder.BuildBooksReport(books);
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "report.xlsx");
+            }
+            return NotFound();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
