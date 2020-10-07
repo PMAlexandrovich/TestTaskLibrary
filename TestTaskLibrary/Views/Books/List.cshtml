@@ -5,7 +5,7 @@
     <h3 class="mb-2">Управление книгами</h3>
 <div class="mt-1 mb-1">
     <a class="btn btn-link" asp-action="Add">Добавить</a>
-    <a class="btn btn-outline-success" asp-action="ReportAll" asp-controller="Library">Отчет</a>
+    <a class="btn btn-outline-success" asp-action="ReportAll" asp-controller="Report">Отчет</a>
 </div>
 @if (Model.Count != 0)
 {
@@ -53,7 +53,7 @@
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" asp-route-id="@book.Id" asp-action="Report" asp-controller="Library">Отчет</a>
+                                    <a class="dropdown-item" asp-route-id="@book.Id" asp-action="Report" asp-controller="Report">Отчет</a>
                                     <div class="dropdown-divider"></div>
                                     <form asp-action="Delete" method="post">
                                         <input type="hidden" name="Id" value="@book.Id" />
