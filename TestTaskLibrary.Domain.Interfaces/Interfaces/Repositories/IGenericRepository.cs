@@ -8,7 +8,7 @@ namespace TestTaskLibrary.Domain.Application.Interfaces.Repositories
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        IQueryable<TEntity> GetAll { get;}
+        IQueryable<TEntity> GetAll();
         Task Add(TEntity item);
         Task AddRange(IEnumerable<TEntity> items);
         Task Remove(TEntity item);

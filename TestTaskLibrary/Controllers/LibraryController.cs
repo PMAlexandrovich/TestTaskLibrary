@@ -58,29 +58,35 @@ namespace TestTaskLibrary.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> List(string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
+        public async Task<IActionResult> List(GetBooksQuery getBooksQuery)
         {
-            var books = await mediator.Send(new GetBooksQuery());
+            var books = await mediator.Send(getBooksQuery);
 
-            if (search != null)
+            //if (search != null)
+            //{
+            //    switch (fieldSearch)
+            //    {
+            //        case FieldSearchType.Author:
+            //            books = books.Where(b => b.Author?.ToLower().Contains(search.ToLower()) ?? false).ToList();
+            //            break;
+            //        case FieldSearchType.Title:
+            //            books = books.Where(b => b.Title?.ToLower().Contains(search.ToLower()) ?? false).ToList();
+            //            break;
+            //        case FieldSearchType.Genre:
+            //            books = books.Where(b => b.Genre?.ToLower().Contains(search.ToLower()) ?? false).ToList();
+            //            break;
+            //        default:
+            //            books = books.Where(b => b.Title?.ToLower().Contains(search.ToLower()) ?? false).ToList();
+            //            break;
+            //    }
+            //}
+            var bookViewModel = new LibraryListViewModel()
             {
-                switch (fieldSearch)
-                {
-                    case FieldSearchType.Author:
-                        books = books.Where(b => b.Author?.ToLower().Contains(search.ToLower()) ?? false).ToList();
-                        break;
-                    case FieldSearchType.Title:
-                        books = books.Where(b => b.Title?.ToLower().Contains(search.ToLower()) ?? false).ToList();
-                        break;
-                    case FieldSearchType.Genre:
-                        books = books.Where(b => b.Genre?.ToLower().Contains(search.ToLower()) ?? false).ToList();
-                        break;
-                    default:
-                        books = books.Where(b => b.Title?.ToLower().Contains(search.ToLower()) ?? false).ToList();
-                        break;
-                }
-            }
-            var bookViewModel = new LibraryListViewModel() { Search = search, SearchType = fieldSearch, Books = books };
+                Search = getBooksQuery.Search,
+                SearchType = getBooksQuery.SearchType ?? FieldSearchType.Title,
+                Books = books,
+                PageIndex = getBooksQuery.PageIndex
+            };
             ViewBag.User = await userManager.GetUserAsync(User);
             return View(bookViewModel);
         }

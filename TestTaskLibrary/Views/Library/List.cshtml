@@ -9,7 +9,7 @@
 <form class="mt-3 mb-3" asp-action="List">
     <div class="input-group">
         <div class="input-group-prepend">
-            <select class="custom-select" asp-for="@Model.SearchType" name="fieldSearch" asp-items="Html.GetEnumSelectList<FieldSearchType>()"></select>
+            <select class="custom-select" asp-for="@Model.SearchType" name="searchType" asp-items="Html.GetEnumSelectList<FieldSearchType>()"></select>
         </div>
         <input class="form-control" asp-for="@Model.Search" type="text" name="search" placeholder="Искать" />
         <div class="input-group-append">
@@ -85,3 +85,14 @@
         }
     </tbody>
 </table>
+
+<div class="row">
+    <form class="col-3" action="List" method="get">
+        <input type="hidden" asp-for="@Model.Search" />
+        <input type="hidden" asp-for="@Model.SearchType" />
+        <div class="input-group">
+            <input class="form-control mr-1" asp-for="@Model.PageIndex" />
+            <input class="btn btn-outline-primary" type="submit" value="Перейти" />
+        </div>
+    </form>
+</div>

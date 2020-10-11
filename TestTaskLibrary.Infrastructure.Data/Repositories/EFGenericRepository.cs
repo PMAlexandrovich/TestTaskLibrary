@@ -17,10 +17,12 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
         {
             this.context = context;
             dbSet = context.Set<TEntity>();
-            GetAll = dbSet;
         }
 
-        public IQueryable<TEntity> GetAll { get; }
+        public IQueryable<TEntity> GetAll()
+        {
+            return dbSet;
+        }
 
         public async Task Add(TEntity item)
         {

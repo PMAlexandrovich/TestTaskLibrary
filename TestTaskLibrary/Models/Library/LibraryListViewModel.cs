@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
+using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Models.Library
 {
@@ -13,5 +14,7 @@ namespace TestTaskLibrary.Models.Library
         public string Search { get; set; }
 
         public FieldSearchType SearchType { get; set; }
+
+        public int PageIndex { get; set; }
     }
 }

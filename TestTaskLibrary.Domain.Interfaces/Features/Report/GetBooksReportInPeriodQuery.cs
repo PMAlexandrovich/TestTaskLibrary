@@ -30,7 +30,7 @@ namespace TestTaskLibrary.Domain.Application.Features.Report
 
             public async System.Threading.Tasks.Task<Stream> Handle(GetBooksReportInPeriodQuery request, CancellationToken cancellationToken)
             {
-                var groupStatuses = statusRepository.GetAll
+                var groupStatuses = statusRepository.GetAll()
                     .Include(s => s.User)
                     .Include(s => s.Book)
                         .ThenInclude(b => b.Author)
