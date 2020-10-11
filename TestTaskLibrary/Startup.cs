@@ -23,6 +23,7 @@ using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Infrastructure.Data;
 using TestTaskLibrary.Infrastructure.Data.Repositories;
+using TestTaskLibrary.Models;
 
 namespace TestTaskLibrary
 {
@@ -142,6 +143,8 @@ namespace TestTaskLibrary
                     name: "default",
                     pattern: "{controller=Library}/{action=Index}/{id?}");
             });
+
+            app.UseDbInit();
         }
     }
 }

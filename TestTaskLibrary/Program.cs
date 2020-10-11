@@ -22,25 +22,7 @@ namespace TestTaskLibrary
         {
             var host = CreateHostBuilder(args).Build();
 
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var userManager = services.GetRequiredService<UserManager<User>>();
-                    var rolesManager = services.GetRequiredService<RoleManager<CustomRole>>();
-                    var context = services.GetRequiredService<LibraryContext>();
-                    var mediator = services.GetRequiredService<IMediator>();
-                    var environment = services.GetRequiredService<IWebHostEnvironment>();
-                    await IdentityInitializer.InitializeAsync(userManager, rolesManager, context, mediator, environment);
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while seeding the database.");
-                }
-            }
-
+            
             host.Run();
         }
 
