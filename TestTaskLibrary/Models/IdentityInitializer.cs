@@ -34,7 +34,7 @@ namespace TestTaskLibrary.Models
             var books = await mediator.Send(new GetBooksQuery());
             if(books.Count == 0)
             {
-                var reader = new StreamReader(Path.Combine(environment.WebRootPath, "Books-p5.json"));
+                var reader = new StreamReader(Path.Combine(environment.WebRootPath, Path.Combine("Books","Books-p5.json")));
                 string json = reader.ReadToEnd();
                 var createBookCommands = JsonConvert.DeserializeObject<List<CreateBookCommand>>(json);
 

@@ -10,7 +10,7 @@ using TestTaskLibrary.Infrastructure.Data;
 namespace TestTaskLibrary.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20201005150234_Init")]
+    [Migration("20201011071846_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,6 +152,9 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
 
                     b.Property<int>("GenreId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()

@@ -14,6 +14,8 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels
 
         public string Genre { get; set; }
 
+        public string ImageName { get; set; }
+
         public StatusViewModel CurrentStatus { get; set; }
 
         public InfoViewModel Info { get; set; }

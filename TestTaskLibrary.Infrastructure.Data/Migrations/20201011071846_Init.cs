@@ -235,6 +235,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                     AuthorId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     GenreId = table.Column<int>(nullable: false),
+                    ImageName = table.Column<string>(nullable: true),
                     CurrentBookStatusId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

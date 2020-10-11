@@ -151,6 +151,9 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                     b.Property<int>("GenreId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");

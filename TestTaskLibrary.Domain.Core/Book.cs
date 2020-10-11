@@ -22,6 +22,8 @@ namespace TestTaskLibrary.Domain.Core
         [Required]
         public Genre Genre { get; set; }
 
+        public string ImageName { get; set; }
+
         [Required]
         public BookStatus CurrentBookStatus { get; set; }
         public int? CurrentBookStatusId { get; set; }

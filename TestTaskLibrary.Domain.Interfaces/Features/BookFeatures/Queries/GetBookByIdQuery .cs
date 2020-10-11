@@ -36,6 +36,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
             public async Task<BookViewModel> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
             {
                 var book = await repository.GetAll
+                    .Include(b => b.Author)
                     .Include(b => b.BookAdditionalInfo)
                         .ThenInclude(i => i.Reviews)
                             .ThenInclude(r => r.User)

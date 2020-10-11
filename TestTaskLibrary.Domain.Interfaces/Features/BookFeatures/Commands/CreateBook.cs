@@ -20,6 +20,8 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 
         public string Genre { get; set; }
 
+        public string ImageName { get; set; }
+
         public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
         {
             private readonly IBooksRepository booksRepository;
@@ -54,6 +56,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
                     Author = author,
                     Title = request.Title,
                     Genre = genre,
+                    ImageName = request.ImageName,
                     BookAdditionalInfo = new BookAdditionalInfo(),
                 };
                 await booksRepository.Create(book);
