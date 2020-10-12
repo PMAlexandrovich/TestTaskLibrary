@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TestTaskLibrary.Domain.Application.Interfaces;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Application.Features.AuthorFeatures.Commands
@@ -15,9 +15,9 @@ namespace TestTaskLibrary.Domain.Application.Features.AuthorFeatures.Commands
 
         public class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, int>
         {
-            private readonly IAuthorRepository repository;
+            private readonly IGenericRepository<Author> repository;
 
-            public CreateAuthorCommandHandler(IAuthorRepository repository)
+            public CreateAuthorCommandHandler(IGenericRepository<Author> repository)
             {
                 this.repository = repository;
             }
@@ -25,7 +25,7 @@ namespace TestTaskLibrary.Domain.Application.Features.AuthorFeatures.Commands
             public async Task<int> Handle(CreateAuthorCommand request, CancellationToken cancellationToken)
             {
                 var newAuthor = new Author(request.FullName);
-                repository.Create(newAuthor);
+                await repository.AddAsync(newAuthor);
                 return newAuthor.Id;
             }
         }

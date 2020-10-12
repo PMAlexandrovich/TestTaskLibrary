@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
-using TestTaskLibrary.Domain.Interfaces;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
+using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Queries
 {
@@ -18,10 +19,10 @@ namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Queries
 
         public class GetReviewByIdQueryHandler : IRequestHandler<GetReviewByIdQuery, ReviewViewModel>
         {
-            private readonly IBookReviewsRepository reviewsRepository;
+            private readonly IGenericRepository<BookReview> reviewsRepository;
             private readonly IMapper mapper;
 
-            public GetReviewByIdQueryHandler(IBookReviewsRepository reviewsRepository, IMapper mapper)
+            public GetReviewByIdQueryHandler(IGenericRepository<BookReview> reviewsRepository, IMapper mapper)
             {
                 this.reviewsRepository = reviewsRepository;
                 this.mapper = mapper;
@@ -29,7 +30,7 @@ namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Queries
 
             public async Task<ReviewViewModel> Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
             {
-                var review = await reviewsRepository.GetAll.Include(r => r.User).FirstOrDefaultAsync(r => r.Id == request.Id,cancellationToken);
+                var review = await reviewsRepository.GetAll().Include(r => r.User).FirstOrDefaultAsync(r => r.Id == request.Id,cancellationToken);
 
                 return mapper.Map<ReviewViewModel>(review);
             }

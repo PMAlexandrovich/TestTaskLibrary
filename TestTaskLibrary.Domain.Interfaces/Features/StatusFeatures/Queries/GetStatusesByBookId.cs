@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
-using TestTaskLibrary.Domain.Interfaces;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
+using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Application.Features.StatusFeatures.Queries
 {
@@ -18,10 +19,10 @@ namespace TestTaskLibrary.Domain.Application.Features.StatusFeatures.Queries
 
         public class GetStatusesByBookIdHandler : IRequestHandler<GetStatusesByBookId, List<StatusViewModel>>
         {
-            private readonly IBookStatusesRepository statusesRepository;
+            private readonly IGenericRepository<BookStatus> statusesRepository;
             private readonly IMapper mapper;
 
-            public GetStatusesByBookIdHandler(IBookStatusesRepository statusesRepository, IMapper mapper)
+            public GetStatusesByBookIdHandler(IGenericRepository<BookStatus> statusesRepository, IMapper mapper)
             {
                 this.statusesRepository = statusesRepository;
                 this.mapper = mapper;
@@ -29,7 +30,7 @@ namespace TestTaskLibrary.Domain.Application.Features.StatusFeatures.Queries
 
             public async Task<List<StatusViewModel>> Handle(GetStatusesByBookId request, CancellationToken cancellationToken)
             {
-                var statuses = await statusesRepository.GetAll
+                var statuses = await statusesRepository.GetAll()
                     .Include(s => s.Book)
                     .Include(s => s.User)
                     .Where(s => s.BookId == request.BookId).ToListAsync();

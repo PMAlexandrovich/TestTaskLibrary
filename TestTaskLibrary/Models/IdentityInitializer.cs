@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
 using TestTaskLibrary.Domain.Core;
-using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Data;
 using Newtonsoft.Json;
 using System.IO;

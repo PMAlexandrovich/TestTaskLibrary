@@ -12,7 +12,6 @@ using TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
 using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Core;
-using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Infrastructure.Data;
 using TestTaskLibrary.Models;

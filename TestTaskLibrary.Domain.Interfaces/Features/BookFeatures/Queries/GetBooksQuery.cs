@@ -8,10 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Core;
 using Microsoft.EntityFrameworkCore;
-using TestTaskLibrary.Domain.Interfaces;
 using AutoMapper;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
 using Org.BouncyCastle.Ocsp;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 
 namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
 {
@@ -35,11 +35,11 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
 
         public class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, List<BookViewModel>>
         {
-            private readonly IBooksRepository booksRepository;
+            private readonly IGenericRepository<Book> booksRepository;
 
             private readonly IMapper mapper;
 
-            public GetBooksQueryHandler(IBooksRepository booksRepository, IMapper mapper)
+            public GetBooksQueryHandler(IGenericRepository<Book> booksRepository, IMapper mapper)
             {
                 this.booksRepository = booksRepository;
                 this.mapper = mapper;
@@ -47,7 +47,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
 
             public async Task<List<BookViewModel>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
             {
-                var books = booksRepository.GetAll
+                var books = booksRepository.GetAll()
                     .Include(b => b.Author)
                     .Include(b => b.Genre)
                     .Include(b => b.CurrentBookStatus)

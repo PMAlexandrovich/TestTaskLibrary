@@ -24,25 +24,25 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
             return dbSet;
         }
 
-        public async Task Add(TEntity item)
+        public async Task AddAsync(TEntity item)
         {
             dbSet.Add(item);
             await context.SaveChangesAsync();
         }
 
-        public async Task AddRange(IEnumerable<TEntity> items)
+        public async Task AddRangeAsync(IEnumerable<TEntity> items)
         {
             dbSet.AddRange(items);
             await context.SaveChangesAsync();
         }
 
-        public async Task Remove(TEntity item)
+        public async Task RemoveAsync(TEntity item)
         {
             dbSet.Remove(item);
             await context.SaveChangesAsync();
         }
 
-        public async Task Update(TEntity item)
+        public async Task UpdateAsync(TEntity item)
         {
             dbSet.Update(item);
             await context.SaveChangesAsync();

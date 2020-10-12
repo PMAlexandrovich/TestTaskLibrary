@@ -10,7 +10,7 @@ namespace TestTaskLibrary.Controllers
 {
     public class GenericController<TEntity> : Controller where TEntity : class
     {
-        IGenericRepository<TEntity> repository;
+        private readonly IGenericRepository<TEntity> repository;
 
         public GenericController(IGenericRepository<TEntity> repository)
         {

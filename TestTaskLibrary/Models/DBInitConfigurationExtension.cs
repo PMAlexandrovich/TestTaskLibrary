@@ -15,7 +15,7 @@ namespace TestTaskLibrary.Models
 {
     public static class DBInitConfigurationExtension
     {
-        public async static void UseDbInit(this IApplicationBuilder app)
+        public static void UseDbInit(this IApplicationBuilder app)
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
@@ -27,7 +27,7 @@ namespace TestTaskLibrary.Models
                     var context = services.GetRequiredService<LibraryContext>();
                     var mediator = services.GetRequiredService<IMediator>();
                     var environment = services.GetRequiredService<IWebHostEnvironment>();
-                    await IdentityInitializer.InitializeAsync(userManager, rolesManager, context, mediator, environment);
+                    IdentityInitializer.InitializeAsync(userManager, rolesManager, context, mediator, environment).Wait();
                 }
                 catch (Exception ex)
                 {

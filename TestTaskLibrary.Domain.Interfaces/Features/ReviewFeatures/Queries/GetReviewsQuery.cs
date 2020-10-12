@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
-using TestTaskLibrary.Domain.Interfaces;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
+using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Queries
 {
@@ -20,10 +21,10 @@ namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Queries
 
         public class GetReviewsQueryHandler : IRequestHandler<GetReviewsQuery, List<ReviewViewModel>>
         {
-            private readonly IBookReviewsRepository reviewsRepository;
+            private readonly IGenericRepository<BookReview> reviewsRepository;
             private readonly IMapper mapper;
 
-            public GetReviewsQueryHandler(IBookReviewsRepository reviewsRepository, IMapper mapper)
+            public GetReviewsQueryHandler(IGenericRepository<BookReview> reviewsRepository, IMapper mapper)
             {
                 this.reviewsRepository = reviewsRepository;
                 this.mapper = mapper;
@@ -31,7 +32,7 @@ namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Queries
 
             public async Task<List<ReviewViewModel>> Handle(GetReviewsQuery request, CancellationToken cancellationToken)
             {
-                var reviews = reviewsRepository.GetAll.Include(r => r.User).AsQueryable();
+                var reviews = reviewsRepository.GetAll().Include(r => r.User).AsQueryable();
 
                 if(request.BookId != null)
                 {

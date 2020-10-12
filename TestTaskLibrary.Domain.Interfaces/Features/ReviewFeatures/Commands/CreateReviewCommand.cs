@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TestTaskLibrary.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Domain.Application.Interfaces.Managers;
@@ -35,15 +34,11 @@ namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands
             private readonly UserManager<User> userManager;
             private readonly IHttpContextAccessor contextAccessor;
 
-            public CreateReviewCommandHandler(IBookReviewsManager reviewsManager, UserManager<User> userManager, IHttpContextAccessor contextAccessor) : this(reviewsManager)
-            {
-                this.userManager = userManager;
-                this.contextAccessor = contextAccessor;
-            }
-
-            public CreateReviewCommandHandler(IBookReviewsManager reviewsManager)
+            public CreateReviewCommandHandler(IBookReviewsManager reviewsManager, UserManager<User> userManager, IHttpContextAccessor contextAccessor)
             {
                 this.reviewsManager = reviewsManager;
+                this.userManager = userManager;
+                this.contextAccessor = contextAccessor;
             }
 
             public async Task<int> Handle(CreateReviewCommand request, CancellationToken cancellationToken)

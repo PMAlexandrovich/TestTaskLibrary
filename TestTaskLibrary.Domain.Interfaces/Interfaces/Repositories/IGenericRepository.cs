@@ -9,9 +9,9 @@ namespace TestTaskLibrary.Domain.Application.Interfaces.Repositories
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         IQueryable<TEntity> GetAll();
-        Task Add(TEntity item);
-        Task AddRange(IEnumerable<TEntity> items);
-        Task Remove(TEntity item);
-        Task Update(TEntity item);
+        Task AddAsync(TEntity item);
+        Task AddRangeAsync(IEnumerable<TEntity> items);
+        Task RemoveAsync(TEntity item);
+        Task UpdateAsync(TEntity item);
     }
 }

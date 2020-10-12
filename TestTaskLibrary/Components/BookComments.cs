@@ -9,7 +9,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Queries;
 using TestTaskLibrary.Domain.Core;
-using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Components
 {

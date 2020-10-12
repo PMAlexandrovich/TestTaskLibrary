@@ -19,7 +19,6 @@ using TestTaskLibrary.Domain.Application.Interfaces;
 using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
-using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Infrastructure.Data;
 using TestTaskLibrary.Infrastructure.Data.Repositories;
@@ -50,15 +49,19 @@ namespace TestTaskLibrary
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddTransient<IBooksRepository, BooksRepository>();
-            services.AddTransient<IBookStatusesRepository, BookStatusesRepository>();
-            services.AddTransient<IBookAdditionalInfosRepository, BookAdditionalInfosRepository>();
-            services.AddTransient<IBookReviewsRepository, BookReviewRepository>();
-            services.AddTransient<IAuthorRepository, AuthorRepository>();
-            services.AddTransient<IGenreRepository, GenreRepository>();
+            //services.AddTransient<IBooksRepository, BooksRepository>();
+            //services.AddTransient<IBookStatusesRepository, BookStatusesRepository>();
+            //services.AddTransient<IBookAdditionalInfosRepository, BookAdditionalInfosRepository>();
+            //services.AddTransient<IBookReviewsRepository, BookReviewRepository>();
+            //services.AddTransient<IAuthorRepository, AuthorRepository>();
+            //services.AddTransient<IGenreRepository, GenreRepository>();
 
             services.AddTransient<IGenericRepository<BookStatus>, EFGenericRepository<BookStatus>>();
             services.AddTransient<IGenericRepository<Author>, EFGenericRepository<Author>>();
+            services.AddTransient<IGenericRepository<Book>, EFGenericRepository<Book>>();
+            services.AddTransient<IGenericRepository<BookAdditionalInfo>, EFGenericRepository<BookAdditionalInfo>>();
+            services.AddTransient<IGenericRepository<BookReview>, EFGenericRepository<BookReview>>();
+            services.AddTransient<IGenericRepository<Genre>, EFGenericRepository<Genre>>();
 
             services.AddTransient<IBookReviewsManager,BookReviewsManager>();
             services.AddTransient<ILibraryManager, LibraryManager>();

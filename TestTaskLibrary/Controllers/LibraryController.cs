@@ -18,8 +18,8 @@ using TestTaskLibrary.Domain.Application.Features.Report;
 using TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands;
 using TestTaskLibrary.Domain.Application.Features.StatusFeatures.Queries;
 using TestTaskLibrary.Domain.Application.Interfaces.Managers;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
-using TestTaskLibrary.Domain.Interfaces;
 using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Models;
 using TestTaskLibrary.Models.Library;
@@ -30,13 +30,13 @@ namespace TestTaskLibrary.Controllers
     [Authorize]
     public class LibraryController : Controller
     {
-        private readonly IBooksRepository booksRepository;
+        private readonly IGenericRepository<Book> booksRepository;
         private readonly ILibraryManager libraryManager;
         private readonly UserManager<User> userManager;
         private readonly IBookReviewsManager commentManager;
         private readonly IMediator mediator;
 
-        public LibraryController(IBooksRepository booksRepository, ILibraryManager libraryManager, UserManager<User> userManager, IBookReviewsManager commentManager, IMediator mediator)
+        public LibraryController(IGenericRepository<Book> booksRepository, ILibraryManager libraryManager, UserManager<User> userManager, IBookReviewsManager commentManager, IMediator mediator)
         {
             this.booksRepository = booksRepository;
             this.libraryManager = libraryManager;

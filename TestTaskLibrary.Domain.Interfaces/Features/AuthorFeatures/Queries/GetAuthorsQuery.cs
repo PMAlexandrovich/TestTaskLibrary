@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Interfaces;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Application.Features.AuthorFeatures.Queries
@@ -19,16 +20,16 @@ namespace TestTaskLibrary.Domain.Application.Features.AuthorFeatures.Queries
 
         public class GetAuthorsQueryHandler : IRequestHandler<GetAuthorsQuery, List<Author>>
         {
-            private readonly IAuthorRepository repository;
+            private readonly IGenericRepository<Author> repository;
 
-            public GetAuthorsQueryHandler(IAuthorRepository repository)
+            public GetAuthorsQueryHandler(IGenericRepository<Author> repository)
             {
                 this.repository = repository;
             }
 
             public async Task<List<Author>> Handle(GetAuthorsQuery request, CancellationToken cancellationToken)
             {
-                var authors = repository.GetAll;
+                var authors = repository.GetAll();
                 if(request.Id != null)
                 {
                     authors = authors.Where(a => a.Id == request.Id);

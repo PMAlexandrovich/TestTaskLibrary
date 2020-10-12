@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
-using TestTaskLibrary.Domain.Interfaces;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
+using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
 {
@@ -24,11 +25,11 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
 
         public class GetBooksQueryHandler : IRequestHandler<GetBooksWithStatusesQuery, List<BookWithStatusesViewModel>>
         {
-            private readonly IBooksRepository booksRepository;
+            private readonly IGenericRepository<Book> booksRepository;
 
             private readonly IMapper mapper;
 
-            public GetBooksQueryHandler(IBooksRepository booksRepository, IMapper mapper)
+            public GetBooksQueryHandler(IGenericRepository<Book> booksRepository, IMapper mapper)
             {
                 this.booksRepository = booksRepository;
                 this.mapper = mapper;
@@ -36,7 +37,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries
 
             public async Task<List<BookWithStatusesViewModel>> Handle(GetBooksWithStatusesQuery request, CancellationToken cancellationToken)
             {
-                var books = booksRepository.GetAll
+                var books = booksRepository.GetAll()
                     .Include(b => b.Author)
                     .Include(b => b.Genre)
                     .Include(b => b.BookStatuses)

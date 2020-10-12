@@ -7,8 +7,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Interfaces;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
-using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 {
@@ -24,12 +24,12 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 
         public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
         {
-            private readonly IBooksRepository booksRepository;
-            private readonly IAuthorRepository authorsRepository;
-            private readonly IGenreRepository genresRepository;
-            private readonly IBookStatusesRepository statusesRepository;
+            private readonly IGenericRepository<Book> booksRepository;
+            private readonly IGenericRepository<Author> authorsRepository;
+            private readonly IGenericRepository<Genre> genresRepository;
+            private readonly IGenericRepository<BookStatus> statusesRepository;
 
-            public CreateBookCommandHandler(IBooksRepository booksRepository, IAuthorRepository authorsRepository, IGenreRepository genresRepository, IBookStatusesRepository statusesRepository)
+            public CreateBookCommandHandler(IGenericRepository<Book> booksRepository, IGenericRepository<Author> authorsRepository, IGenericRepository<Genre> genresRepository, IGenericRepository<BookStatus> statusesRepository)
             {
                 this.booksRepository = booksRepository;
                 this.authorsRepository = authorsRepository;
@@ -39,13 +39,13 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
 
             public async Task<int> Handle(CreateBookCommand request, CancellationToken cancellationToken)
             {
-                var author = await authorsRepository.GetAll.FirstOrDefaultAsync(a => a.FullName == request.Author);
+                var author = await authorsRepository.GetAll().FirstOrDefaultAsync(a => a.FullName == request.Author);
                 if (author == null)
                 {
                     author = new Author(request.Author);
                 }
 
-                var genre = await genresRepository.GetAll.FirstOrDefaultAsync(g => g.Name == request.Genre);
+                var genre = await genresRepository.GetAll().FirstOrDefaultAsync(g => g.Name == request.Genre);
                 if (genre == null)
                 {
                     genre = new Genre(request.Genre);
@@ -59,11 +59,11 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands
                     ImageName = request.ImageName,
                     BookAdditionalInfo = new BookAdditionalInfo(),
                 };
-                await booksRepository.Create(book);
+                await booksRepository.AddAsync(book);
                 var status = new BookStatus() { Book = book, Status = Status.Free };
-                await statusesRepository.Create(status);
+                await statusesRepository.AddAsync(status);
                 book.CurrentBookStatus = status;
-                await booksRepository.Update(book);
+                await booksRepository.UpdateAsync(book);
 
                 return book.Id;
             }

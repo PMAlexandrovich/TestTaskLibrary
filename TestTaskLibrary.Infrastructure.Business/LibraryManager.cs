@@ -3,17 +3,17 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Interfaces.Managers;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
-using TestTaskLibrary.Domain.Interfaces;
 
 namespace TestTaskLibrary.Infrastructure.Business
 {
     public class LibraryManager : ILibraryManager
     {
-        private readonly IBooksRepository booksRepository;
-        private readonly IBookStatusesRepository statusesRepository;
+        private readonly IGenericRepository<Book> booksRepository;
+        private readonly IGenericRepository<BookStatus> statusesRepository;
 
-        public LibraryManager(IBooksRepository booksRepository, IBookStatusesRepository statusesRepository)
+        public LibraryManager(IGenericRepository<Book> booksRepository, IGenericRepository<BookStatus> statusesRepository)
         {
             this.booksRepository = booksRepository;
             this.statusesRepository = statusesRepository;
@@ -21,7 +21,7 @@ namespace TestTaskLibrary.Infrastructure.Business
 
         public async Task<bool> IssueBookAsync(User user,int bookId)
         {
-            Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).ThenInclude(s => s.User).FirstOrDefaultAsync(b => b.Id == bookId);
+            Book book = await booksRepository.GetAll().Include(b => b.CurrentBookStatus).ThenInclude(s => s.User).FirstOrDefaultAsync(b => b.Id == bookId);
             if(book != null)
             {
                 switch (book.CurrentBookStatus.Status)
@@ -34,7 +34,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                             User = user,
                             StatusSetAt = DateTime.Now
                         };
-                        await booksRepository.Update(book);
+                        await booksRepository.UpdateAsync(book);
                         return true;
                     case Status.Booked:
                         if(book.CurrentBookStatus.User == user)
@@ -46,7 +46,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                                 User = user,
                                 StatusSetAt = DateTime.Now
                             };
-                            await booksRepository.Update(book);
+                            await booksRepository.UpdateAsync(book);
                             return true;
                         }
                         return false;
@@ -61,7 +61,7 @@ namespace TestTaskLibrary.Infrastructure.Business
 
         public async Task<bool> TakeAsync(int bookId)
         {
-            Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == bookId);
+            Book book = await booksRepository.GetAll().Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == bookId);
             if (book != null)
             {
                 book.CurrentBookStatus = new BookStatus()
@@ -71,7 +71,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                     UserId = null,
                     StatusSetAt = DateTime.Now
                 };
-                await booksRepository.Update(book);
+                await booksRepository.UpdateAsync(book);
                 return true;
             }
             return false;
@@ -79,7 +79,7 @@ namespace TestTaskLibrary.Infrastructure.Business
 
         public async Task<bool> BookAsync(User user,int bookId)
         {
-            Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).ThenInclude(s => s.User).FirstOrDefaultAsync(b => b.Id == bookId);
+            Book book = await booksRepository.GetAll().Include(b => b.CurrentBookStatus).ThenInclude(s => s.User).FirstOrDefaultAsync(b => b.Id == bookId);
             if (book != null)
             {
                 switch (book.CurrentBookStatus.Status)
@@ -92,7 +92,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                             User = user,
                             StatusSetAt = DateTime.Now
                         };
-                        await booksRepository.Update(book);
+                        await booksRepository.UpdateAsync(book);
                         return true;
                     default:
                         return false;
@@ -103,7 +103,7 @@ namespace TestTaskLibrary.Infrastructure.Business
 
         public async Task<bool> UnbookAsync(User user, int bookId)
         {
-            Book book = await booksRepository.GetAll.Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == bookId);
+            Book book = await booksRepository.GetAll().Include(b => b.CurrentBookStatus).FirstOrDefaultAsync(b => b.Id == bookId);
             if (book != null && book.CurrentBookStatus.Status == Status.Booked && book.CurrentBookStatus.User == user)
             {
                 book.CurrentBookStatus = new BookStatus()
@@ -113,7 +113,7 @@ namespace TestTaskLibrary.Infrastructure.Business
                     User = null,
                     StatusSetAt = DateTime.Now
                 };
-                await statusesRepository.Update(book.CurrentBookStatus);
+                await statusesRepository.UpdateAsync(book.CurrentBookStatus);
                 return true;
             }
             return false;

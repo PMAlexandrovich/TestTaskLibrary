@@ -23,7 +23,7 @@ namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands
         {
             private readonly IHttpContextAccessor contextAccessor;
             private readonly UserManager<User> userManager;
-            IBookReviewsManager reviewsManager;
+            private readonly IBookReviewsManager reviewsManager;
 
             public EditReviewCommandHandler(IHttpContextAccessor contextAccessor, UserManager<User> userManager, IBookReviewsManager reviewsManager)
             {
