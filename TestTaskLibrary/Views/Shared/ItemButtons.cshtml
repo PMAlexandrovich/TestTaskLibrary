@@ -1,0 +1,11 @@
+﻿
+    <div class="btn-group">
+        <form class="mr-2" asp-action="Edit" method="get">
+            <input type="hidden" name="Id" value="@ViewData["id"]" />
+            <input class="btn btn-outline-primary" type="submit" value="Изменить" />
+        </form>
+        <form asp-action="Delete" method="post">
+            <input type="hidden" name="Id" value="@ViewData["id"]" />
+            <input class="btn btn-outline-danger" type="submit" value="Удалить" />
+        </form>
+    </div>

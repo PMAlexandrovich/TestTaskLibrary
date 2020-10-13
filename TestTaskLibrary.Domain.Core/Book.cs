@@ -9,7 +9,7 @@ namespace TestTaskLibrary.Domain.Core
         [Key]
         public int Id { get; set; }
 
-        public int AuthorId { get; set; }
+        public int? AuthorId { get; set; }
 
         [Required]
         public Author Author { get; set; }

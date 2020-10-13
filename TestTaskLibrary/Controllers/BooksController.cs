@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Commands;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
+using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
 using TestTaskLibrary.Domain.Application.Interfaces.Managers;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Infrastructure.Data;
@@ -20,12 +22,12 @@ using TestTaskLibrary.Models.Books;
 namespace TestTaskLibrary.Controllers
 {
     [Authorize(Roles = RoleTypes.Librarian)]
-    public class BooksController : Controller
+    public class BooksController : GenericController<Book,BookViewModel>
     {
         private readonly IMediator mediator;
         private readonly IMapper mapper;
 
-        public BooksController(IMediator mediator, IMapper mapper)
+        public BooksController(IMediator mediator, IGenericRepository<Book> repository, IMapper mapper) : base(repository, mediator, mapper)
         {
             this.mediator = mediator;
             this.mapper = mapper;
@@ -36,11 +38,11 @@ namespace TestTaskLibrary.Controllers
             return RedirectToAction("List");
         }
 
-        public async Task<IActionResult> List()
-        {
-            var result = await mediator.Send(new GetBooksQuery());
-            return View(result);
-        }
+        //public async Task<IActionResult> List()
+        //{
+        //    var result = await mediator.Send(new GetBooksQuery());
+        //    return View(result);
+        //}
 
         [HttpGet]
         [AllowAnonymous]

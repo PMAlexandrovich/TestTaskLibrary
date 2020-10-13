@@ -1,0 +1,24 @@
+﻿<div class="btn-group">
+    @if ((Status)ViewData["Status"] != Status.Issued)
+    {
+        <a asp-action="Issue" asp-controller="Library" asp-route-id="@ViewData["id"]" class="btn btn-outline-primary">Выдать</a>
+    }
+    else
+    {
+        <form class="input-group-prepend" asp-action="Take" asp-controller="Library" method="post">
+            <input type="hidden" name="BookId" value="@ViewData["id"]" />
+            <input class="btn btn-primary" type="submit" value="Вернуть" />
+        </form>
+    }
+    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" asp-route-id="@ViewData["id"]" asp-action="Report" asp-controller="Report">Отчет</a>
+        <div class="dropdown-divider"></div>
+        <form asp-action="Delete" method="post">
+            <input type="hidden" name="Id" value="@ViewData["id"]" />
+            <input class="dropdown-item" type="submit" value="Удалить" />
+        </form>
+    </div>
+</div>

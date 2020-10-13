@@ -1,0 +1,12 @@
+﻿
+
+<div class="row">
+    <form class="col-3" action="List" method="get">
+        <input type="hidden" name="Search" value="@ViewData["Search"]" />
+        <input type="hidden" name="SearchType" value="@ViewData["SearchType"]" />
+        <div class="input-group">
+            <input class="form-control mr-1" type="number" name="PageIndex" value="@ViewData["PageIndex"]" />
+            <input class="btn btn-outline-primary" type="submit" value="Перейти" />
+        </div>
+    </form>
+</div>

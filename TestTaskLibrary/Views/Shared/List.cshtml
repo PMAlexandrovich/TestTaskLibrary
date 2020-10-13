@@ -1,10 +1,78 @@
-﻿@model object
+﻿@model IEnumerable<object>
 
 @{
     ViewData["Title"] = "List";
 }
+@{
+    var t = Model.GetType();
+    var gt = t.GenericTypeArguments[0];
+    var props = gt.GetProperties();
+    var idProp = props.FirstOrDefault(p => p.Name.ToLower() == "id");
+    var statProp = props.FirstOrDefault(p => p.Name == "Status");
+    var displayProps = props.Where(p => p.GetCustomAttributes(typeof(DisplayAttribute), false).Count() != 0);
 
-<h1>List</h1>
+    var header = displayProps.Select(p => ((DisplayAttribute)(p.GetCustomAttributes(typeof(DisplayAttribute),false).FirstOrDefault())).Name ?? p.Name);
+}
 
-@Html.DisplayForModel()
+
+    @await Html.PartialAsync("TopListButtons")
+
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (var h in header)
+                {
+                    <th>
+                        @h
+                    </th>
+                }
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in Model)
+            {
+                <tr>
+                    @foreach (var p in displayProps)
+                    {
+                    <td>
+                        @if (p.GetValue(d) is Enum)
+                        {
+                            var enumT = p.PropertyType;
+                            var member = enumT.GetMember(@p.GetValue(d).ToString());
+                            var atribs = member[0].GetCustomAttributes(typeof(DisplayAttribute), false);
+                            if (atribs.Length <= 0)
+                            {
+                                @p.GetValue(d);
+                            }
+                            else
+                            {
+                                var da = (DisplayAttribute)atribs[0];
+                                @da.Name;
+                            }
+                        }
+                        else
+                        {
+                            @p.GetValue(d);
+                        }
+                    </td>
+                    }
+                    <td>
+                        @{ 
+
+                                ViewData["id"] = (int)idProp.GetValue(d);
+
+                                if (statProp != null)
+                                    ViewData["Status"] = (Status)statProp.GetValue(d);
+                        }
+                        @await Html.PartialAsync("ItemButtons", ViewData)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+@await Html.PartialAsync("Pagination",ViewData)
 

@@ -24,6 +24,11 @@ namespace TestTaskLibrary.Infrastructure.Data.Repositories
             return dbSet;
         }
 
+        public async Task<TEntity> GetByIdAsync(int id)
+        {
+            return await dbSet.FindAsync(id);
+        }
+
         public async Task AddAsync(TEntity item)
         {
             dbSet.Add(item);

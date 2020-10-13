@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
+using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Models;
 using TestTaskLibrary.Models.Users;
@@ -14,11 +17,11 @@ using TestTaskLibrary.Models.Users;
 namespace TestTaskLibrary.Controllers
 {
     [Authorize(Roles = RoleTypes.Admin)]
-    public class UsersController : Controller
+    public class UsersController : GenericController<User, UserViewModel>
     {
         private readonly UserManager<User> userManager;
 
-        public UsersController(UserManager<User> userManager)
+        public UsersController(IGenericRepository<User> repository, IMediator mediator, IMapper mapper, UserManager<User> userManager) : base(repository, mediator, mapper)
         {
             this.userManager = userManager;
         }
@@ -28,10 +31,10 @@ namespace TestTaskLibrary.Controllers
             return RedirectToAction("List");
         }
 
-        public IActionResult List()
-        {
-            return View(userManager.Users.Where(u => u.Email != "Admin").Select(u=>new UserViewModel() { UserName = u.Email, FullName = u.FullName, Id = u.Id}).ToList());
-        }
+        //public IActionResult List()
+        //{
+        //    return View(userManager.Users.Where(u => u.Email != "Admin").Select(u=>new UserViewModel() { UserName = u.Email, FullName = u.FullName, Id = u.Id}).ToList());
+        //}
 
         [HttpGet]
         public IActionResult Add()
@@ -109,7 +112,7 @@ namespace TestTaskLibrary.Controllers
             User user = await userManager.FindByIdAsync(id);
             if (user != null)
             {
-                var result = await userManager.DeleteAsync(user);
+                await userManager.DeleteAsync(user);
             }
             return RedirectToAction("List");
         }

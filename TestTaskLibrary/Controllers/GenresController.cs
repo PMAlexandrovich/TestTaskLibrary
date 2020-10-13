@@ -6,29 +6,28 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NPOI.SS.Formula.Functions;
-using TestTaskLibrary.Domain.Application.Features.AuthorFeatures.Commands;
-using TestTaskLibrary.Domain.Application.Features.AuthorFeatures.ViewModels;
+using TestTaskLibrary.Domain.Application.Features.GenreFeatures.Commands;
+using TestTaskLibrary.Domain.Application.Features.GenreFeatures.ViewModels;
 using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
 using TestTaskLibrary.Models;
-using TestTaskLibrary.Views.Authors;
+using TestTaskLibrary.Models.Genres;
 
 namespace TestTaskLibrary.Controllers
 {
     [Authorize(Roles = RoleTypes.Librarian)]
-    public class AuthorsController : GenericController<Author,AuthorViewModel>
+    public class GenresController : GenericController<Genre, GenreViewModel>
     {
-        public AuthorsController(IGenericRepository<Author> repository, IMapper mapper, IMediator mediator) : base(repository, mediator, mapper)
+        public GenresController(IGenericRepository<Genre> repository, IMapper mapper, IMediator mediator) : base(repository, mediator, mapper)
         {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AuthorAddViewModel model)
+        public async Task<IActionResult> Add(GenreAddViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await mediator.Send(new CreateAuthorCommand() { FullName = model.FullName });
+                await mediator.Send(new CreateGenreCommand() { Name = model.Name });
                 return RedirectToAction("List");
             }
             return View(model);
@@ -37,19 +36,19 @@ namespace TestTaskLibrary.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var author = await repository.GetByIdAsync(id);
-            if(author != null)
+            if (author != null)
             {
-                return View(new AuthorEditViewModel() { Id = author.Id, FullName = author.FullName });
+                return View(new GenreEditViewModel() { Id = author.Id, Name = author.Name });
             }
             return RedirectToAction("List");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(AuthorEditViewModel model)
+        public async Task<IActionResult> Edit(GenreEditViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await mediator.Send(new EditAuthorCommand() { Id = model.Id, FullName = model.FullName });
+                await mediator.Send(new EditGenreCommand() { Id = model.Id, Name = model.Name });
                 return RedirectToAction("List");
             }
             return View(model);

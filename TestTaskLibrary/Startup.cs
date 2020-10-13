@@ -62,6 +62,7 @@ namespace TestTaskLibrary
             services.AddTransient<IGenericRepository<BookAdditionalInfo>, EFGenericRepository<BookAdditionalInfo>>();
             services.AddTransient<IGenericRepository<BookReview>, EFGenericRepository<BookReview>>();
             services.AddTransient<IGenericRepository<Genre>, EFGenericRepository<Genre>>();
+            services.AddTransient<IGenericRepository<User>, EFGenericRepository<User>>();
 
             services.AddTransient<IBookReviewsManager,BookReviewsManager>();
             services.AddTransient<ILibraryManager, LibraryManager>();
