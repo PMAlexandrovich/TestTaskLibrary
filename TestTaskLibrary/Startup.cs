@@ -49,13 +49,6 @@ namespace TestTaskLibrary
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            //services.AddTransient<IBooksRepository, BooksRepository>();
-            //services.AddTransient<IBookStatusesRepository, BookStatusesRepository>();
-            //services.AddTransient<IBookAdditionalInfosRepository, BookAdditionalInfosRepository>();
-            //services.AddTransient<IBookReviewsRepository, BookReviewRepository>();
-            //services.AddTransient<IAuthorRepository, AuthorRepository>();
-            //services.AddTransient<IGenreRepository, GenreRepository>();
-
             services.AddTransient<IGenericRepository<BookStatus>, EFGenericRepository<BookStatus>>();
             services.AddTransient<IGenericRepository<Author>, EFGenericRepository<Author>>();
             services.AddTransient<IGenericRepository<Book>, EFGenericRepository<Book>>();

@@ -21,14 +21,14 @@ namespace TestTaskLibrary.Models
         {
             context.Database.Migrate();
 
-            await CreateRoles(roleManager);
+            await CreateRolesAsync(roleManager);
 
-            await CreateUsers(userManager);
+            await CreateUsersAsync(userManager);
 
-            await CreateBooks(mediator, environment);
+            await CreateBooksAsync(mediator, environment);
         }
 
-        private static async Task CreateBooks(IMediator mediator, IWebHostEnvironment environment)
+        private static async Task CreateBooksAsync(IMediator mediator, IWebHostEnvironment environment)
         {
             var books = await mediator.Send(new GetBooksQuery());
             if(books.Count == 0)
@@ -65,7 +65,7 @@ namespace TestTaskLibrary.Models
             }
         }
 
-        private static async Task CreateRoles(RoleManager<CustomRole> roleManager)
+        private static async Task CreateRolesAsync(RoleManager<CustomRole> roleManager)
         {
             if (await roleManager.FindByNameAsync(RoleTypes.Admin) == null)
             {
@@ -81,7 +81,7 @@ namespace TestTaskLibrary.Models
             }
         }
 
-        private static async Task CreateUsers(UserManager<User> userManager)
+        private static async Task CreateUsersAsync(UserManager<User> userManager)
         {
             string login;
             string password;

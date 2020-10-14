@@ -26,7 +26,8 @@
                             }
                             if (User.IsInRole("Librarian"))
                             {
-                                <a class="nav-link" asp-action="List" asp-controller="Books">Управление книгами</a>
+                                <a class="nav-link" asp-action="List" asp-controller="Authors">Авторы</a>
+                                <a class="nav-link" asp-action="List" asp-controller="Genres">Жанры</a>
                             }
 
                             <form class="form-inline" method="post" asp-action="LogOut" asp-controller="Account">
