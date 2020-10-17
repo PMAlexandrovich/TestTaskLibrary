@@ -13,29 +13,10 @@ using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Application.Features.CommonFeatures.Queries.Handlers
 {
-    public class GetListUserQueryHandler : IRequestHandler<GetListQuery<User, UserViewModel>, List<UserViewModel>>
+    public class GetListUserQueryHandler : GetListQuery<User, UserViewModel>.GetListQueryCommonHandler
     {
-        private readonly IGenericRepository<User> repository;
-        private readonly IMapper mapper;
-
-        public GetListUserQueryHandler(IGenericRepository<User> repository, IMapper mapper)
+        public GetListUserQueryHandler(IGenericRepository<User> repository, IMapper mapper) : base(repository, mapper)
         {
-            this.repository = repository;
-            this.mapper = mapper;
-        }
-
-        public async Task<List<UserViewModel>> Handle(GetListQuery<User, UserViewModel> request, CancellationToken cancellationToken)
-        {
-            var items = repository.GetAll();
-
-            if (request.PageIndex < 1)
-                request.PageIndex = 1;
-            if (request.PageSize < 1)
-                request.PageSize = 1;
-
-            items = items.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize);
-
-            return mapper.Map<List<UserViewModel>>(await items.ToListAsync(cancellationToken));
         }
     }
 }

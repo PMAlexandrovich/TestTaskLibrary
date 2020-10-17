@@ -13,29 +13,10 @@ using TestTaskLibrary.Domain.Core;
 
 namespace TestTaskLibrary.Domain.Application.Features.CommonFeatures.Queries.Handlers
 {
-    public class GetListGenreQueryHandler : IRequestHandler<GetListQuery<Genre, GenreViewModel>, List<GenreViewModel>>
+    public class GetListGenreQueryHandler : GetListQuery<Genre, GenreViewModel>.GetListQueryCommonHandler
     {
-        private readonly IGenericRepository<Genre> repository;
-        private readonly IMapper mapper;
-
-        public GetListGenreQueryHandler(IGenericRepository<Genre> repository, IMapper mapper)
+        public GetListGenreQueryHandler(IGenericRepository<Genre> repository, IMapper mapper) : base(repository, mapper)
         {
-            this.repository = repository;
-            this.mapper = mapper;
-        }
-
-        public async Task<List<GenreViewModel>> Handle(GetListQuery<Genre, GenreViewModel> request, CancellationToken cancellationToken)
-        {
-            var items = repository.GetAll();
-
-            if(request.PageIndex < 1)
-                request.PageIndex = 1;
-            if(request.PageSize < 1)
-                request.PageSize = 1;
-
-            items = items.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize);
-
-            return mapper.Map<List<GenreViewModel>>(await items.ToListAsync(cancellationToken));
         }
     }
 }

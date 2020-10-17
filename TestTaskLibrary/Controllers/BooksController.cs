@@ -24,13 +24,9 @@ namespace TestTaskLibrary.Controllers
     [Authorize(Roles = RoleTypes.Librarian)]
     public class BooksController : GenericController<Book,BookViewModel>
     {
-        private readonly IMediator mediator;
-        private readonly IMapper mapper;
 
         public BooksController(IMediator mediator, IGenericRepository<Book> repository, IMapper mapper) : base(repository, mediator, mapper)
         {
-            this.mediator = mediator;
-            this.mapper = mapper;
         }
 
         public IActionResult Index()
