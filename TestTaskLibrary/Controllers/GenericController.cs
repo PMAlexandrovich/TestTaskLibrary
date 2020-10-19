@@ -25,15 +25,16 @@ namespace TestTaskLibrary.Controllers
             this.mapper = mapper;
         }
 
-        public async Task<IActionResult> List(int? pageIndex, int? pageSize, string search, string searchField)
+        public virtual async Task<IActionResult> List(int? pageIndex, int? pageSize, string search, string searchField, string sortField)
         {
-            var list = await mediator.Send(new GetListQuery<TEntity, TViewModel>() { PageIndex = pageIndex ??= 1, PageSize = pageSize ??= 20, Search = search, SearchField = searchField});
+            var list = await mediator.Send(new GetListQuery<TEntity, TViewModel>() { PageIndex = pageIndex ??= 1, PageSize = pageSize ??= 20, Search = search, SearchField = searchField, SortField = sortField});
             ViewData["PageIndex"] = pageIndex;
             ViewData["PageSize"] = pageSize;
             ViewData["Search"] = search;
             ViewData["SearchField"] = searchField;
+            ViewData["SortField"] = sortField;
             //return View(new CommonViewModel() { Model = list, ModelType = list.GetType()});
-            return View(mapper.Map<List<TViewModel>>(list));
+            return View(list);
         }
 
         [HttpPost]

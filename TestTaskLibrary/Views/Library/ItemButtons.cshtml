@@ -1,0 +1,25 @@
+﻿<div class="input-group">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if ((Status)ViewData["Status"] == Status.Free)
+        {
+            <form asp-action="Book">
+                <input value="@ViewData["Search"]" type="hidden" name="Search" />
+                <input value="@ViewData["SearchField"]" type="hidden" name="SearchField" />
+                <input value="@ViewData["SortField"]" name="sortField" type="hidden" />
+                <input type="hidden" name="id" asp-for="@ViewData["Id"]" />
+                <input class="btn btn-outline-primary" type="submit" value="Забронировать" />
+            </form>
+        }
+        else if ((Status)ViewData["Status"] == Status.Booked && ((User)ViewData["User"]).Id == ViewBag.User.Id)
+        {
+            <form asp-action="Unbook">
+                <input value="@ViewData["Search"]" type="hidden" name="Search" />
+                <input value="@ViewData["SearchField"]" type="hidden" name="SearchField" />
+                <input value="@ViewData["SortField"]" name="sortField" type="hidden" />
+                <input type="hidden" name="bookId" asp-for="@ViewData["Id"]" />
+                <input class="btn btn-outline-danger" type="submit" value="Отменить бронь" />
+            </form>
+        }
+    }
+</div>

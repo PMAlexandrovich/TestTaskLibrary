@@ -12,7 +12,6 @@ namespace TestTaskLibrary.Domain.Application.Extensions.Queryable
         {
             var arg = Expression.Parameter(typeof(TSource), "i");
 
-
             Expression expression = Expression.Property(arg, property);
 
             //expression = Expression.Call(expression, "ToString",null);
@@ -31,7 +30,19 @@ namespace TestTaskLibrary.Domain.Application.Extensions.Queryable
 
             //Where(i => i.FullName.ToString().ToLower().Contans(search.ToLower()));
 
+        }
 
+        public static IOrderedQueryable<TSource> OrderBy<TSource>(this IQueryable<TSource> source, string sortField)
+        {
+            var arg = Expression.Parameter(typeof(TSource), "i");
+
+            var expression = Expression.Property(arg, sortField);
+            var lambda = Expression.Lambda(expression, arg);
+
+            var methods = typeof(System.Linq.Queryable).GetMethods().Where(m => m.Name == "OrderBy");
+            var method = methods.FirstOrDefault(m => m.GetParameters().Count() == 2).MakeGenericMethod(typeof(TSource), expression.Type);
+
+            return (IOrderedQueryable<TSource>)method.Invoke(null, new object[] { source, lambda });
         }
     }
 }

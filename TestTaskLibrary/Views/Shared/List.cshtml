@@ -13,6 +13,8 @@
 
     var header = displayProps.Select(p => new { Name = ((DisplayAttribute)(p.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault())).Name ?? p.Name, ProperyName = p.Name, Propery = p });
 
+    var sortProps = header.Select(i => new SelectListItem(i.Name, i.ProperyName, ViewData["SortField"]?.ToString() == i.ProperyName));
+
     var searhProps = header.Where(i => i.Propery.PropertyType == typeof(string)).Select(i => new SelectListItem(i.Name,i.ProperyName, ViewData["SearchField"]?.ToString() == i.ProperyName));
 }
 
@@ -22,6 +24,8 @@
     <form class="mt-3 mb-3" asp-action="List">
         <div class="input-group">
             <div class="input-group-prepend">
+                <span class="input-group-text">Сортировать по</span>
+                <select class="custom-select mr-3" name="sortField" asp-items="sortProps"></select>
                 <select class="custom-select" name="searchField" asp-items="searhProps"></select>
             </div>
             <input class="form-control" type="text" value="@ViewData["Search"]" name="search" placeholder="Искать" />

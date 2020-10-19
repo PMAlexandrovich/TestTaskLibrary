@@ -26,6 +26,8 @@ namespace TestTaskLibrary.Domain.Application.Features.CommonFeatures.Queries
 
         public string Search { get; set; }
 
+        public string SortField { get; set; }
+
         public class GetListQueryCommonHandler : IRequestHandler<GetListQuery<TEntity, TViewModel>, List<TViewModel>> 
         {
             protected readonly IGenericRepository<TEntity> repository;
@@ -52,6 +54,12 @@ namespace TestTaskLibrary.Domain.Application.Features.CommonFeatures.Queries
                 {
                     items = items.Search(request.SearchField, request.Search);
                 }
+
+                if (!string.IsNullOrEmpty(request.SortField))
+                {
+                    items = items.OrderBy(request.SortField);
+                }
+
                 items = items.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize);
 
                 return await items.ToListAsync(cancellationToken);

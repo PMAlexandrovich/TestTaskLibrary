@@ -1,66 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using TestTaskLibrary.Domain.Application.Features.BookFeatures.Queries;
+using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
 using TestTaskLibrary.Domain.Application.Features.Library.Commands;
-using TestTaskLibrary.Domain.Application.Features.Report;
-using TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Commands;
-using TestTaskLibrary.Domain.Application.Features.StatusFeatures.Queries;
-using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
 using TestTaskLibrary.Domain.Core;
-using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Models;
-using TestTaskLibrary.Models.Library;
-using TestTaskLibrary.Models.Reviews;
 
 namespace TestTaskLibrary.Controllers
 {
     [Authorize]
-    public class LibraryController : Controller
+    public class LibraryController : GenericController<Book, BookViewModel>
     {
-        private readonly IGenericRepository<Book> booksRepository;
-        private readonly ILibraryManager libraryManager;
         private readonly UserManager<User> userManager;
-        private readonly IBookReviewsManager commentManager;
-        private readonly IMediator mediator;
 
-        public LibraryController(IGenericRepository<Book> booksRepository, ILibraryManager libraryManager, UserManager<User> userManager, IBookReviewsManager commentManager, IMediator mediator)
+        public LibraryController(IGenericRepository<Book> repository, IMediator mediator, IMapper mapper, UserManager<User> userManager) : base(repository, mediator, mapper)
         {
-            this.booksRepository = booksRepository;
-            this.libraryManager = libraryManager;
             this.userManager = userManager;
-            this.commentManager = commentManager;
-            this.mediator = mediator;
         }
 
         [AllowAnonymous]
         public IActionResult Index()
         {
-            if (User.IsInRole(RoleTypes.Admin)){
+            if (User.IsInRole(RoleTypes.Admin))
+            {
                 return RedirectToAction("List", "Users");
             }
-            if(User.IsInRole(RoleTypes.Librarian)){
+            if (User.IsInRole(RoleTypes.Librarian))
+            {
                 return RedirectToAction("List", "Books");
             }
             return RedirectToAction("List");
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> List(GetBooksQuery getBooksQuery)
+        public override async Task<IActionResult> List(int? pageIndex, int? pageSize, string search, string searchField, string sortField)
         {
-            var books = await mediator.Send(getBooksQuery);
+            //var books = await mediator.Send(getBooksQuery);
 
             //if (search != null)
             //{
@@ -80,29 +61,30 @@ namespace TestTaskLibrary.Controllers
             //            break;
             //    }
             //}
-            var bookViewModel = new LibraryListViewModel()
-            {
-                Search = getBooksQuery.Search,
-                SearchType = getBooksQuery.SearchType ?? FieldSearchType.Title,
-                Books = books,
-                PageIndex = getBooksQuery.PageIndex
-            };
-            ViewBag.User = await userManager.GetUserAsync(User);
-            return View(bookViewModel);
+            //var bookViewModel = new LibraryListViewModel()
+            //{
+            //    Search = getBooksQuery.Search,
+            //    SearchType = getBooksQuery.SearchType ?? FieldSearchType.Title,
+            //    Books = books,
+            //    PageIndex = getBooksQuery.PageIndex
+            //};
+            ViewData["User"] = await userManager.GetUserAsync(User);
+
+            return await base.List(pageIndex, pageSize, search, searchField, sortField);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Book(BookCommand command, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
+        public async Task<IActionResult> Book(BookCommand command, int? pageIndex, int? pageSize, string search, string searchField, string sortField)
         {
             await mediator.Send(command);
-            return RedirectToAction("List", new { search, fieldSearch });
+            return RedirectToAction("List", new { pageIndex, pageSize, search, searchField, sortField });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Unbook(UnbookCommand command, string search = null, FieldSearchType fieldSearch = FieldSearchType.Title)
+        public async Task<IActionResult> Unbook(UnbookCommand command, int? pageIndex, int? pageSize, string search, string searchField, string sortField)
         {
             await mediator.Send(command);
-            return RedirectToAction("List", new { search, fieldSearch });
+            return RedirectToAction("List", new { pageIndex, pageSize, search, searchField, sortField });
         }
 
         [HttpGet]
@@ -143,10 +125,10 @@ namespace TestTaskLibrary.Controllers
 
         [HttpPost]
         [Authorize(Roles = RoleTypes.Librarian)]
-        public async Task<IActionResult> Take(TakeBookCommand command)
+        public async Task<IActionResult> Take(TakeBookCommand command, int? pageIndex, int? pageSize, string search, string searchField, string sortField)
         {
             await mediator.Send(command);
-            return RedirectToAction("List","Books");
+            return RedirectToAction("List", "Books", new { pageIndex, pageSize, search, searchField, sortField });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
