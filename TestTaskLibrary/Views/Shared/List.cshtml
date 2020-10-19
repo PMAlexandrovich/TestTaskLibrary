@@ -6,6 +6,7 @@
 @{
     var t = Model.GetType();
     var gt = t.GenericTypeArguments[0];
+    bool isBook = gt.Name == "BookViewModel";
     var props = gt.GetProperties();
     var idProp = props.FirstOrDefault(p => p.Name.ToLower() == "id");
     var statProp = props.FirstOrDefault(p => p.Name == "Status");
@@ -53,6 +54,9 @@
             @foreach (var d in Model)
             {
                 <tr>
+                    @{ 
+                        int i = 0;
+                    }
                     @foreach (var p in displayProps)
                     {
                     <td>
@@ -73,9 +77,16 @@
                         }
                         else
                         {
-                            @p.GetValue(d);
-                        }
+                            if (isBook && i == 0)
+                            {
+                                <a asp-action="BookDatails" asp-controller="Books" asp-route-id="@idProp.GetValue(d)">@p.GetValue(d)</a>
+                            }
+                            else
+                                @p.GetValue(d)
+
+                            }
                     </td>
+                        i++;
                     }
                     <td>
                         @{ 
