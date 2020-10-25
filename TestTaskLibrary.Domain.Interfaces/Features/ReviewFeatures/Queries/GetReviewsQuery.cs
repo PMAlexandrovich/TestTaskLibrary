@@ -36,7 +36,7 @@ namespace TestTaskLibrary.Domain.Application.Features.ReviewFeatures.Queries
 
                 if(request.BookId != null)
                 {
-                    reviews = reviews.Where(r => r.BookAdditionalInfo.BookId == request.BookId);
+                    reviews = reviews.Where(r => r.BookAdditionalInfo.Id == request.BookId);
                 }
 
                 if (request.UserId != null)

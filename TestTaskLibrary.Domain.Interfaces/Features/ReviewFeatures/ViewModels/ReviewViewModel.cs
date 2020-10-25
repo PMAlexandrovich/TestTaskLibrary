@@ -8,7 +8,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels
     {
         public int Id { get; set; }
 
-        public InfoViewModel BookAdditionalInfo { get; set; }
+        public BookViewModel Book { get; set; }
 
         public UserViewModel User { get; set; }
 

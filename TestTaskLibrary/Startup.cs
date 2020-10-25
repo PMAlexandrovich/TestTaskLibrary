@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,8 +15,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OData.Edm;
 using Quartz;
 using TestTaskLibrary.Domain.Application;
+using TestTaskLibrary.Domain.Application.Features.AuthorFeatures.ViewModels;
+using TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels;
+using TestTaskLibrary.Domain.Application.Features.GenreFeatures.ViewModels;
 using TestTaskLibrary.Domain.Application.Interfaces;
 using TestTaskLibrary.Domain.Application.Interfaces.Managers;
 using TestTaskLibrary.Domain.Application.Interfaces.Repositories;
@@ -23,6 +29,7 @@ using TestTaskLibrary.Infrastructure.Business;
 using TestTaskLibrary.Infrastructure.Data;
 using TestTaskLibrary.Infrastructure.Data.Repositories;
 using TestTaskLibrary.Models;
+using TestTaskLibrary.Models.BasicAuthentication;
 
 namespace TestTaskLibrary
 {
@@ -72,6 +79,9 @@ namespace TestTaskLibrary
             .AddEntityFrameworkStores<LibraryContext>()
             .AddErrorDescriber<RussianIdentityErrorDescriber>();
 
+            
+            services.AddOData();
+
             services.AddQuartz(q =>
             {
                 q.SchedulerId = "Scheduler-Core";
@@ -110,7 +120,10 @@ namespace TestTaskLibrary
                 options.WaitForJobsToComplete = true;
             });
 
-            services.AddControllersWithViews();
+            services.AddAuthentication("Basic")
+                .AddScheme<BasicAuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
+
+            services.AddControllersWithViews().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,12 +149,42 @@ namespace TestTaskLibrary
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
+
+                endpoints.MapODataRoute("odata", "odata",GetEdmModel());
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Library}/{action=Index}/{id?}");
             });
 
             app.UseDbInit();
+        }
+
+        private static IEdmModel GetEdmModel()
+        {
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+
+            var books = builder.EntitySet<BookViewModel>("Books");
+            var users = builder.EntitySet<UserViewModel>("Users");
+            var reviews = builder.EntitySet<ReviewViewModel>("Reviews");
+            builder.EntitySet<AuthorViewModel>("Authors");
+            builder.EntitySet<GenreViewModel>("Genres");
+
+            var action = books.EntityType.Action("Book");
+
+            action = books.EntityType.Action("Unbook");
+
+            action = books.EntityType.Action("Issue");
+            action.Parameter<string>("UserEmail");
+
+
+            action = books.EntityType.Action("Take");
+
+            action = users.EntityType.Action("ChangePassword");
+            action.Parameter<string>("Password");
+            
+            return builder.GetEdmModel();
         }
     }
 }

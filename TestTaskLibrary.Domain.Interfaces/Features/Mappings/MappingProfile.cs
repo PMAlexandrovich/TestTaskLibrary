@@ -18,7 +18,7 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Mappings
                 .ForMember(d => d.Genre, s => s.MapFrom(s => s.Genre.Name))
                 .ForMember(d => d.CurrentStatus, s => s.MapFrom(s => s.CurrentBookStatus))
                 .ForMember(d => d.Status, s => s.MapFrom(s => s.CurrentBookStatus.Status))
-                .ForMember(d => d.Info, s => s.MapFrom(s => s.BookAdditionalInfo));
+                .ForMember(d => d.Reviews, s => s.MapFrom(s => s.BookAdditionalInfo.Reviews));
 
             CreateMap<Book, BookWithStatusesViewModel>()
                 .ForMember(d => d.Author, s => s.MapFrom(s => s.Author.FullName))
@@ -27,8 +27,10 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.Mappings
                 .ForMember(d => d.Info, s => s.MapFrom(s => s.BookAdditionalInfo));
 
             CreateMap<BookAdditionalInfo, InfoViewModel>();
+                
 
-            CreateMap<BookReview, ReviewViewModel>();
+            CreateMap<BookReview, ReviewViewModel>()
+                .ForMember(d => d.Book, s => s.MapFrom(s => s.BookAdditionalInfo.Book));
 
             CreateMap<BookStatus, StatusViewModel>();
 

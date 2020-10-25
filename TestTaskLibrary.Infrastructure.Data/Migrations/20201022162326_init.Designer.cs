@@ -10,8 +10,8 @@ using TestTaskLibrary.Infrastructure.Data;
 namespace TestTaskLibrary.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20201011071846_Init")]
-    partial class Init
+    [Migration("20201022162326_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -144,7 +144,8 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int?>("AuthorId")
+                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.Property<int?>("CurrentBookStatusId")
@@ -174,10 +175,10 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("TestTaskLibrary.Domain.Core.BookAdditionalInfo", b =>
                 {
-                    b.Property<int>("BookId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
-                    b.HasKey("BookId");
+                    b.HasKey("Id");
 
                     b.ToTable("BookAdditionalInfos");
                 });
@@ -427,7 +428,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                 {
                     b.HasOne("TestTaskLibrary.Domain.Core.Book", "Book")
                         .WithOne("BookAdditionalInfo")
-                        .HasForeignKey("TestTaskLibrary.Domain.Core.BookAdditionalInfo", "BookId")
+                        .HasForeignKey("TestTaskLibrary.Domain.Core.BookAdditionalInfo", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

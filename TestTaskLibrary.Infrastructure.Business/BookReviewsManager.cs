@@ -23,7 +23,7 @@ namespace TestTaskLibrary.Infrastructure.Business
 
         public async Task<int> AddReviewAsync(int userId, int bookId, int rating, string content)
         {
-            var existReview = await reviewsRepository.GetAll().FirstOrDefaultAsync(r => r.UserId == userId && r.BookAdditionalInfo.BookId == bookId);
+            var existReview = await reviewsRepository.GetAll().FirstOrDefaultAsync(r => r.UserId == userId && r.BookAdditionalInfo.Id == bookId);
             if (existReview == null)
             {
                 var newReview = new BookReview() { UserId = userId, Rating = rating, Content = content, BookAdditionalInfoId = bookId };
@@ -47,7 +47,7 @@ namespace TestTaskLibrary.Infrastructure.Business
         public async Task<int> EditReviewAsync(int userId, int reviewId, int newRating, string newContent)
         {
             var review = await reviewsRepository.GetAll().FirstOrDefaultAsync(r => r.Id == reviewId);
-            if (review.UserId == userId)
+            if (review?.UserId == userId)
             {
                 review.Rating = newRating;
                 review.Content = newContent;

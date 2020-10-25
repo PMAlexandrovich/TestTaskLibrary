@@ -5,7 +5,7 @@
     <div class="list-group-item">
         <div class="d-flex flex-column">
             <div class="align-self-end">
-                <form asp-action="Delete" asp-route-bookId="@Model.BookAdditionalInfo.Book.Id" asp-controller="Reviews" method="post">
+                <form asp-action="Delete" asp-route-bookId="@Model.Book.Id" asp-controller="Reviews" method="post">
                     <input type="hidden" name="ReviewId" value="@Model.Id" />
                     <input type="submit" class="btn btn-link" value="X" />
                 </form>
@@ -15,7 +15,7 @@
                 <small>Оценка: @Model.Rating</small>
             </div>
             <p class="mb-1 text-break">@Model.Content</p>
-            <a asp-action="Edit" asp-controller="Reviews" asp-route-ReviewId="@Model.Id" asp-route-bookId="@Model.BookAdditionalInfo.Book.Id" class="btn btn-link">Изменить</a>
+            <a asp-action="Edit" asp-controller="Reviews" asp-route-ReviewId="@Model.Id" asp-route-bookId="@Model.Book.Id" class="btn btn-link">Изменить</a>
         </div>
     </div>
 

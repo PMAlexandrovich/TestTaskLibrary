@@ -6,10 +6,10 @@ namespace TestTaskLibrary.Domain.Core
 {
     public class BookAdditionalInfo
     {
-        public int BookId { get; set; }
+        public int Id { get; set; }
 
         public Book Book { get; set; }
 
-        public List<BookReview> Reviews { get; set; }
+        public ICollection<BookReview> Reviews { get; set; }
     }
 }

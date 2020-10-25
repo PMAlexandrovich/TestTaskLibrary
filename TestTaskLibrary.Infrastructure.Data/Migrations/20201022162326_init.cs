@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TestTaskLibrary.Infrastructure.Data.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -265,14 +265,14 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                 name: "BookAdditionalInfos",
                 columns: table => new
                 {
-                    BookId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookAdditionalInfos", x => x.BookId);
+                    table.PrimaryKey("PK_BookAdditionalInfos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BookAdditionalInfos_Books_BookId",
-                        column: x => x.BookId,
+                        name: "FK_BookAdditionalInfos_Books_Id",
+                        column: x => x.Id,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -356,7 +356,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Migrations
                 table: "BookReview",
                 column: "BookAdditionalInfoId",
                 principalTable: "BookAdditionalInfos",
-                principalColumn: "BookId",
+                principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(

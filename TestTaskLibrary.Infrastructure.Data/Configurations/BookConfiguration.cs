@@ -13,7 +13,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Configurations
         {
             builder.HasOne(b => b.CurrentBookStatus).WithOne().HasForeignKey<Book>(b => b.CurrentBookStatusId).OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(b => b.BookAdditionalInfo).WithOne(s => s.Book).HasForeignKey<BookAdditionalInfo>(b => b.BookId);
+            builder.HasOne(b => b.BookAdditionalInfo).WithOne(s => s.Book).HasForeignKey<BookAdditionalInfo>(b => b.Id);
 
             builder.HasOne(b => b.Author).WithMany(a => a.Books).HasForeignKey(b => b.AuthorId);
 

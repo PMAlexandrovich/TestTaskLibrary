@@ -12,7 +12,7 @@ namespace TestTaskLibrary.Models.Reviews
         public ReviewProfiler()
         {
             CreateMap<ReviewViewModel, CreateReviewViewModel>()
-                .ForMember(d => d.BookId, s => s.MapFrom(s => s.BookAdditionalInfo.Book.Id));
+                .ForMember(d => d.BookId, s => s.MapFrom(s => s.Book.Id));
         }
     }
 }

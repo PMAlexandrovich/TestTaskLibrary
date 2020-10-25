@@ -15,7 +15,7 @@ namespace TestTaskLibrary.Infrastructure.Data.Configurations
 
             builder.HasOne(c => c.User).WithMany(u => u.BookRaitingComments).HasForeignKey(c => c.UserId);
 
-            builder.HasOne(c => c.BookAdditionalInfo).WithMany(i => i.Reviews).HasForeignKey(c => c.BookAdditionalInfoId);
+            //builder.HasOne(c => c.BookAdditionalInfo).WithMany(i => i.Reviews).HasForeignKey(c => c.BookAdditionalInfoId);
         }
     }
 }

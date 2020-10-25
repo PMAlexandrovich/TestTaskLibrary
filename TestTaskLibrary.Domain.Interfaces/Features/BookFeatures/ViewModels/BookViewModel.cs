@@ -26,6 +26,8 @@ namespace TestTaskLibrary.Domain.Application.Features.BookFeatures.ViewModels
 
         public StatusViewModel CurrentStatus { get; set; }
 
-        public InfoViewModel Info { get; set; }
+        public ICollection<ReviewViewModel> Reviews { get; set; }
+
+        //public InfoViewModel Info { get; set; }
     }
 }
